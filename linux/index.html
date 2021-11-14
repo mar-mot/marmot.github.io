@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/marmot.jpg">
+    <link rel="alternate" type="application/atom+xml" title="marmot" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Linux学习记｜marmot&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.marmot.vip/linux/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/blog-style.css">
+
+
+    <!-- Pygments Github CSS -->
+    
+<link rel="stylesheet" href="/css/syntax.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('img/back.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    marmot
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/work/">work</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefined/img/back3.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/img/back3.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Linux学习记</h1>
+                    
+                    <span class="meta">
+                         作者 marmot
+                        <span>
+                          日期 2021-06-17
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Linux"
+                           title="Linux">Linux</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Linux学习记
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="Linux系统层次："><a href="#Linux系统层次：" class="headerlink" title="Linux系统层次："></a>Linux系统层次：</h3><p>​        硬件   -&gt;   内核层  -&gt;  shell层    -&gt;  应用层    -&gt;  用户</p>
+<p>​                                     系统调用    shell命令      命令界面</p>
+<ul>
+<li>内核层：系统的核心和基础，附着在硬件平台上，控制和管理系统内各种资源，有效地组织进程的允许，从而扩展硬件的功能，提高资源的利用效率，为用户提供方柏霓、高效、安全、可靠的应用环境。</li>
+<li>Shell层：是用户直接交互的界面，用户可以在提示符下输入命令行，由shell解释并输出相应结果或有关信息。</li>
+<li>应用层：提供基于X Window协议的图形环境。</li>
+</ul>
+<h3 id="安装Linux系统"><a href="#安装Linux系统" class="headerlink" title="安装Linux系统"></a>安装Linux系统</h3><ol>
+<li>安装VMware虚拟机管理工具</li>
+<li>新建虚拟机</li>
+</ol>
+<p><img src="/linux/image01.png" alt="image01"></p>
+<p><img src="/linux/image02.png" alt="image-20210624204524248"></p>
+<p><img src="/linux/image04.png" alt="image04"></p>
+<p><img src="/linux/image05.png" alt="image05"></p>
+<p><img src="/linux/image06.png" alt="image06"></p>
+<p><img src="/linux/image07.png" alt="image07"></p>
+<p><img src="/linux/image08.png" alt="image08"></p>
+<p>VMware 提供的网络连接有 5 种，分别是”桥接模式”、”NAT 模式”、”仅主机模式”、”自定义”和”LAN 区段”：</p>
+<ul>
+<li>桥接模式：相当于虚拟机的网卡和宿主机的物理网卡均连接到虚拟机软件所提供的 VMnet0 虚拟交换机上，因此虚拟机和宿主机是平等的，相当于一个网络中的两台计算机。这种设置既可以保证虚拟机和宿主机通信，也可以和局域网内的其他主机通信，还可以连接 Internet，是限制最少的连接方式，推荐新手使用。</li>
+<li>NAT 模式：相当于虚拟机的网卡和宿主机的虚拟网卡 VMnet8 连接到虚拟机软件所提供的 VMnet8 虚拟交换机上，因此本机是通过 VMnet8 虚拟网卡通信的。在这种网络结构中，VMware 为虚拟机提供了一个虚拟的 NAT 服务器和一个虚拟的 DHCP 服务器，虚拟机利用这两个服务器可以连接到 Intemet。所以，在正常情况下，虚拟机系统只要设定自动获取 IP 地址，就能既和宿主机通信，又能连接到 Internet了。但是这种设置不能连接局域网内的其他主机。</li>
+<li>仅主机模式：宿主机和虚拟机通信使用的是 VMware 的虚拟网卡 VMnet1，但是这种连接没有 NAT 服务器为虚拟机提供路由功能，所以仅主机网络只能连接宿主机，不能连接局域网，也不能连接 Internet 网络。</li>
+<li>自定义网络：可以手工选择使用哪块虚拟机网卡。如果选择 Vmnet1，就相当于桥接网络；如果选择 VMnet8，就相当于 NAT 网络。</li>
+<li>LAN 区段：这是新版 VMware 新增的功能，类似于交换机中的 VLAN（虚拟局域网），可以在多台虚拟机中划分不同的虚拟网络。</li>
+</ul>
+<h3 id="Linux远程管理协议（RFB-RDP-Telnet和SSH）"><a href="#Linux远程管理协议（RFB-RDP-Telnet和SSH）" class="headerlink" title="Linux远程管理协议（RFB,RDP,Telnet和SSH）"></a>Linux远程管理协议（RFB,RDP,Telnet和SSH）</h3><ul>
+<li>RDP（remote desktop protocol）协议：远程桌面协议，大部分 Windows 系统都默认支持此协议，Windows 系统中的远程桌面管理就基于该协议。</li>
+<li>RFB（Remote FrameBuffer）协议：图形化远程管理协议，VNC 远程管理工具就基于此协议。</li>
+<li>Telnet：命令行界面远程管理协议，几乎所有的操作系统都默认支持此协议。此协议的特点是，在进行数据传送时使用明文传输的方式，也就是不对数据进行加密。</li>
+<li>SSH（Secure Shell）协议：命令行界面远程管理协议，几乎所有操作系统都默认支持此协议。和 Telnet 不同，该协议在数据传输时会对数据进行加密并压缩，因此使用此协议传输数据既安全速度又快。</li>
+</ul>
+<h3 id="Linux根目录"><a href="#Linux根目录" class="headerlink" title="Linux根目录/"></a>Linux根目录/</h3><p>Linux中以/目录为根目录，所有目录都由根目录衍生出来，根目录与系统的开机、修复、还原密切相关</p>
+<table>
+<thead>
+<tr>
+<th align="center">目录</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">/bin</td>
+<td align="center">存放系统目录。普通用户以及root都可执行</td>
+</tr>
+<tr>
+<td align="center">/boot</td>
+<td align="center">系统启动目录，保存与系统相关的文件：启动引导程序和内核文件等</td>
+</tr>
+<tr>
+<td align="center">/dev</td>
+<td align="center">设备文件保存位置</td>
+</tr>
+<tr>
+<td align="center">/etc</td>
+<td align="center">配置文件保存位置。用户信息、服务端启动脚本、常用服务的配置文件</td>
+</tr>
+<tr>
+<td align="center">/home</td>
+<td align="center">普通用户的主目录</td>
+</tr>
+<tr>
+<td align="center">/lib</td>
+<td align="center">系统调用的函数库保存位置</td>
+</tr>
+<tr>
+<td align="center">/media</td>
+<td align="center">挂载目录。系统建议用来挂载媒体设备：软盘+光盘</td>
+</tr>
+<tr>
+<td align="center">/mnt</td>
+<td align="center">挂载目录。挂载U盘，移动硬盘</td>
+</tr>
+<tr>
+<td align="center">/misc</td>
+<td align="center">挂载目录。系统建议用来挂载NFS服务的共享目录</td>
+</tr>
+<tr>
+<td align="center">/opt</td>
+<td align="center">第三方安装的软件保存位置</td>
+</tr>
+<tr>
+<td align="center">/root</td>
+<td align="center">root用户的主目录</td>
+</tr>
+<tr>
+<td align="center">/sbin</td>
+<td align="center">保存与系统环境设置相关的命令，只有root可以使用这些命令进行系统环境设置，但是有些命令可以允许普通用户查看</td>
+</tr>
+<tr>
+<td align="center">/srv</td>
+<td align="center">服务数据目录。一些系统服务启动后保存所需要的数据</td>
+</tr>
+<tr>
+<td align="center">/tmp</td>
+<td align="center">临时目录。系统存放临时文件的目录。所有用户都可以访问以及写入</td>
+</tr>
+<tr>
+<td align="center">/var</td>
+<td align="center">经常改变的文件存放：日志</td>
+</tr>
+</tbody></table>
+<h5 id><a href="#" class="headerlink" title></a><img src="/linux/image10.png" alt="image10"></h5><p><img src="/linux/image11.png" alt="image11"></p>
+<p>说明文件存放的位置使用两种方法：</p>
+<ul>
+<li>​    绝对路径：从/目录开始写起e.g：/etc/sysconfig/network-scripts</li>
+<li>​    相对路径：相对于当前路径的位置：../nework-network</li>
+</ul>
+<p>.代表当前目录。..代码上级目录。pwd输出当前所在位置</p>
+<h5 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h5><p>在Linux系统中，一切（包括硬件）皆文件。所有的文件均会以文件存放在根目录下。所以Linux在使用硬件设备时，只有将Linux本身的文件目录与硬件设备的文件目录合二为一，硬件设备才可以使用。</p>
+<p>挂载：指的就是将设备文件中的顶级目录连接到Linux根目录下的某一目录（最好是空目录），访问此目录就等同于访问设备文件，</p>
+<p>[root@localhost ~]# mkdir /mnt/cdrom<br>#创建cdrom目录，作为光盘的挂载点<br>[root@localhost ~]# mount /dev/cdrom /mnt/cdrom/<br>mount: block device/dev/srO is write-protected, mounting read-only<br>#挂载光盘到/mnt/cdrom目录下</p>
+<h5 id="Linux环境变量"><a href="#Linux环境变量" class="headerlink" title="Linux环境变量"></a>Linux环境变量</h5><p>变量是系统用于保存可变值的数据类型，可以通过变量名来提取对于的变量值。Linux中，环境变量用来定义系统运行环境的一些参数。使用env命令查看Linux中的所有环境变量。</p>
+<h4 id="Linux命令基本格式"><a href="#Linux命令基本格式" class="headerlink" title="Linux命令基本格式"></a>Linux命令基本格式</h4><p>命令提示符：<img src="/linux/image12.png" alt="image12"></p>
+<ul>
+<li>​    []：提示符的分隔符，无意义</li>
+<li>​    root：显示当前的登录用户</li>
+<li>​    @：分隔符，无意义</li>
+<li>​    localhost：当前系统的简写主机名</li>
+<li>​    ~：代表当前用户所在的目录</li>
+<li>​    #：命令提示符#代表超级用户 $代表普通用户</li>
+</ul>
+<p>命令格式：命令 [选项] [参数] eg：ls -l查看文件详细信息</p>
+<p><img src="/linux/image13.png" alt="image13"></p>
+<p>参数代表命令的操作对象，一般文件、目录、用户以及进程都可作为参数被命令操作。查看某个文件的详细内容</p>
+<p><img src="/linux/image14.png" alt="image14"></p>
+<h6 id="cd命令"><a href="#cd命令" class="headerlink" title="cd命令"></a>cd命令</h6><p>cd命令：是 change directory的缩写，用来切换工作目录</p>
+<p>使用：cd [相对路径或者绝对路径]</p>
+<p>e.g：</p>
+<ul>
+<li>cd ~：切换到当前用户的主目录</li>
+<li>cd ~用户名：切换到指定用户的主目录</li>
+<li>cd -：切换到上次所在目录</li>
+<li>cd .：当前目录</li>
+<li>cd ..：切换到上级目录</li>
+</ul>
+<h6 id="ls命令"><a href="#ls命令" class="headerlink" title="ls命令"></a>ls命令</h6><p>ls命令：查看目录下文件。list的缩写。</p>
+<p>使用：ls [选项] 目录</p>
+<p>常用选项：</p>
+<ul>
+<li>-a 显示全部文件，包括隐藏文件</li>
+<li>-f  以文件名进行排序</li>
+<li>-h 文件大小显示合适单位</li>
+<li>-R 连同子目录内容都列出</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]<span class="comment"># ls -l</span></span><br><span class="line">总用量 20</span><br><span class="line">lrwxrwxrwx.   1 root root    7 6月   2 00:39 bin -&gt; usr/bin</span><br><span class="line">dr-xr-xr-x.   5 root root 4096 6月   2 01:03 boot</span><br><span class="line">drwxr-xr-x   20 root root 3200 6月  26 10:31 dev</span><br><span class="line">drwxr-xr-x.  81 root root 8192 6月   6 22:11 etc</span><br><span class="line">drwxr-xr-x.   3 root root   17 6月   2 00:44 home</span><br><span class="line">lrwxrwxrwx.   1 root root    7 6月   2 00:39 lib -&gt; usr/lib</span><br><span class="line">lrwxrwxrwx.   1 root root    9 6月   2 00:39 lib64 -&gt; usr/lib64</span><br><span class="line">drwxr-xr-x.   2 root root    6 4月  11 2018 media</span><br><span class="line">drwxr-xr-x.   4 root root   31 6月   2 01:20 mnt</span><br><span class="line">drwxr-xr-x.   2 root root    6 4月  11 2018 opt</span><br><span class="line">dr-xr-xr-x  123 root root    0 6月  26 10:31 proc</span><br><span class="line">dr-xr-x---.   6 root root  232 6月   7 17:59 root</span><br><span class="line">drwxr-xr-x   29 root root  840 6月  26 10:31 run</span><br><span class="line">lrwxrwxrwx.   1 root root    8 6月   2 00:39 sbin -&gt; usr/sbin</span><br><span class="line">drwxr-xr-x.   2 root root    6 4月  11 2018 srv</span><br><span class="line">dr-xr-xr-x   13 root root    0 6月  26 10:38 sys</span><br><span class="line">drwxrwxrwt.  14 root root 4096 6月  26 10:31 tmp</span><br><span class="line">drwxr-xr-x.  13 root root  155 6月   2 00:39 usr</span><br><span class="line">drwxr-xr-x.  20 root root  278 6月   2 01:11 var</span><br><span class="line">drwxr-xr-x    2 root root   18 6月  26 11:04 xun</span><br><span class="line">[root@localhost /]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="mkdir命令"><a href="#mkdir命令" class="headerlink" title="mkdir命令"></a>mkdir命令</h6><p>mkdir命令：创建目录（文件夹）。make directories的缩写，</p>
+<p>命令格式：mkdir [-mp] 目录名</p>
+<ul>
+<li>-m：用于手动配置所创建目录的权限</li>
+<li>-p：递归创建所有目录</li>
+</ul>
+<p><img src="/linux/image15.png" alt="image15"></p>
+<h6 id="rmdir命令"><a href="#rmdir命令" class="headerlink" title="rmdir命令"></a>rmdir命令</h6><p>rmdir命令：删除空目录。remove empty directories的缩写，只可删除空目录，一旦目录中有内容，就会报错</p>
+<p>命令格式：rmdir [-p] 目录名。</p>
+<p>-p：用于递归删除目录</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost xun]<span class="comment"># ls</span></span><br><span class="line"><span class="built_in">test</span>  test1  testdir</span><br><span class="line">[root@localhost xun]<span class="comment"># rmdir testdir</span></span><br><span class="line">[root@localhost xun]<span class="comment"># ls</span></span><br><span class="line"><span class="built_in">test</span>  test1</span><br><span class="line">[root@localhost xun]<span class="comment"># rmdir -p test1/test2/test3/</span></span><br><span class="line">[root@localhost xun]<span class="comment"># ls -R</span></span><br><span class="line">.:</span><br><span class="line"><span class="built_in">test</span></span><br><span class="line">[root@localhost xun]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="touch命令"><a href="#touch命令" class="headerlink" title="touch命令"></a>touch命令</h5><p>touch命令：创建文件及修改文件的时间戳</p>
+<p>Linux中，每个文件中有三个时间参数（stat命令查看），分别是文件的访问时间、数据修改时间以及状态修改时间。</p>
+<ul>
+<li>访问时间：文件内容被访问，访问时间就会更新</li>
+<li>数据修改时间：当文件的内容数据发生改变，文件数据修改时间会更新</li>
+<li>状态修改时间：文件的状态（权限或属性）发生改变时，此时间就会响应该改变。</li>
+</ul>
+<p>命令格式：touch [选项] 文件名</p>
+<p>选项：</p>
+<ul>
+<li>-a：只修改文件的访问时间</li>
+<li>-c：仅修改文件的时间参数（3个时间都会发生改变）</li>
+<li>-d：加指定的日期 将文件的访问时间和修改时间改为指定的时间</li>
+<li>-m：只修改文件的数据修改时间</li>
+<li>-t：加指定的时间</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost xun]# touch newfile</span><br><span class="line">[root@localhost xun]# touch -t 2212121212 newfile</span><br><span class="line">[root@localhost xun]# ll</span><br><span class="line">总用量 4</span><br><span class="line">-rw-r--r-- 1 root root  0 12月 12 2022 newfile</span><br><span class="line">-rw-r--r-- 1 root root 13 6月  26 11:02 test</span><br><span class="line">drwxr-xr-x 2 root root  6 6月  26 14:25 test1</span><br><span class="line">[root@localhost xun]#</span><br></pre></td></tr></table></figure>
+
+<h6 id="ln命令：建立链接文件"><a href="#ln命令：建立链接文件" class="headerlink" title="ln命令：建立链接文件"></a>ln命令：建立链接文件</h6><p>ln命令用于给文件创建链接，根据Linux系统存储文件的特点，链接的方式分为2中：</p>
+<ol>
+<li>软链接：类似于Windows中的文件快捷方式，即产生一个特殊的文件，该文件指向另一个文件，链接方式统一适用于目录</li>
+<li>硬链接：指的是给一个文件的incode分配多个文件名，可以通过任何一个文件名，都可以指到此文件的incode,从而读取文件的数据信息</li>
+</ol>
+<p>ln目录格式：ln [选项] 源文件 目标文件</p>
+<p>选项：</p>
+<ul>
+<li>-s 建立软连接文件。默认建立硬链接。源文件必须写绝对路径</li>
+<li>-f 强制。若目标文件已存在，则删除目标文件后再建立链接文件；</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost xun]# ls</span><br><span class="line">newfile  test  test1</span><br><span class="line">[root@localhost xun]# ln -s newfile newfile2</span><br><span class="line">[root@localhost xun]# echo &quot;123&quot; &gt; newfile</span><br><span class="line">[root@localhost xun]# cat newfile</span><br><span class="line">123</span><br><span class="line">[root@localhost xun]# cat newfile2</span><br><span class="line">123</span><br><span class="line">[root@localhost xun]# ls</span><br><span class="line">newfile  newfile2  test  test1</span><br><span class="line">[root@localhost xun]# ln newfile newfile3</span><br><span class="line">[root@localhost xun]# cat newfile3</span><br><span class="line">123</span><br><span class="line">[root@localhost xun]# ls</span><br><span class="line">newfile  newfile2  newfile3  test  test1</span><br><span class="line">[root@localhost xun]#</span><br></pre></td></tr></table></figure>
+
+<h6 id="cp命令"><a href="#cp命令" class="headerlink" title="cp命令"></a>cp命令</h6><p>cp命令主要用来到文件和目录，同事借助选项赋值整个目录</p>
+<p>格式：cp [选项] 源文件 目标文件</p>
+<p>选项：</p>
+<ul>
+<li>-d：如果源文件为软链接，则复制的目标文件也为软链接</li>
+<li>-i：询问是否覆盖（目标文件存在）</li>
+<li>-I：把目标文件建立为源文件的硬链接文件</li>
+<li>-s：把目标文件建立为源文件的软链接文件</li>
+<li>-p：复制后目标文件保留源文件的属性</li>
+<li>-r：递归复制</li>
+<li>-u：目标文件比源文件有差异，使用此选项更新目标文件</li>
+</ul>
+<h6 id="rm-删除文件-目录"><a href="#rm-删除文件-目录" class="headerlink" title="rm 删除文件/目录"></a>rm 删除文件/目录</h6><p>rm命令：永久地删除文件系统中指定的文件或目录</p>
+<p>格式：rm [选项] 文件\目录</p>
+<p>选项：</p>
+<ul>
+<li>-f 强制删除，不再询问</li>
+<li>-i 删除之前询问是否删除</li>
+<li>-r 递归删除目录（包括子目录以及子文件）</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost xun]# ls</span><br><span class="line">newfile  newfile2  newfile3  test  test1</span><br><span class="line">[root@localhost xun]# rm newfile</span><br><span class="line">rm：是否删除普通文件 &quot;newfile&quot;？y</span><br><span class="line">[root@localhost xun]# ls</span><br><span class="line">newfile2  newfile3  test  test1</span><br><span class="line">[root@localhost xun]# cat newfile3</span><br><span class="line">123</span><br><span class="line">[root@localhost xun]# ls</span><br><span class="line">newfile3  test  test1</span><br><span class="line">[root@localhost xun]#</span><br></pre></td></tr></table></figure>
+
+<h6 id="mv命令"><a href="#mv命令" class="headerlink" title="mv命令"></a>mv命令</h6><p>mv命令移动文件或改名，目标文件与源文件同目录为改名功能</p>
+<p>格式：mv [选项] 源文件 目标文件</p>
+<p>选项：</p>
+<ul>
+<li>-f 目标文件已存在强制覆盖目标文件</li>
+<li>-i 目标文件已存在询问是否覆盖</li>
+<li>-n 目标文件已存在，则不会覆盖移动，而且不询问</li>
+<li>-v 显示文件或目录的移动过程</li>
+<li>-u 若目标文件已存在，对比源文件是否更新，更新则对目标文件升级</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost xun]# ls</span><br><span class="line">newfile3  test  test1</span><br><span class="line">[root@localhost xun]# mv test test1</span><br><span class="line">[root@localhost xun]# ls</span><br><span class="line">newfile3  test1</span><br><span class="line">[root@localhost xun]# ls test1/</span><br><span class="line">test</span><br><span class="line">[root@localhost xun]# mv newfile3 newfile1</span><br><span class="line">[root@localhost xun]# ls</span><br><span class="line">newfile1  test1</span><br><span class="line">[root@localhost xun]#</span><br></pre></td></tr></table></figure>
+
+<h5 id="归档和压缩"><a href="#归档和压缩" class="headerlink" title="归档和压缩"></a>归档和压缩</h5><p>归档：指的是文件和目录被存储再一个文件中，归档没有经过压缩。</p>
+<p>压缩：指的是采用了不同的存储方式使集合中文件的大小比原文件大小综合要小</p>
+<p>tar命令：打包操作，使用tar命令归档的包通常成为tar包</p>
+<p>命令格式：tar [选项] 源文件\目录</p>
+<p>[选项]：</p>
+<ul>
+<li>-c 将多个文件或目录进行打包</li>
+<li>-A 追加tar文件到归档文件</li>
+<li>-f 包名 指定包的文件名</li>
+<li>-v 显示打包文件过程</li>
+<li>-x 对tar包做解包操作</li>
+<li>-t 查看tar包中有哪些文件或目录，不做解包操作</li>
+<li>-C 指定解包位置</li>
+<li>-v 显示解包的具体过程</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# tar cvf testta.tar testta</span><br><span class="line">testta/</span><br><span class="line">[root@localhost ~]# ls</span><br><span class="line">0606  0607  anaconda-ks.cfg  shell-study  testta  testta.tar  vm-tools</span><br><span class="line">[root@localhost ~]# tar -tf testta.tar</span><br><span class="line">testta/</span><br></pre></td></tr></table></figure>
+
+<p>打包压缩/解压缩操作</p>
+<p>格式：tar [选项] 压缩包 源文件或目录</p>
+<p>[选项]：</p>
+<ul>
+<li>-z 压缩和解压缩.tar.gz格式</li>
+<li>-j 压缩和解压缩.tar.bz2格式</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost testta]# tar zcvf test.tar.gz test1 test2.txt</span><br><span class="line">test1/</span><br><span class="line">test2.txt</span><br><span class="line">[root@localhost testta]# ls</span><br><span class="line">test1  test2.txt  test.tar.gz</span><br><span class="line">//解压缩</span><br><span class="line">[root@localhost testta]# ls</span><br><span class="line">test.tar.gz</span><br><span class="line">[root@localhost testta]# tar zxvf test.tar.gz</span><br><span class="line">test2.txt</span><br><span class="line">test3/</span><br><span class="line">[root@localhost testta]# ls</span><br><span class="line">test2.txt  test3  test.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h6 id="zip命令"><a href="#zip命令" class="headerlink" title="zip命令"></a>zip命令</h6><p>zip命令需要手工指定压缩后的压缩包名</p>
+<p>格式：zip [选项] 压缩包名 源文件/源目录文件<br>选项：</p>
+<ul>
+<li>-r 递归压缩目录，将目录下的所有文件全部压缩</li>
+<li>-m 文件压缩之后，删除原始文件</li>
+<li>-v 显示详细的压缩过程信息</li>
+<li>-q 在压缩的时候不显示命令的执行过程</li>
+<li>-u 更新压缩文件，往压缩文件中添加新文件</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost testta]# ls</span><br><span class="line">test2.txt  test3  test.tar.gz</span><br><span class="line">[root@localhost testta]# zip -r test.zip test3</span><br><span class="line">  adding: test3/ (stored 0%)</span><br><span class="line">[root@localhost testta]# ls</span><br><span class="line">test2.txt  test3  test.tar.gz  test.zip</span><br><span class="line">[root@localhost testta]#</span><br></pre></td></tr></table></figure>
+
+<h6 id="unzip命令：查看和解压缩zip文件"><a href="#unzip命令：查看和解压缩zip文件" class="headerlink" title="unzip命令：查看和解压缩zip文件"></a>unzip命令：查看和解压缩zip文件</h6><p>格式：unzip [选项] 压缩包名</p>
+<p>选项：</p>
+<ul>
+<li>-d 将压缩文件解压到指定目录下</li>
+<li>-n 解压时并不覆盖已存在的文件</li>
+<li>-o 解压时覆盖已经存在的文件，且无须确认</li>
+<li>-v 查看压缩文件的详细信息</li>
+<li>-t 测试压缩文件有无损坏，不做解压操作</li>
+<li>-x 解压文件，但不包含文件列表中指定的文件</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost testta]# ls</span><br><span class="line">testnew  test.zip</span><br><span class="line">[root@localhost testta]# unzip -d testnew/ test.zip</span><br><span class="line">Archive:  test.zip</span><br><span class="line">   creating: testnew/test3/</span><br><span class="line">[root@localhost testta]# ls</span><br><span class="line">testnew  test.zip</span><br><span class="line">[root@localhost testta]# ls testnew/</span><br><span class="line">test3</span><br><span class="line">[root@localhost testta]#</span><br></pre></td></tr></table></figure>
+
+<h6 id="gzip命令"><a href="#gzip命令" class="headerlink" title="gzip命令"></a>gzip命令</h6><p>gzip命令是Linux系统中常用来对文件进行压缩和解压缩的命令，通过此命令压缩得到的新文件，扩展名为gz。仅支持压缩文件，不可压缩目录，即便指定了目录，也只能压缩目录中的所有文件</p>
+<p>格式：gzip [选项] 源文件</p>
+<p>选项：</p>
+<ul>
+<li>-c 将压缩数据输出到标准输出中，并保留源文件</li>
+<li>-d 将压缩文件进行解压缩</li>
+<li>-r 递归压缩指定目录下以及子目录下的所有文件</li>
+<li>-v 对每个压缩和解压缩的文件，显示相应的文件名和压缩比</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# gzip install.log</span><br><span class="line"><span class="meta">#</span><span class="bash">压缩instal.log 文件</span></span><br><span class="line">[root@localhost ~]# ls</span><br><span class="line">anaconda-ks.cfg install.log.gz install.log.syslog</span><br><span class="line"><span class="meta">#</span><span class="bash">压缩文件生成，但是源文件也消失了</span></span><br><span class="line"></span><br><span class="line">[root@localhost testnew]# echo &quot;!32&quot; &gt; 123.txt</span><br><span class="line">echo &quot;vim&quot; &gt; 123.txt</span><br><span class="line">[root@localhost testnew]# ls</span><br><span class="line">123.txt  test3</span><br><span class="line">[root@localhost testnew]# cd ..</span><br><span class="line">[root@localhost testta]# gzip -r testnew/</span><br><span class="line">[root@localhost testta]# ls</span><br><span class="line">testnew  test.zip</span><br><span class="line">[root@localhost testta]# cd testnew/</span><br><span class="line">[root@localhost testnew]# ls</span><br><span class="line">123.txt.gz  test3</span><br><span class="line">[root@localhost testnew]#</span><br></pre></td></tr></table></figure>
+
+<p>gunzip命令：解压缩命令</p>
+<p>格式：gunzip [选项] 文件</p>
+<p>选项：</p>
+<ul>
+<li>-r 递归处理</li>
+<li>-f 强制解压缩，不理会是否存在情况</li>
+<li>-l 列出压缩文件内容</li>
+<li>-v 显示命令执行过程</li>
+<li>-t 测试压缩文件是否正常</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost testnew]# ls</span><br><span class="line">123.txt.gz  test3</span><br><span class="line">[root@localhost testnew]# gunzip 123.txt.gz</span><br><span class="line">[root@localhost testnew]# ls</span><br><span class="line">123.txt  test3</span><br><span class="line">[root@localhost testnew]#</span><br></pre></td></tr></table></figure>
+
+<h4 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h4><p>vim文本编辑器，是由vi发展演变过来的文本编辑器。</p>
+<p>vim工作模式：</p>
+<ul>
+<li>命令模式：进入vim</li>
+<li>输入模式：Esc键</li>
+<li>编辑模式：按“:”进入输入模式</li>
+</ul>
+<p>vim 文件名进入文件编辑模式</p>
+<p>vim查找目标文本：</p>
+<table>
+<thead>
+<tr>
+<th align="center">快捷键</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">/abc</td>
+<td align="center">从光标位置向前查找字符串abc</td>
+</tr>
+<tr>
+<td align="center">/^abc</td>
+<td align="center">查找以abc开头的行</td>
+</tr>
+<tr>
+<td align="center">/abc$</td>
+<td align="center">查找以abc结尾的行</td>
+</tr>
+<tr>
+<td align="center">/?abc</td>
+<td align="center">从光标所在为主向后查找abc</td>
+</tr>
+<tr>
+<td align="center">n</td>
+<td align="center">向同一放下重复上次的查找指令</td>
+</tr>
+<tr>
+<td align="center">N</td>
+<td align="center">向相反方向重复上次的查找指令</td>
+</tr>
+</tbody></table>
+<p>vim文本替换</p>
+<table>
+<thead>
+<tr>
+<th align="center">快捷键</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">r</td>
+<td align="center">替换光标所在位置的字符</td>
+</tr>
+<tr>
+<td align="center">R</td>
+<td align="center">从光标位置开始替换。后面的内容会覆盖</td>
+</tr>
+<tr>
+<td align="center">:/a1/a2/g</td>
+<td align="center">光标所在行使用a2替换a1</td>
+</tr>
+<tr>
+<td align="center">:n1,n2s/a1/a2/h</td>
+<td align="center">从n1-n2行都使用a2替换a1</td>
+</tr>
+<tr>
+<td align="center">:g/a1/a/g</td>
+<td align="center">文件中所有a1都被a2替换</td>
+</tr>
+</tbody></table>
+<p>vim删除文本</p>
+<table>
+<thead>
+<tr>
+<th>捷键</th>
+<th align="center">功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>x</td>
+<td align="center">删除光标所在位置的字符</td>
+</tr>
+<tr>
+<td>dd</td>
+<td align="center">删除光标所在行</td>
+</tr>
+<tr>
+<td>ndd</td>
+<td align="center">删除当前行（包括此行）后 n 行文本</td>
+</tr>
+<tr>
+<td>dG</td>
+<td align="center">删除光标所在行一直到文件末尾的所有内容</td>
+</tr>
+<tr>
+<td>D</td>
+<td align="center">删除光标位置到行尾的内容</td>
+</tr>
+<tr>
+<td>:a1,a2d</td>
+<td align="center">函数从 a1 行到 a2 行的文本内容</td>
+</tr>
+</tbody></table>
+<p>vim复制和粘贴文本</p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th align="center">功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>p</td>
+<td align="center">将剪贴板中的内容粘贴到光标后</td>
+</tr>
+<tr>
+<td>P（大写）</td>
+<td align="center">将剪贴板中的内容粘贴到光标前</td>
+</tr>
+<tr>
+<td>y</td>
+<td align="center">复制已选中的文本到剪贴板</td>
+</tr>
+<tr>
+<td>yy</td>
+<td align="center">将光标所在行复制到剪贴板，此命令前可以加数字 n，可复制多行</td>
+</tr>
+<tr>
+<td>yw</td>
+<td align="center">将光标位置的单词复制到剪贴板</td>
+</tr>
+</tbody></table>
+<h4 id="查看文件内容"><a href="#查看文件内容" class="headerlink" title="查看文件内容"></a>查看文件内容</h4><h5 id="cat命令"><a href="#cat命令" class="headerlink" title="cat命令"></a>cat命令</h5><p>cat命令显示文本文件的内容</p>
+<p>格式：cat [选项] 文件名</p>
+<p>选项：</p>
+<ul>
+<li>-A 列出所有隐藏符号</li>
+<li>-E 列出每行结尾的回车符$</li>
+<li>-n 对输出的所有行进行编号</li>
+<li>-b 对非空行进行编号</li>
+<li>-V 列出特殊字符</li>
+<li>-s 连续多行的空白行替换为1行</li>
+</ul>
+<p>使用&gt;可输出到指定文件中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost testnew]# ls</span><br><span class="line">123.txt  test3</span><br><span class="line">[root@localhost testnew]# cat 123.txt &gt; 23.txt</span><br><span class="line">[root@localhost testnew]# ls</span><br><span class="line">123.txt  23.txt  test3</span><br><span class="line">[root@localhost testnew]# cat 123.txt</span><br><span class="line">iivim</span><br><span class="line">O123123eeaaaaaaaaadDAAAaaaaAAAA</span><br><span class="line"><span class="meta">#</span><span class="bash">OOOOOOOaaO</span></span><br><span class="line">[root@localhost testnew]# cat 23.txt</span><br><span class="line">iivim</span><br><span class="line">O123123eeaaaaaaaaadDAAAaaaaAAAA</span><br><span class="line"><span class="meta">#</span><span class="bash">OOOOOOOaaO</span></span><br><span class="line">[root@localhost testnew]#</span><br></pre></td></tr></table></figure>
+
+<p>more 命令可以分页显示文本文件的内容，使用者可以逐页阅读文件中内容，此命令的基本格式如下：</p>
+<p><code>[root@localhost ~]# more [选项] 文件名</code></p>
+<p>more 命令比较简单，一般不用什么选项，对于表 1 中所列的选项，读者只需看到认识即可。</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-f</td>
+<td align="center">计算行数时，以实际的行数，而不是自动换行过后的行数。</td>
+</tr>
+<tr>
+<td>-p</td>
+<td align="center">不以卷动的方式显示每一页，而是先清除屏幕后再显示内容。</td>
+</tr>
+<tr>
+<td>-c</td>
+<td align="center">跟 -p 选项相似，不同的是先显示内容再清除其他旧资料。</td>
+</tr>
+<tr>
+<td>-s</td>
+<td align="center">当遇到有连续两行以上的空白行时，就替换为一行的空白行。</td>
+</tr>
+<tr>
+<td>-u</td>
+<td align="center">不显示下引号（根据环境变量 TERM 指定的终端而有所不同）。</td>
+</tr>
+<tr>
+<td>+n</td>
+<td align="center">从第 n 行开始显示文件内容，n 代表数字。</td>
+</tr>
+<tr>
+<td>-n</td>
+<td align="center">一次显示的行数，n 代表数字。</td>
+</tr>
+</tbody></table>
+<p>head 命令可以显示指定文件前若干行的文件内容，其基本格式如下：</p>
+<p>[root@localhost ~]# head [选项] 文件名</p>
+<p>该命令常用选项以及各自的含义，如表 1 所示。</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-n K</td>
+<td>这里的 K 表示行数，该选项用来显示文件前 K 行的内容；如果使用 “-K” 作为参数，则表示除了文件最后 K 行外，显示剩余的全部内容。</td>
+</tr>
+<tr>
+<td>-c K</td>
+<td>这里的 K 表示字节数，该选项用来显示文件前 K 个字节的内容；如果使用 “-K”，则表示除了文件最后 K 字节的内容，显示剩余全部内容。</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>显示文件名；</td>
+</tr>
+</tbody></table>
+<p>注意，如不设置显示的具体行数，则默认显示 10 行的文本数据。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost testnew]# head -n 20 test.txt</span><br><span class="line">0</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">[root@localhost testnew]#</span><br></pre></td></tr></table></figure>
+
+<p>less 命令的基本格式如下：</p>
+<p>[root@localhost ~]# less [选项] 文件名</p>
+<p>此命令可用的选项以及各自的含义如表 1 所示。</p>
+<table>
+<thead>
+<tr>
+<th align="center">选项</th>
+<th align="center">选项含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-N</td>
+<td align="center">显示每行的行号。</td>
+</tr>
+<tr>
+<td align="center">-S</td>
+<td align="center">行过长时将超出部分舍弃。</td>
+</tr>
+<tr>
+<td align="center">-e</td>
+<td align="center">当文件显示结束后，自动离开。</td>
+</tr>
+<tr>
+<td align="center">-g</td>
+<td align="center">只标志最后搜索到的关键同。</td>
+</tr>
+<tr>
+<td align="center">-Q</td>
+<td align="center">不使用警告音。</td>
+</tr>
+<tr>
+<td align="center">-i</td>
+<td align="center">忽略搜索时的大小写。</td>
+</tr>
+<tr>
+<td align="center">-m</td>
+<td align="center">显示类似 more 命令的百分比。</td>
+</tr>
+<tr>
+<td align="center">-f</td>
+<td align="center">强迫打开特殊文件，比如外围设备代号、目录和二进制文件。</td>
+</tr>
+<tr>
+<td align="center">-s</td>
+<td align="center">显示连续空行为一行。</td>
+</tr>
+<tr>
+<td align="center">-b &lt;缓冲区大小&gt;</td>
+<td align="center">设置缓冲区的大小。</td>
+</tr>
+<tr>
+<td align="center">-o &lt;文件名&gt;</td>
+<td align="center">将 less 输出的内容保存到指定文件中。</td>
+</tr>
+<tr>
+<td align="center">-x &lt;数字&gt;</td>
+<td align="center">将【Tab】键显示为规定的数字空格。</td>
+</tr>
+</tbody></table>
+<p>在使用 less 命令查看文件内容的过程中，和 more 命令一样，也会进入交互界面，因此需要读者掌握一些常用的交互指令，如表 2 所示。</p>
+<table>
+<thead>
+<tr>
+<th align="center">交互指令</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">/字符串</td>
+<td align="center">向下搜索“字符串”的功能。</td>
+</tr>
+<tr>
+<td align="center">?字符串</td>
+<td align="center">向上搜索“字符串”的功能。</td>
+</tr>
+<tr>
+<td align="center">n</td>
+<td align="center">重复*前一个搜索（与 / 成 ? 有关）。</td>
+</tr>
+<tr>
+<td align="center">N</td>
+<td align="center">反向重复前一个搜索（与 / 或 ? 有关）。</td>
+</tr>
+<tr>
+<td align="center">b</td>
+<td align="center">向上移动一页。</td>
+</tr>
+<tr>
+<td align="center">d</td>
+<td align="center">向下移动半页。</td>
+</tr>
+<tr>
+<td align="center">h 或 H</td>
+<td align="center">显示帮助界面。</td>
+</tr>
+<tr>
+<td align="center">q 或 Q</td>
+<td align="center">退出 less 命令。</td>
+</tr>
+<tr>
+<td align="center">y</td>
+<td align="center">向上移动一行。</td>
+</tr>
+<tr>
+<td align="center">空格键</td>
+<td align="center">向下移动一页。</td>
+</tr>
+<tr>
+<td align="center">回车键</td>
+<td align="center">向下移动一行。</td>
+</tr>
+<tr>
+<td align="center">【PgDn】键</td>
+<td align="center">向下移动一页。</td>
+</tr>
+<tr>
+<td align="center">【PgUp】键</td>
+<td align="center">向上移动一页。</td>
+</tr>
+<tr>
+<td align="center">Ctrl+f</td>
+<td align="center">向下移动一页。</td>
+</tr>
+<tr>
+<td align="center">Ctrl+b</td>
+<td align="center">向上移动一页。</td>
+</tr>
+<tr>
+<td align="center">Ctrl+d</td>
+<td align="center">向下移动一页。</td>
+</tr>
+<tr>
+<td align="center">Ctrl+u</td>
+<td align="center">向上移动半页。</td>
+</tr>
+<tr>
+<td align="center">j</td>
+<td align="center">向下移动一行。</td>
+</tr>
+<tr>
+<td align="center">k</td>
+<td align="center">向上移动一行。</td>
+</tr>
+<tr>
+<td align="center">G</td>
+<td align="center">移动至最后一行。</td>
+</tr>
+<tr>
+<td align="center">g</td>
+<td align="center">移动到第一行。</td>
+</tr>
+<tr>
+<td align="center">ZZ</td>
+<td align="center">退出 less 命令。</td>
+</tr>
+<tr>
+<td align="center">v</td>
+<td align="center">使用配置的编辑器编辑当前文件。</td>
+</tr>
+<tr>
+<td align="center">[</td>
+<td align="center">移动到本文档的上一个节点。</td>
+</tr>
+<tr>
+<td align="center">]</td>
+<td align="center">移动到本文档的下一个节点。</td>
+</tr>
+<tr>
+<td align="center">p</td>
+<td align="center">移动到同级的上一个节点。</td>
+</tr>
+<tr>
+<td align="center">u</td>
+<td align="center">向上移动半页。</td>
+</tr>
+</tbody></table>
+<p>tail 命令和 head 命令正好相反，它用来查看文件末尾的数据，其基本格式如下：</p>
+<p>[root@localhost ~]# tail [选项] 文件名</p>
+<p>此命令常用的选项及含义如表 1 所示。</p>
+<table>
+<thead>
+<tr>
+<th align="center">选 项</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-n K</td>
+<td align="center">这里的 K 指的是行数，该选项表示输出最后 K 行，在此基础上，如果使用 -n +K，则表示从文件的第 K 行开始输出。</td>
+</tr>
+<tr>
+<td align="center">-c K</td>
+<td align="center">这里的 K 指的是字节数，该选项表示输出文件最后 K 个字节的内容，在此基础上，使用 -c +K 则表示从文件第 K 个字节开始输出。</td>
+</tr>
+<tr>
+<td align="center">-f</td>
+<td align="center">输出文件变化后新增加的数据。</td>
+</tr>
+</tbody></table>
+<h5 id="查找文件内容"><a href="#查找文件内容" class="headerlink" title="查找文件内容"></a>查找文件内容</h5><p>grep：在文件中找到宝航指定信息的行</p>
+<p>格式：grep [选项] 模式 文件名</p>
+<p>选项：</p>
+<ul>
+<li>-c 仅列出文件中包含模式的行数</li>
+<li>-i 忽略模式中的字母大小写</li>
+<li>-l 列出带有批评和的文件名</li>
+<li>-n 在每一行的最前面列出行号</li>
+<li>-v 列出没有匹配模式的行</li>
+<li>-w 把表达式当做一个完整的单字符来搜寻，忽略那些部分匹配的行</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost testnew]# grep 33 test.txt</span><br><span class="line">33</span><br><span class="line">[root@localhost testnew]# grep -l 33 test.txt</span><br><span class="line">test.txt</span><br><span class="line">[root@localhost testnew]# grep -c 33 test.txt</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>awk：逐行扫描文件，寻找含有目标文本的行，如果匹配成功，则会在该行执行用户想要的操作，反之不做任何处理</p>
+<p>awk [选项] ‘脚本命令’ 文件名</p>
+<p>e.g：awk <code>&#123;print $1</code> data2.txt输入每一行的第二个字段</p>
+<p>ooo选项：</p>
+<ul>
+<li>-F fs 指定以fs作为输入行的分隔符，默认以空格或者制表符</li>
+<li>-f file 从脚本文件中读取awk脚本指令，以取代直接在命令行输入指令</li>
+<li>-v var=val 在执行处理过程之前，设置一个变量var且初始值为val</li>
+</ul>
+<p>BEGIN指定脚本命令的运行实际，在数据处理前运行脚本命令</p>
+<p>END指定在读完数据后执行</p>
+<h4 id="Linux软件安装"><a href="#Linux软件安装" class="headerlink" title="Linux软件安装"></a>Linux软件安装</h4><p>Linux软件包分为：源码包以及二进制包</p>
+<p>rpm二进制包RPM包的扩展名，可以使用rpm命令安装</p>
+<p>RPM包默认安装路径</p>
+<table>
+<thead>
+<tr>
+<th align="center">安装路径</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">/etc/</td>
+<td align="center">配置文件安装目录</td>
+</tr>
+<tr>
+<td align="center">/usr/bin/</td>
+<td align="center">可执行的命令安装目录</td>
+</tr>
+<tr>
+<td align="center">/usr/lib</td>
+<td align="center">程序使用的函数库保存位置</td>
+</tr>
+<tr>
+<td align="center">/usr/share/doc/</td>
+<td align="center">基本的软件是哟呵你手册保存位置</td>
+</tr>
+<tr>
+<td align="center">/usr/share/man/</td>
+<td align="center">帮助文件保存位置</td>
+</tr>
+</tbody></table>
+<p>安装RPM的命令格式：</p>
+<p>rpm -ivh 包全名 </p>
+<ul>
+<li>-i 安装</li>
+<li>-v 显示跟详细信息</li>
+<li>-h 显示安装进度</li>
+<li>-U 升级</li>
+<li>-F 软件没有安装，则不会安装，必须安装低版本才可以升级</li>
+<li>-e 卸载</li>
+<li>-q 查询软件是否安装</li>
+<li>-qa 查询所有已安装软件包</li>
+</ul>
+<p>rpmbuild [选项] .src.rpm</p>
+<ul>
+<li>-rebuild：编译 SRPM 包生成 RPM 二进制包；</li>
+<li>-recompile：编译 SRPM 包，同时安装。</li>
+</ul>
+<h5 id="yum"><a href="#yum" class="headerlink" title="yum"></a>yum</h5><p>专门为了解决包的依赖关系而存在的软件管理器</p>
+<p>yum源配置文件位于/etc/yum.repos.d/目录下。源地址配置文件为Centos-Base.repo</p>
+<p>命令：</p>
+<ul>
+<li>yum list：查询所有已安装和可按照的软件包</li>
+<li>yun -y install 包名：安装软件包，-y表示都同意</li>
+<li>yum -y update 包：升级软件包</li>
+<li>yum remove 包：卸载软件包</li>
+</ul>
+<h5 id="源码包安装"><a href="#源码包安装" class="headerlink" title="源码包安装"></a>源码包安装</h5><p>源码包安装需要C和C++，以及make</p>
+<ol>
+<li>下载软件的源码包</li>
+<li>解压源码包：tar xvf Python-3.9.5.tar.xz</li>
+<li>进入源码目录：cd Python-3.9.5</li>
+<li>检查系统环境是否符合安装要求：./configure(–prefix 选项的含义为指定安装目录。)</li>
+<li>make编译：make</li>
+<li>正式安装：make install </li>
+<li>源码包卸载：找到软件的安装目录，删除所在目录</li>
+</ol>
+<h3 id="Linux用户组和用户"><a href="#Linux用户组和用户" class="headerlink" title="Linux用户组和用户"></a><em>Linux用户组和用户</em></h3><p>Linux是多用户多任务操作系统，不同用户有不同的权限，每个用户在权限允许的范围内完成不间的任务。</p>
+<p>用户与用户组的对应关系：</p>
+<ol>
+<li>一对一：一个用户存在一个组中</li>
+<li>一对多：一个用户存在多个组中，含有多个组的共同权限</li>
+<li>多对一：多个用户存在一个组中，用户具有和组相同的权限</li>
+<li>多对多：多个用户存在多个组中</li>
+</ol>
+<p>用户含有ID（UID)，用户组ID（GID）</p>
+<p>Linux系统中的/etc/passwd文件是系统用户配置文件，存储了系统中所有用户的基本信息，并且所有用户都可以对此文件执行读操作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat /etc/passwd</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">bin:x:1:1:bin:/bin:/sbin/nologin</span><br><span class="line">daemon:x:2:2:daemon:/sbin:/sbin/nologin</span><br><span class="line">adm:x:3:4:adm:/var/adm:/sbin/nologin</span><br><span class="line">lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin</span><br><span class="line">sync:x:5:0:sync:/sbin:/bin/sync</span><br><span class="line">shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown</span><br><span class="line"><span class="meta">#</span><span class="bash">省略其余内容</span></span><br></pre></td></tr></table></figure>
+
+<p>字段含义：</p>
+<p>用户名：密码：UID（用户id）：GID（初始组ID）：描述信息：主目录：默认shell</p>
+<p>/etc/shadow 文件，用于存储 Linux 系统中用户的密码信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat /etc/shadow</span><br><span class="line">root:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx::0:99999:7:::</span><br><span class="line">bin:*:18353:0:99999:7:::</span><br><span class="line">daemon:*:18353:0:99999:7:::</span><br><span class="line">adm:*:18353:0:99999:7:::</span><br><span class="line">lp:*:18353:0:99999:7:::</span><br><span class="line">sync:*:18353:0:99999:7:::</span><br><span class="line">shutdown:*:18353:0:99999:7:::</span><br><span class="line">halt:*:18353:0:99999:7:::</span><br><span class="line">mail:*:18353:0:99999:7:::</span><br><span class="line">operator:*:18353:0:99999:7:::</span><br></pre></td></tr></table></figure>
+
+<p>shadow文件只允许root用户读取，其他用户没有任何权限</p>
+<p>字段说明：</p>
+<p>用户名：加密密码（使用SHA512散列加密算法）：最后一次修改时间：最小修改时间间隔：密码有效期：密码需要变更前的警告天数：密码过期后的宽限时间：密码失效时间：保留字段</p>
+<p>/etc/group 用户组配置文件，保存用户组的所有信息</p>
+<h3 id="useradd添加用户"><a href="#useradd添加用户" class="headerlink" title="useradd添加用户"></a>useradd添加用户</h3><p>格式：useradd [选项] 用户名</p>
+<p>选项：</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-u</td>
+<td>指定用户的UID（不要小于500）</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>指定用户的主目录（绝对路径）</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>指定用户说明</td>
+</tr>
+<tr>
+<td>-g</td>
+<td>手工指定用户的初始组</td>
+</tr>
+<tr>
+<td>-G</td>
+<td>指定用户的附加组</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>指定用户得到登录shell</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>指定用户的失效期</td>
+</tr>
+</tbody></table>
+<h3 id="passwd命令：修改用户密码"><a href="#passwd命令：修改用户密码" class="headerlink" title="passwd命令：修改用户密码"></a>passwd命令：修改用户密码</h3><p>格式：passwd [选项] 用户名</p>
+<p>选项：</p>
+<ul>
+<li>-S：查询用户密码的状态，也就是 /etc/shadow 文件中此用户密码的内容。仅 root 用户可用；</li>
+<li>-l：暂时锁定用户，该选项会在 /etc/shadow 文件中指定用户的加密密码串前添加 “!”，使密码失效。仅 root 用户可用；</li>
+<li>-u：解锁用户，和 -l 选项相对应，也是只能 root 用户使用；</li>
+<li>–stdin：可以将通过管道符输出的数据作为用户的密码。主要在批量添加用户时使用；</li>
+<li>-n 天数：设置该用户修改密码后，多长时间不能再次修改密码，也就是修改 /etc/shadow 文件中各行密码的第 4 个字段；</li>
+<li>-x 天数：设置该用户的密码有效期，对应 /etc/shadow 文件中各行密码的第 5 个字段；</li>
+<li>-w 天数：设置用户密码过期前的警告天数，对于 /etc/shadow 文件中各行密码的第 6 个字段；</li>
+<li>-i 日期：设置用户密码失效日期，对应 /etc/shadow 文件中各行密码的第 7 个字段。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# useradd lamp</span><br><span class="line">[root@localhost etc]# passwd lamp</span><br><span class="line">更改用户 lamp 的密码 。</span><br><span class="line">新的 密码：</span><br><span class="line">无效的密码： 密码未通过字典检查 - 它基于字典单词</span><br><span class="line">重新输入新的 密码：</span><br><span class="line">passwd：所有的身份验证令牌已经成功更新。</span><br><span class="line">[root@localhost etc]#</span><br></pre></td></tr></table></figure>
+
+<h3 id="usermod修改用户信息"><a href="#usermod修改用户信息" class="headerlink" title="usermod修改用户信息"></a>usermod修改用户信息</h3><p>usermod修改用户信息的命令</p>
+<p>格式：usermod [选项] 用户名</p>
+<ul>
+<li>-c 用户说明：修改用户的说明信息，即修改 /etc/passwd 文件目标用户信息的第 5 个字段；</li>
+<li>-d 主目录：修改用户的主目录，即修改 /etc/passwd 文件中目标用户信息的第 6 个字段，需要注意的是，主目录必须写绝对路径；</li>
+<li>-e 日期：修改用户的失效曰期，格式为 “YYYY-MM-DD”，即修改 /etc/shadow 文件目标用户密码信息的第 8 个字段；</li>
+<li>-g 组名：修改用户的初始组，即修改 /etc/passwd 文件目标用户信息的第 4 个字段（GID）；</li>
+<li>-u UID：修改用户的UID，即修改 /etc/passwd 文件目标用户信息的第 3 个字段（UID）；</li>
+<li>-G 组名：修改用户的附加组，其实就是把用户加入其他用户组，即修改 /etc/group 文件；</li>
+<li>-l 用户名：修改用户名称；</li>
+<li>-L：临时锁定用户（Lock）；</li>
+<li>-U：解锁用户（Unlock），和 -L 对应；</li>
+<li>-s shell：修改用户的登录 Shell，默认是 /bin/bash。</li>
+</ul>
+<h3 id="userdel-删除用户"><a href="#userdel-删除用户" class="headerlink" title="userdel 删除用户"></a>userdel 删除用户</h3><p>用户信息存储位置</p>
+<ul>
+<li>用户基本信息：存储在 /etc/passwd 文件中；</li>
+<li>用户密码信息：存储在 /etc/shadow 文件中；</li>
+<li>用户群组基本信息：存储在 /etc/group 文件中；</li>
+<li>用户群组信息信息：存储在 /etc/gshadow 文件中；</li>
+<li>用户个人文件：主目录默认位于 /home/用户名，邮箱位于 /var/spool/mail/用户名。</li>
+</ul>
+<p>userdel -r 用户名删除用户</p>
+<p>切换登录用户命令：su</p>
+<p>su 命令的基本格式：su [选项] 用户名<br>选项：</p>
+<ul>
+<li>-：当前用户不仅切换为指定用户的身份，同时所用的工作环境也切换为此用户的环境（包括 PATH 变量、MAIL 变量等），使用 - 选项可省略用户名，默认会切换为 root 用户。</li>
+<li>-l：同 - 的使用类似，也就是在切换用户身份的同时，完整切换工作环境，但后面需要添加欲切换的使用者账号。</li>
+<li>-p：表示切换为指定用户的身份，但不改变当前的工作环境（不使用切换用户的配置文件）。</li>
+<li>-m：和 -p 一样；</li>
+<li>-c 命令：仅切换用户执行一次命令，执行后自动切换回来，该选项后通常会带有要执行的命令。</li>
+</ul>
+<p>为了避免系统管理员（root）太忙碌，无法及时管理群组，我们可以使用 gpasswd 命令给群组设置一个群组管理员，代替 root 完成将用户加入或移出群组的操作。</p>
+<p>gpasswd 命令的基本格式如下：</p>
+<p>[root@localhost ~]# gpasswd 选项 组名</p>
+<p>表详细介绍了此命令提供的各种选项以及功能。</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>选项为空时，表示给群组设置密码，仅 root 用户可用。</td>
+</tr>
+<tr>
+<td>-A user1,…</td>
+<td>将群组的控制权交给 user1,… 等用户管理，也就是说，设置 user1,… 等用户为群组的管理员，仅 root 用户可用。</td>
+</tr>
+<tr>
+<td>-M user1,…</td>
+<td>将 user1,… 加入到此群组中，仅 root 用户可用。</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>移除群组的密码，仅 root 用户可用。</td>
+</tr>
+<tr>
+<td>-R</td>
+<td>让群组的密码失效，仅 root 用户可用。</td>
+</tr>
+<tr>
+<td>-a user</td>
+<td>将 user 用户加入到群组中。</td>
+</tr>
+<tr>
+<td>-d user</td>
+<td>将 user 用户从群组中移除。</td>
+</tr>
+</tbody></table>
+<h3 id="Linux权限管理"><a href="#Linux权限管理" class="headerlink" title="Linux权限管理"></a>Linux权限管理</h3><p>Linux权限管理指的是对不同的用户设置不同的文访问权限，包括对文件的读、写、执行，在Linux中，每个都具有不同的权限，</p>
+<ol>
+<li><p>chgrp：用于修改文件或者目录的所属组</p>
+<p>格式：chgrp [-R] 所属组 文件名</p>
+<p>-R连同子目录所有文件的所属组</p>
+</li>
+<li><p>chown：修改文件的所有者（也可修改所属组）</p>
+<p>[注：普通用户仅可修改自己文件的权限]</p>
+<p>格式：chown [-R] 所有者（:所属组 ）文件名</p>
+<p>-R（注意大写）选项表示连同子目录中的所有文件，都更改所有者。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost testta]# ll</span><br><span class="line">总用量 4</span><br><span class="line">drwxr-xr-x 3 root root  78 6月  26 17:44 testnew</span><br><span class="line">-rw-r--r-- 1 root root 162 6月  26 16:38 test.zip</span><br><span class="line">[root@localhost testta]# chown -R xun testnew/</span><br><span class="line">[root@localhost testta]# ll</span><br><span class="line">总用量 4</span><br><span class="line">drwxr-xr-x 3 xun  root  78 6月  26 17:44 testnew</span><br><span class="line">-rw-r--r-- 1 root root 162 6月  26 16:38 test.zip</span><br><span class="line">[root@localhost testta]#</span><br></pre></td></tr></table></figure></li>
+<li><p>文件权限分为三种：文件的读（r），写（w），执行（x）使用ls -l查看权限信息</p>
+<p>各权限对文件的作用</p>
+<ul>
+<li>r：表示可读取此文件中的实际内容，例如cat，more，head，tail等文件查看命令</li>
+<li>w：表示可以编辑、新增或者修改文件中的内容例如echo，vim等命令。注意，无权限不赋予用户删除文件的权利，除非用户对文件的上级目录拥有写权限才可以。</li>
+<li>x表示文件具有被执行的权限</li>
+</ul>
+<p>各权限对目录的作用</p>
+<ul>
+<li>r：表示具有读取目录结构列表的权限，可以执行ls命令，查看目录中的内容</li>
+<li>w：对于目录，w是最高权限。可以对目录现键文件和目录、删除文件或目录。对文件或目录进行更名。移动目录下文件或目录的位置</li>
+<li>x：可以进入目录</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost test3]# ll -a</span><br><span class="line">总用量 0</span><br><span class="line">drwxr-xr-x 2 xun root  6 6月  26 16:31 .</span><br><span class="line">drwxr-xr-x 3 xun root 78 6月  26 17:44 ..</span><br><span class="line">[root@localhost test3]#</span><br></pre></td></tr></table></figure>
+
+<p>不同的用户文件权限涉及9位字符rwxrwxrwx，前三位为所属主的权限，中间三位为所属组的权限，后三位为其他用户的权限。</p>
+</li>
+<li><p>chmod修改文件的权限</p>
+<p>格式：chmod [-R] 权限值 文件名</p>
+<p>权限值可以使用数值：4为读，2为写、1为执行</p>
+<p>e.g：chmod -R 751 filename</p>
+<p>使用字母修改：chmod u/g/o/a +/-/= r/w/x filename</p>
+<p>e.g：chmod -R a+w filename</p>
+</li>
+</ol>
+<p>sudo：sudo命令的运行只需知道自己的密码即可</p>
+<p>sudo 命令默认只有 root 用户可以运行，该命令的基本格式为：</p>
+<p>[root@localhost ~]# sudo [-b] [-u 新使用者账号] 要执行的命令</p>
+<p>常用的选项与参数：</p>
+<ul>
+<li>-b ：将后续的命令放到背景中让系统自行运行，不对当前的 shell 环境产生影响。</li>
+<li>-u ：后面可以接欲切换的用户名，若无此项则代表切换身份为 root 。</li>
+<li>-l：此选项的用法为 sudo -l，用于显示当前用户可以用 sudo 执行那些命令。</li>
+</ul>
+<p>日志：</p>
+<table>
+<thead>
+<tr>
+<th>日志文件</th>
+<th>说 明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/var/log/cron</td>
+<td>记录与系统定时任务相关的曰志</td>
+</tr>
+<tr>
+<td>/var/log/cups/</td>
+<td>记录打印信息的曰志</td>
+</tr>
+<tr>
+<td>/var/log/dmesg</td>
+<td>记录了系统在开机时内核自检的信总。也可以使用dmesg命令直接查看内核自检信息</td>
+</tr>
+<tr>
+<td>/var/log/btmp</td>
+<td>记录错误登陆的日志。这个文件是二进制文件，不能直接用Vi查看，而要使用lastb命令查看。命令如下： [root@localhost log]#lastb root tty1 Tue Jun 4 22:38 - 22:38 (00:00) #有人在6月4 日 22:38便用root用户在本地终端 1 登陆错误</td>
+</tr>
+<tr>
+<td>/var/log/lasllog</td>
+<td>记录系统中所有用户最后一次的登录时间的曰志。这个文件也是二进制文件.不能直接用Vi 查看。而要使用lastlog命令查看</td>
+</tr>
+<tr>
+<td>/var/Iog/mailog</td>
+<td>记录邮件信息的曰志</td>
+</tr>
+<tr>
+<td>/var/log/messages</td>
+<td>它是核心系统日志文件，其中包含了系统启动时的引导信息，以及系统运行时的其他状态消息。I/O 错误、网络错误和其他系统错误都会记录到此文件中。其他信息，比如某个人的身份切换为 root，已经用户自定义安装软件的日志，也会在这里列出。</td>
+</tr>
+<tr>
+<td>/var/log/secure</td>
+<td>记录验证和授权方面的倍息，只要涉及账户和密码的程序都会记录，比如系统的登录、ssh的登录、su切换用户，sudo授权，甚至添加用户和修改用户密码都会记录在这个日志文件中</td>
+</tr>
+<tr>
+<td>/var/log/wtmp</td>
+<td>永久记录所有用户的登陆、注销信息，同时记录系统的后动、重启、关机事件。同样，这个文件也是二进制文件.不能直接用Vi查看，而要使用last命令查看</td>
+</tr>
+<tr>
+<td>/var/tun/ulmp</td>
+<td>记录当前已经登录的用户的信息。这个文件会随着用户的登录和注销而不断变化，只记录当前登录用户的信息。同样，这个文件不能直接用Vi查看，而要使用w、who、users等命令查看</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>日志文件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/var/log/httpd/</td>
+<td>RPM包安装的apache取务的默认日志目录</td>
+</tr>
+<tr>
+<td>/var/log/mail/</td>
+<td>RPM包安装的邮件服务的额外日志因录</td>
+</tr>
+<tr>
+<td>/var/log/samba/</td>
+<td>RPM色安装的Samba服务的日志目录</td>
+</tr>
+<tr>
+<td>/var/log/sssd/</td>
+<td>守护进程安全服务目录</td>
+</tr>
+</tbody></table>
+<p>配置网卡信息文件地址:/etc/sysconfig/network-scripts/ifcon-ens33</p>
+<p>静态获取</p>
+<p><img src="/linux/image09.png" alt="image09"></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/phpstudy/" data-toggle="tooltip" data-placement="top"
+                           title="PHP学习记">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/jsstudy/" data-toggle="tooltip" data-placement="top"
+                           title="JavaScript">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+                    <!-- Valine -->
+                    <div class="vcomments"></div>
+                    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+                    <script src="//cdn.jsdelivr.net/npm/valine"></script>
+                    <script>
+                        var GUEST = ['nick','mail','link'];
+                        var meta = '';
+                        meta = meta.split(',').filter(function (item) {
+                            return GUEST.indexOf(item)>-1;
+                        });
+                        var notify = 'false' == true ? true : false;
+                        var verify = 'false' == true ? true : false;
+                        new Valine({
+                            el: '.vcomments',
+                            notify: notify,
+                            verify: verify,
+                            app_id: "oE8RJ9DO5Tl7ChTtMFwgLKIg-gzGzoHsz",
+                            app_key: "mUbPBB3Wq3R6wX9ysIlescWj",
+                            placeholder: "评论一下",
+                            avatar:"mm",
+                            meta:meta
+                        });
+                    </script>
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E7%B3%BB%E7%BB%9F%E5%B1%82%E6%AC%A1%EF%BC%9A"><span class="toc-text">Linux系统层次：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Linux%E7%B3%BB%E7%BB%9F"><span class="toc-text">安装Linux系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E8%BF%9C%E7%A8%8B%E7%AE%A1%E7%90%86%E5%8D%8F%E8%AE%AE%EF%BC%88RFB-RDP-Telnet%E5%92%8CSSH%EF%BC%89"><span class="toc-text">Linux远程管理协议（RFB,RDP,Telnet和SSH）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E6%A0%B9%E7%9B%AE%E5%BD%95"><span class="toc-text">Linux根目录&#x2F;</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-text"></span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8C%82%E8%BD%BD"><span class="toc-text">挂载</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Linux%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-text">Linux环境变量</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Linux%E5%91%BD%E4%BB%A4%E5%9F%BA%E6%9C%AC%E6%A0%BC%E5%BC%8F"><span class="toc-text">Linux命令基本格式</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#cd%E5%91%BD%E4%BB%A4"><span class="toc-text">cd命令</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#ls%E5%91%BD%E4%BB%A4"><span class="toc-text">ls命令</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#mkdir%E5%91%BD%E4%BB%A4"><span class="toc-text">mkdir命令</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#rmdir%E5%91%BD%E4%BB%A4"><span class="toc-text">rmdir命令</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#touch%E5%91%BD%E4%BB%A4"><span class="toc-text">touch命令</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#ln%E5%91%BD%E4%BB%A4%EF%BC%9A%E5%BB%BA%E7%AB%8B%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6"><span class="toc-text">ln命令：建立链接文件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#cp%E5%91%BD%E4%BB%A4"><span class="toc-text">cp命令</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#rm-%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6-%E7%9B%AE%E5%BD%95"><span class="toc-text">rm 删除文件&#x2F;目录</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#mv%E5%91%BD%E4%BB%A4"><span class="toc-text">mv命令</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BD%92%E6%A1%A3%E5%92%8C%E5%8E%8B%E7%BC%A9"><span class="toc-text">归档和压缩</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#zip%E5%91%BD%E4%BB%A4"><span class="toc-text">zip命令</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#unzip%E5%91%BD%E4%BB%A4%EF%BC%9A%E6%9F%A5%E7%9C%8B%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%BC%A9zip%E6%96%87%E4%BB%B6"><span class="toc-text">unzip命令：查看和解压缩zip文件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#gzip%E5%91%BD%E4%BB%A4"><span class="toc-text">gzip命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vim"><span class="toc-text">vim</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="toc-text">查看文件内容</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#cat%E5%91%BD%E4%BB%A4"><span class="toc-text">cat命令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="toc-text">查找文件内容</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Linux%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="toc-text">Linux软件安装</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#yum"><span class="toc-text">yum</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E5%8C%85%E5%AE%89%E8%A3%85"><span class="toc-text">源码包安装</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E7%94%A8%E6%88%B7%E7%BB%84%E5%92%8C%E7%94%A8%E6%88%B7"><span class="toc-text">Linux用户组和用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useradd%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7"><span class="toc-text">useradd添加用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#passwd%E5%91%BD%E4%BB%A4%EF%BC%9A%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81"><span class="toc-text">passwd命令：修改用户密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#usermod%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF"><span class="toc-text">usermod修改用户信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#userdel-%E5%88%A0%E9%99%A4%E7%94%A8%E6%88%B7"><span class="toc-text">userdel 删除用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86"><span class="toc-text">Linux权限管理</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Linux"
+                           title="Linux">Linux</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.zerochen.top">墨的博客</a></li>
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.sunflowers.vip">sunflowers的博客</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/mar-mot">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; marmot 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/blog.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.marmot.vip/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/marmot.jpg">
+</body>
+
+</html>

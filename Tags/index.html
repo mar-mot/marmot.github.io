@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/marmot.jpg">
+    <link rel="alternate" type="application/atom+xml" title="marmot" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Tags｜marmot&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.marmot.vip/Tags/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/blog-style.css">
+
+
+    <!-- Pygments Github CSS -->
+    
+<link rel="stylesheet" href="/css/syntax.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('img/back.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    marmot
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/work/">work</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+<style>
+    .intro-header .site-heading {
+        margin: 50px;
+    }
+    
+    header.intro-header {
+        background-image: url('/img/back2.jpgundefined')
+    }
+    
+</style>
+
+<!-- Page Header -->
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading text-center">
+                    <h1>Tags</h1>
+                    <span class="subheading"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <!-- 标签云 -->
+            <div id='tag_cloud' class="tags">
+                
+                <a href="#Oracle" title="Oracle" rel="1">Oracle</a>
+                
+                <a href="#XSS" title="XSS" rel="1">XSS</a>
+                
+                <a href="#command" title="command" rel="1">command</a>
+                
+                <a href="#websafe" title="websafe" rel="3">websafe</a>
+                
+                <a href="#javascript" title="javascript" rel="1">javascript</a>
+                
+                <a href="#Mongodb" title="Mongodb" rel="1">Mongodb</a>
+                
+                <a href="#sql注入" title="sql注入" rel="1">sql注入</a>
+                
+                <a href="#MySQL" title="MySQL" rel="1">MySQL</a>
+                
+                <a href="#PHP" title="PHP" rel="1">PHP</a>
+                
+                <a href="#Python" title="Python" rel="1">Python</a>
+                
+                <a href="#mongodb" title="mongodb" rel="1">mongodb</a>
+                
+                <a href="#Java" title="Java" rel="1">Java</a>
+                
+                <a href="#Linux" title="Linux" rel="1">Linux</a>
+                
+            </div>
+
+            <!-- 标签列表 -->
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Oracle">
+                    <span class="tag-text">Oracle</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/Oracle/">
+                        <h2 class="post-title">
+                            Oracle数据库注入
+                        </h2>
+                        
+                        <h3 class="post-subtitle">
+                            五百人中第一仙。等闲平步上青天。
+                        </h3>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="XSS">
+                    <span class="tag-text">XSS</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/XSS/">
+                        <h2 class="post-title">
+                            XSS注入攻击及绕过姿势
+                        </h2>
+                        
+                        <h3 class="post-subtitle">
+                            桥上少年桥下水。小棹归时，不语牵红袂。
+                        </h3>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="command">
+                    <span class="tag-text">command</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/command/">
+                        <h2 class="post-title">
+                            命令执行及反序列化
+                        </h2>
+                        
+                        <h3 class="post-subtitle">
+                            男儿百年且荣身，何须徇节甘风尘。
+                        </h3>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="websafe">
+                    <span class="tag-text">websafe</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/double/">
+                        <h2 class="post-title">
+                            vulhub靶场-doubletrouble靶场渗透
+                        </h2>
+                        
+                        <h3 class="post-subtitle">
+                            Hello World!
+                        </h3>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+                <div class="post-preview">
+                    <a href="/pikachu/">
+                        <h2 class="post-title">
+                            pikachu靶场的搭建及教程
+                        </h2>
+                        
+                        <h3 class="post-subtitle">
+                            少年裘马骋春游，直指金鞭过五侯。
+                        </h3>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+                <div class="post-preview">
+                    <a href="/typecho/">
+                        <h2 class="post-title">
+                            typecho反序列化漏洞复现
+                        </h2>
+                        
+                        <h3 class="post-subtitle">
+                            Hello World!
+                        </h3>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="javascript">
+                    <span class="tag-text">javascript</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/jsstudy/">
+                        <h2 class="post-title">
+                            JavaScript
+                        </h2>
+                        
+                        <h3 class="post-subtitle">
+                            hi, I'm marmot
+                        </h3>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Mongodb">
+                    <span class="tag-text">Mongodb</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/mongodb/">
+                        <h2 class="post-title">
+                            mongodb数据库注入及注入脚本
+                        </h2>
+                        
+                        <h3 class="post-subtitle">
+                            少年游侠好经过，浑身装束皆绮罗。
+                        </h3>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="sql注入">
+                    <span class="tag-text">sql注入</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/mssql/">
+                        <h2 class="post-title">
+                            mssql数据库注入---marmot`s Blog
+                        </h2>
+                        
+                        <h3 class="post-subtitle">
+                            狎兴生疏，酒徒萧索，不似少年时。
+                        </h3>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="MySQL">
+                    <span class="tag-text">MySQL</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/mysqlstudy/">
+                        <h2 class="post-title">
+                            mysql学习记
+                        </h2>
+                        
+                        <h3 class="post-subtitle">
+                            hi, I'm marmot
+                        </h3>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="PHP">
+                    <span class="tag-text">PHP</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/phpstudy/">
+                        <h2 class="post-title">
+                            PHP学习记
+                        </h2>
+                        
+                        <h3 class="post-subtitle">
+                            hi, I'm marmot
+                        </h3>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Python">
+                    <span class="tag-text">Python</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/processing/">
+                        <h2 class="post-title">
+                            Python多进程实现文件夹下内容的复制
+                        </h2>
+                        
+                        <h3 class="post-subtitle">
+                            Hi,World!
+                        </h3>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="mongodb">
+                    <span class="tag-text">mongodb</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/test/">
+                        <h2 class="post-title">
+                            mongodb数据库mongod启动返回码100解决
+                        </h2>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Java">
+                    <span class="tag-text">Java</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/java/">
+                        <h2 class="post-title">
+                            Java学习之路
+                        </h2>
+                        
+                        <h3 class="post-subtitle">
+                            Hi,World!
+                        </h3>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Linux">
+                    <span class="tag-text">Linux</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/linux/">
+                        <h2 class="post-title">
+                            Linux学习记
+                        </h2>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/mar-mot">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; marmot 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/blog.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.marmot.vip/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/marmot.jpg">
+</body>
+
+</html>

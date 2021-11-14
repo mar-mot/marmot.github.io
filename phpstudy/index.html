@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/marmot.jpg">
+    <link rel="alternate" type="application/atom+xml" title="marmot" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        PHP学习记｜marmot&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.marmot.vip/phpstudy/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/blog-style.css">
+
+
+    <!-- Pygments Github CSS -->
+    
+<link rel="stylesheet" href="/css/syntax.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('img/back.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    marmot
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/work/">work</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefined/img/back.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/img/back.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>PHP学习记</h1>
+                    
+                    <h2 class="subheading">hi, I&#39;m marmot</h2>
+                    
+                    <span class="meta">
+                         作者 marmot
+                        <span>
+                          日期 2021-06-20
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#PHP"
+                           title="PHP">PHP</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            PHP学习记
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="php数据类型"><a href="#php数据类型" class="headerlink" title="php数据类型"></a>php数据类型</h3><ul>
+<li><pre><code>整型            $a = 100;
+</code></pre>
+</li>
+<li><pre><code>浮点型        $b = 10.455;
+</code></pre>
+</li>
+<li><pre><code>字符串        $c = &quot;hello world&quot;;
+</code></pre>
+</li>
+<li><pre><code>布尔类型    $key = false;
+</code></pre>
+</li>
+<li><pre><code>NULL          $abc = null;
+</code></pre>
+</li>
+<li><pre><code>数组            $age = [1,3,4,5] || $age = array(1,2,3,4)
+</code></pre>
+</li>
+<li><pre><code>对象
+</code></pre>
+</li>
+</ul>
+<h3 id="php运算符"><a href="#php运算符" class="headerlink" title="php运算符"></a>php运算符</h3><h4 id="数值运算符"><a href="#数值运算符" class="headerlink" title="数值运算符"></a>数值运算符</h4><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+   数值的加法</span><br><span class="line"><span class="bullet">-   </span>数值的减法</span><br><span class="line"><span class="bullet">*   </span>数值的乘法</span><br><span class="line">/   数值的除法</span><br><span class="line">%   数值的取余</span><br><span class="line"><span class="bullet">.   </span>拼接字符串，不可拼接布尔值与数组</span><br><span class="line">&quot;&quot;  中的变量会被解析，&#x27;<span class="emphasis">&#x27;中的变量不会被解析</span></span><br><span class="line"><span class="emphasis">\   可将字符串的中特殊值进行转义</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h4><ul>
+<li>and  与运算，若两边均为true则返回true，其余返回false</li>
+<li>or     或允许，若两边均为false则返回false，其余返回true</li>
+<li>xor   异或 x和y中有且仅有一个为true</li>
+<li>&amp;&amp;   与运算，若两边均为true则返回true，其余返回false</li>
+<li>||    或允许，若两边均为false则返回false，其余返回true</li>
+<li>!       非允许，对结果进行取反</li>
+</ul>
+<h4 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h4><ul>
+<li>==    若两边的值相等返回true</li>
+<li>===  若两边的值与类型都相等返回true</li>
+<li>!=     若两边的值不相等返回true</li>
+<li>&lt;&gt;    若两边的值不相等返回true</li>
+<li>!==   若两边的值或者类型不相等返回true</li>
+<li>&lt;      若小于则返回true</li>
+<li>&lt;     若大于则返回true</li>
+<li>&lt;=&gt;  若小于返回-1，等于返回0，大于返回1</li>
+</ul>
+<h4 id="自增-自减运算符"><a href="#自增-自减运算符" class="headerlink" title="自增/自减运算符"></a>自增/自减运算符</h4><ul>
+<li>++$x  先自增后使用</li>
+<li>$x++  先使用后自增</li>
+<li>$x–    先使用后自减</li>
+<li>–$x    先自减后使用</li>
+</ul>
+<h4 id="条件赋值运算符"><a href="#条件赋值运算符" class="headerlink" title="条件赋值运算符"></a>条件赋值运算符</h4><ul>
+<li>$x = expr1 ? expre2 : expr3    条件1成立执行expr2否则执行expr3</li>
+<li>$x = expr1 ?? expre2                若expr1存在且不为空则赋值给$x，反之赋值expre2给$x</li>
+</ul>
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p>常用的字符串函数</p>
+<table>
+<thead>
+<tr>
+<th align="center">函数</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">strlen()</td>
+<td align="center">返回字符串的长度</td>
+</tr>
+<tr>
+<td align="center">str_word_count()</td>
+<td align="center">返回字符串中的字数</td>
+</tr>
+<tr>
+<td align="center">strrev()</td>
+<td align="center">反转字符串</td>
+</tr>
+<tr>
+<td align="center">strpos()</td>
+<td align="center">在字符串中搜索文本 strpos(‘hello world’,’hello’)返回第一匹配的字符位置，未找到返回false</td>
+</tr>
+<tr>
+<td align="center">str_replace()</td>
+<td align="center">替换字符串的文本（str1,str2,str3)  1被替换的 2要替换的 3目标字符串</td>
+</tr>
+</tbody></table>
+<p><img src="/phpstudy/image-20210621105853956.png" alt="image-20210621105853956"></p>
+<h3 id="数值"><a href="#数值" class="headerlink" title="数值"></a>数值</h3><h5 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h5><p>不含小数点，整数必须有以为，可以是正数也可以是负数</p>
+<p>可三种格式：十进制，十六进制0x ,八进制0</p>
+<p>is_int()判断是否是整数  == is_int()</p>
+<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><p>带有小数点的数值</p>
+<p>is_float 约等于 is_double()</p>
+<p>数值之间的转换：(int),(integer),(intval)</p>
+<h5 id="无限"><a href="#无限" class="headerlink" title="无限"></a>无限</h5><p>is_finite() 判断数值是否无限 is_infinite()</p>
+<h5 id="其余函数"><a href="#其余函数" class="headerlink" title="其余函数"></a>其余函数</h5><p>NaN代表非数字     is_nan()查看值是否为非数字</p>
+<p>pi()返回PI的值</p>
+<p>min(),max()返回最大值与最小值</p>
+<p>abs()返回数值的绝对值</p>
+<p>sqrt()返回一个数的平方根</p>
+<p>round()将数值进行四舍五入的取整数</p>
+<p>rand()生成一个随机数</p>
+<h5 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h5><p>使用define()函数创建常量</p>
+<p>语法：define(name,value,case-insensitive)</p>
+<p>name：常量的名称</p>
+<p>value：常量的值</p>
+<p>case-insensitive：常量是否区分不大小写，默认为区分，true为不区分</p>
+<p>定义数组常量：define(“cars”,[“bmw”,”audi”,”benci”])</p>
+<p><strong>数组：</strong></p>
+<p>在 PHP 中，共有三种类型的数组：</p>
+<ul>
+<li><strong>索引数组</strong>- 带有数字索引的数组</li>
+</ul>
+<p><code>$cars = array(&quot;volvo&quot;,&quot;bmw&quot;,&quot;byd&quot;);</code></p>
+<p>通过$cars[0]进行数组元素访问</p>
+<p>count()返回数组的长度（元素数量）</p>
+<ul>
+<li><strong>多维数组</strong>- 包含一个或多个数组的数组</li>
+</ul>
+<p><code>$cars = array(array(&quot;va&quot;,123,1),array(&quot;ca&quot;,143,4));</code></p>
+<ul>
+<li><strong>关联数组</strong>- 具有命名键的数组</li>
+</ul>
+<p>关联数组是使用分配给元素键命名的数组</p>
+<p><code>$age = array(&quot;peter&quot;=&gt;12,&quot;ben&quot;=&gt;12,&quot;joe&quot;=&gt;&quot;123&quot;)</code></p>
+<p>关联数组使用键进行访问：arrayname[keyname];</p>
+<p>遍历关联数组：</p>
+<p><code>foreach($age as $x =&gt; $x_value)&#123;echo $X.&quot;:&quot;.$x_value;echo &quot;&lt;br&gt;&quot;;</code></p>
+<p>数组函数：</p>
+<ul>
+<li>sort() 按升序对数组进行排序</li>
+<li>rsort()按降序对数组进行排序</li>
+<li>asort()安装值对关联数组进行排序</li>
+<li>ksort()按照建按升序对关联数组进行排序</li>
+<li>arsort()值关联数组降序排序</li>
+<li>kasort()按键降序关联数组排序</li>
+<li>key_exits() 判断键是否在数组中存在</li>
+<li>count() == sizeof()返回数组的长度</li>
+<li>array_push()向数组中追加元素</li>
+<li>array_pop()删除最后一个数组元素</li>
+</ul>
+<h3 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h3><p>条件语句进行流程控制</p>
+<p><code>if(condition)&#123;    code;&#125;</code></p>
+<p><code>if(condition)&#123;    code;&#125;else&#123;    code;&#125;</code></p>
+<p><code>if(condition)&#123;    code;&#125;elseif(condition2)&#123;    code2;&#125;else&#123;    code3;&#125;</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (n)&#123;</span><br><span class="line"><span class="keyword">case</span> label1:</span><br><span class="line">code to be executed <span class="keyword">if</span> n==label1;</span><br><span class="line"><span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> label2:</span><br><span class="line">code to be executed <span class="keyword">if</span> n==label2;</span><br><span class="line"><span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">code to be executed <span class="keyword">if</span> n is different <span class="keyword">from</span> all labels;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h3><p>循环语句用来执行重复代码，有while循环以及for循环</p>
+<p><code>while(condition is true)&#123; code tobe executed;&#125; \\只要条件成立就一直循环直到条件不成立</code></p>
+<p><code>do&#123; code to be executed;&#125;while(condition is true);\\至少执行一次语句块</code></p>
+<p>for-循环代码执行循环次数</p>
+<p><code>for(init counter;test counter;increment counter)&#123;    code;&#125;\\指定具体的循环次数</code></p>
+<p>foreach()为数组中的每个元素循环一段代码</p>
+<p><code>foreach($array as $value)&#123; code tobe executed;&#125;</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="comment">//输出数组中的每个值</span></span><br><span class="line"><span class="variable">$colors</span> = <span class="keyword">array</span>(<span class="string">&quot;red&quot;</span>, <span class="string">&quot;green&quot;</span>, <span class="string">&quot;blue&quot;</span>, <span class="string">&quot;yellow&quot;</span>);</span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$colors</span> <span class="keyword">as</span> <span class="variable">$value</span>) &#123;</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">&quot;<span class="subst">$value</span> &lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="comment">//对数组中的每组进行输出</span></span><br><span class="line"><span class="variable">$age</span> = <span class="keyword">array</span>(<span class="string">&quot;Peter&quot;</span>=&gt;<span class="string">&quot;35&quot;</span>, <span class="string">&quot;Ben&quot;</span>=&gt;<span class="string">&quot;37&quot;</span>, <span class="string">&quot;Joe&quot;</span>=&gt;<span class="string">&quot;43&quot;</span>);</span><br><span class="line"><span class="keyword">foreach</span>(<span class="variable">$age</span> <span class="keyword">as</span> <span class="variable">$x</span> =&gt; <span class="variable">$val</span>) &#123;</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">&quot;<span class="subst">$x</span> = <span class="subst">$val</span>&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>PHP对循环进行中断使用break或者continue</p>
+<p>break跳出循环，continue用于仅跳过本次循环</p>
+<h3 id="PHP函数"><a href="#PHP函数" class="headerlink" title="PHP函数"></a>PHP函数</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">funcname</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">​	code to be executed;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">funcname</span>(<span class="params"><span class="variable">$fname</span></span>)</span>&#123;</span><br><span class="line">​	code to be executed;       <span class="comment">//带有参数的函数，可指定函数参数的默认值</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">funcname</span>(<span class="params"><span class="variable">$fname</span></span>)</span>&#123;</span><br><span class="line">​	code to be executed;       <span class="comment">//带有参数的函数</span></span><br><span class="line">	<span class="keyword">return</span> result;			   <span class="comment">//有返回值的函数</span></span><br><span class="line">&#125;							   <span class="comment">//可在括号后使用: type指定返回值类型</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/phpstudy/image-20210621105615674.png" alt="image-20210621105615674"></p>
+<h3 id="PHP-超全局变量"><a href="#PHP-超全局变量" class="headerlink" title="PHP 超全局变量"></a>PHP 超全局变量</h3><ul>
+<li><p>$全球</p>
+</li>
+<li><p>$_SERVER</p>
+<p>​    $_SERVER[‘PHP_SELF’]是一个超级全局变量，返回当前正在执行的脚本的文件名</p>
+<p>​    htmlspecialchars()函数，将特殊字符转换为html实体，防止xss攻击</p>
+<p>​    trim()函数去除不必要的字符（额外的空格，制表符，换行符）</p>
+<p>​    stripslashes()删除反斜杠</p>
+</li>
+<li><p>$_REQUEST 指 _GET与 _POST的集合</p>
+</li>
+<li><p>$_POST        指使用POST方法传递的数据值数组</p>
+</li>
+<li><p>$_GET          指GET方法传递的数据数组  </p>
+</li>
+<li><p>$_FILES</p>
+<h3 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h3><p>打开文件上传服务在”php.ini”中配置file_uploads为on</p>
+<p>html表单标签中enctype属性指定将表单数据提交到服务器时如何编码，只有在post方法有。上传文件时必须为multipart/form-data</p>
+<table>
+<thead>
+<tr>
+<th align="left">Value</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">application/x-www-form-urlencoded</td>
+<td align="left">Default. All characters are encoded before sent (spaces are converted to “+” symbols, and special characters are converted to ASCII HEX values)</td>
+</tr>
+<tr>
+<td align="left">multipart/form-data</td>
+<td align="left">This value is necessary if the user will upload a file through the form</td>
+</tr>
+<tr>
+<td align="left">text/plain</td>
+<td align="left">Sends data without any encoding at all. Not recommended</td>
+</tr>
+</tbody></table>
+<p>input标签中type属性为file</p>
+<p>var_dump($_FILES);</p>
+<p>copy()函数进行文件的复制</p>
+<p><img src="/phpstudy/image-20210622095404037.png" alt="image-20210622095404037"></p>
+<p>move_uploaded_file()移动上传文件</p>
+<p><img src="/phpstudy/image-20210622095745886.png" alt="image-20210622095745886"></p>
+</li>
+<li><p>$_HEADER</p>
+</li>
+<li><p>$_ENV</p>
+</li>
+<li><p>$_COOKIE</p>
+</li>
+<li><p>$_SESSION</p>
+</li>
+</ul>
+<h4 id="COOKIE-SEESION"><a href="#COOKIE-SEESION" class="headerlink" title="COOKIE+SEESION"></a>COOKIE+SEESION</h4><p>setcookie(name,value,expire,path,)</p>
+<p>name:cookie名称</p>
+<p>value:cookie值</p>
+<p>expire:cookie有效时间</p>
+<p>path:服务器保存cookie地址</p>
+<p>session用于身份认证</p>
+<p>session_start()启动session</p>
+<p>session_destroy()清除session</p>
+<p><img src="/phpstudy/image-20210622141116375.png" alt="image-20210622141116375"></p>
+<p><img src="/phpstudy/image-20210622143115993.png" alt="image-20210622143115993"></p>
+<p><strong>isset()判断内容是否定义</strong></p>
+<p>die()函数控制程序结束</p>
+<h4 id="日期函数"><a href="#日期函数" class="headerlink" title="日期函数"></a>日期函数</h4><p>echo date(‘y’) ;   //21 两位数年份</p>
+<p>echo date(‘Y’) ;    //2021 四位数年份</p>
+<p>echo date(‘M’) ;    //缩写月份 Jun</p>
+<p>echo date(‘m’) ;    //数字月份 06</p>
+<p>echo date(‘D’) ;    //缩写星期 Sat</p>
+<p>echo date(‘d’) ;    //数字日 19</p>
+<p>echo date(‘l’) ;    //星期全称 Saturday</p>
+<p>echo date(‘W’) ;    //24</p>
+<p>echo date(‘e’);    //时区 Asia/Shanghai</p>
+<p>echo date(‘r’);    //全部日期时间 Sat, 19 Jun 2021 15:19:41 +0800</p>
+<p>echo date(‘t’);    //30</p>
+<p>echo date(‘U’);    //时间戳 1624087265</p>
+<p>echo date(‘i’);    //两位年份 21</p>
+<p>echo date(‘o’);    //四位年份</p>
+<p>echo date(‘Y-m-d’); //格式化输出</p>
+<p>echo date(‘H’);    //二十四小时制小时</p>
+<p>echo date(‘sa’);    //12小时制</p>
+<p>mktime() 根据参数创建时间</p>
+<p>strtotime()从字符串中获取时间</p>
+<p>time()时间</p>
+<p>ceil()向上取整</p>
+<h3 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h3><p>include(“filename”)；</p>
+<p>可调用文件中的变量</p>
+<p>include文件不存在时，脚本继续执行</p>
+<p>requeire()包含文件时，文件不存在会报错</p>
+<p>可调用文件中的变量</p>
+<h3 id="文件处理"><a href="#文件处理" class="headerlink" title="文件处理"></a>文件处理</h3><p>readfile() 函数 读取文件并将其写入输出缓冲区 </p>
+<p>fopen() 打开，读取，关闭服务器上的文件   </p>
+<p>fopen打开文件的方式：</p>
+<table>
+<thead>
+<tr>
+<th align="center">方式</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">r</td>
+<td align="center">仅读</td>
+</tr>
+<tr>
+<td align="center">w</td>
+<td align="center">写入 文件不存在创建，存在覆盖写入</td>
+</tr>
+<tr>
+<td align="center">a</td>
+<td align="center">追加写入文件</td>
+</tr>
+<tr>
+<td align="center">x</td>
+<td align="center">创建文件， 如果文件存在报错，且返回false</td>
+</tr>
+<tr>
+<td align="center">r+</td>
+<td align="center">读写文件，从文件开始读写</td>
+</tr>
+<tr>
+<td align="center">w+</td>
+<td align="center">读写文件，如果文件不存在则创建，从文件初始进行读写</td>
+</tr>
+<tr>
+<td align="center">a+</td>
+<td align="center">读写文件，如果文件不存在则创建，若存在追加写入。指针在文件文件末尾</td>
+</tr>
+<tr>
+<td align="center">x+</td>
+<td align="center">创建一个文件（为读写） 文件存在则返回false。报错</td>
+</tr>
+<tr>
+<td align="center">b</td>
+<td align="center">以二进制打开文件</td>
+</tr>
+</tbody></table>
+<p>fread()读取文件，从打开的文件中读取</p>
+<p>第一个为名称，第二个参数指定要读取的最大字节数</p>
+<p>fgets()函数用于从文件中读取一行</p>
+<p>fgetc()函数用于从文件中读取的单个字符</p>
+<p>fclose()关闭打开的文件</p>
+<p>fclose($file);</p>
+<p>feof() 检查是否已到达文件结尾</p>
+<p>fwrite()函数用来写入文件</p>
+<p>fwrite(打开的文件，要写入的内容);</p>
+<p>filesezi(‘xxx.txt’)返回文件大小</p>
+<p>file_get_contents()读取文件所有内容，可自动关闭</p>
+<p>file_put_contents(‘source’,data)将数据覆盖文件中的内容</p>
+<p><img src="/phpstudy/image-20210621144310770.png" alt="image-20210621144310770"></p>
+<p><img src="/phpstudy/image-20210621145030108.png" alt="image-20210621145030108"></p>
+<p><img src="/phpstudy/image-20210621162533748.png" alt="image-20210621162533748"></p>
+<h3 id="表单处理"><a href="#表单处理" class="headerlink" title="表单处理"></a>表单处理</h3><p>window.location=”123.html”;</p>
+<h4 id="文件包含-1"><a href="#文件包含-1" class="headerlink" title="文件包含"></a>文件包含</h4><p>include ‘xx.php’; 提供代码复用，使用相对路径</p>
+<p>包含的php代码会一起执行</p>
+<p>include_once ‘123.php’;一次包含</p>
+<p>required</p>
+<p>required_once</p>
+<h2 id="类和对象"><a href="#类和对象" class="headerlink" title="类和对象"></a>类和对象</h2><p><code>万物皆对象</code>:类是定义为其有共同特征并展现同样行为的对象的集合</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">class_name</span>()</span>&#123;  <span class="comment">//定义类的代码</span></span><br><span class="line">    <span class="keyword">var</span> <span class="variable">$field1</span>;</span><br><span class="line">    <span class="keyword">var</span> <span class="variable">$field2</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">func_name</span>(<span class="params"><span class="variable">$field1</span></span>)</span>&#123;</span><br><span class="line">        code to be executed;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;<span class="variable">$field</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">func_name2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        code to be executed;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>$name = new class_name(); //创建对象的方法</code> </p>
+<p><code>$name -&gt; field; //访问类属性</code></p>
+<p><code>$name -&gt; func_name(); //调用类的方法</code></p>
+<p>$this关键字：指的是当前对象，并且只能在方法内部使用</p>
+<p>修改属性的值：1在类内部添加方法并且使用$this</p>
+<p>​                           2在类外空过对象-&gt;$field进行修改</p>
+<p>可以通过instanceof关键字来检查对象是否属于特定类；</p>
+<h5 id="构造函数-construct"><a href="#构造函数-construct" class="headerlink" title="构造函数__construct"></a>构造函数__construct</h5><p>创建类时创建了一个__construct()函数，创建对象时会自动调用此函数</p>
+<h5 id="析构函数-destruct"><a href="#析构函数-destruct" class="headerlink" title="析构函数__destruct"></a>析构函数__destruct</h5><p>当对象配破坏或脚本停止或退出时，会调用析构函数。PHP会在脚本的末尾自</p>
+<h4 id="动调用这个函数"><a href="#动调用这个函数" class="headerlink" title="动调用这个函数"></a>动调用这个函数</h4><p>访问修饰符–属性和方法可以有访问修饰符来控制可以访问它们的位置</p>
+<ul>
+<li>public – 可以从任何地方访问属性和方法（默认）</li>
+<li>protected – 属性或方法可以在类内以及从该类派生的类中访问</li>
+<li>private – 属性和方法只能在类中访问</li>
+</ul>
+<h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><p>继承：当一个类从类一个类派生为继承，子类将从父类继承所有公共和保护的属性和方法。此外，也可有自己的属性和方法。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">newclassname</span> <span class="keyword">extends</span> <span class="title">classname</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​	code;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>继承Protected方法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fruit</span> </span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="variable">$name</span>;</span><br><span class="line">  <span class="keyword">public</span> <span class="variable">$color</span>;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$name</span>, <span class="variable">$color</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;name = <span class="variable">$name</span>;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;color = <span class="variable">$color</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">intro</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;The fruit is <span class="subst">&#123;$this-&gt;name&#125;</span> and the color is <span class="subst">&#123;$this-&gt;color&#125;</span>.&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Strawberry</span> <span class="keyword">extends</span> <span class="title">Fruit</span> </span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">message</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Am I a fruit or a berry? &quot;</span>;</span><br><span class="line">    <span class="comment">// Call protected method from within derived class - OK</span></span><br><span class="line">    <span class="keyword">$this</span> -&gt; intro();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$strawberry</span> = <span class="keyword">new</span> Strawberry(<span class="string">&quot;Strawberry&quot;</span>, <span class="string">&quot;red&quot;</span>); <span class="comment">// OK. __construct() is public</span></span><br><span class="line"><span class="variable">$strawberry</span>-&gt;message(); <span class="comment">// OK. message() is public and it calls intro() (which is protected) from within the derived class</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="覆盖继承的方法"><a href="#覆盖继承的方法" class="headerlink" title="覆盖继承的方法"></a>覆盖继承的方法</h5><p>在新定义的类中可以通过重新定义子类的方法（使用相同的名称）来覆盖继承的方法。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fruit</span> </span>&#123;  <span class="comment">//定义水果类</span></span><br><span class="line">  <span class="keyword">public</span> <span class="variable">$name</span>;</span><br><span class="line">  <span class="keyword">public</span> <span class="variable">$color</span>;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$name</span>, <span class="variable">$color</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;name = <span class="variable">$name</span>;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;color = <span class="variable">$color</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">intro</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;The fruit is <span class="subst">&#123;$this-&gt;name&#125;</span> and the color is <span class="subst">&#123;$this-&gt;color&#125;</span>.&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Strawberry</span> <span class="keyword">extends</span> <span class="title">Fruit</span> </span>&#123; <span class="comment">//定义继承水果类的子类</span></span><br><span class="line">  <span class="keyword">public</span> <span class="variable">$weight</span>;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$name</span>, <span class="variable">$color</span>, <span class="variable">$weight</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;name = <span class="variable">$name</span>;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;color = <span class="variable">$color</span>;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;weight = <span class="variable">$weight</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">intro</span>(<span class="params"></span>) </span>&#123;  <span class="comment">//重新编写intro函数</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;The fruit is <span class="subst">&#123;$this-&gt;name&#125;</span>, the color is <span class="subst">&#123;$this-&gt;color&#125;</span>, and the weight is <span class="subst">&#123;$this-&gt;weight&#125;</span> gram.&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$strawberry</span> = <span class="keyword">new</span> Strawberry(<span class="string">&quot;Strawberry&quot;</span>, <span class="string">&quot;red&quot;</span>, <span class="number">50</span>);</span><br><span class="line"><span class="variable">$strawberry</span>-&gt;intro();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>final关键字可以防止类继承或者方法覆盖。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">classname</span></span>&#123;  \\防止类被继承</span><br><span class="line">    code; </span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">classname</span></span>&#123;</span><br><span class="line">    code;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">public</span> funciotn funcname&#123;  \\防止方法被继承</span><br><span class="line">        code;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="PHP-OOP类常量"><a href="#PHP-OOP类常量" class="headerlink" title="PHP-OOP类常量"></a>PHP-OOP类常量</h4><p>类常量使用const关键字声明。类常量区分大小写。</p>
+<p>通过使用类名后跟范围解析运算符(::)后跟常量名来从类外部访问常量。</p>
+<p>在类内部可以通过使用self关键字+返回解析运算符(::)后跟常量名访问常量</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">classname</span></span>&#123;</span><br><span class="line">    <span class="keyword">const</span> name = <span class="string">&quot;lisi&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> classname::name;</span><br></pre></td></tr></table></figure>
+
+<h4 id="PHP-OOP-抽象类"><a href="#PHP-OOP-抽象类" class="headerlink" title="PHP-OOP-抽象类"></a>PHP-OOP-抽象类</h4><p>抽象类和方法是指符类具有命名方法，但是需要其子类来填写任务</p>
+<p>抽象类是包含至少一个抽象方法的类。抽象方法是已声明但未在代码中实现的方法。抽象类使用abstract关键字定义</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/mysqlstudy/" data-toggle="tooltip" data-placement="top"
+                           title="mysql学习记">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/linux/" data-toggle="tooltip" data-placement="top"
+                           title="Linux学习记">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+                    <!-- Valine -->
+                    <div class="vcomments"></div>
+                    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+                    <script src="//cdn.jsdelivr.net/npm/valine"></script>
+                    <script>
+                        var GUEST = ['nick','mail','link'];
+                        var meta = '';
+                        meta = meta.split(',').filter(function (item) {
+                            return GUEST.indexOf(item)>-1;
+                        });
+                        var notify = 'false' == true ? true : false;
+                        var verify = 'false' == true ? true : false;
+                        new Valine({
+                            el: '.vcomments',
+                            notify: notify,
+                            verify: verify,
+                            app_id: "oE8RJ9DO5Tl7ChTtMFwgLKIg-gzGzoHsz",
+                            app_key: "mUbPBB3Wq3R6wX9ysIlescWj",
+                            placeholder: "评论一下",
+                            avatar:"mm",
+                            meta:meta
+                        });
+                    </script>
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#php%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">php数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#php%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">php运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E5%80%BC%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">数值运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">逻辑运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">比较运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%A2%9E-%E8%87%AA%E5%87%8F%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">自增&#x2F;自减运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">条件赋值运算符</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%80%BC"><span class="toc-text">数值</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B4%E6%95%B0"><span class="toc-text">整数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0"><span class="toc-text">浮点数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%A0%E9%99%90"><span class="toc-text">无限</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B6%E4%BD%99%E5%87%BD%E6%95%B0"><span class="toc-text">其余函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F"><span class="toc-text">常量</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-text">循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP%E5%87%BD%E6%95%B0"><span class="toc-text">PHP函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP-%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-text">PHP 超全局变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-text">文件上传</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#COOKIE-SEESION"><span class="toc-text">COOKIE+SEESION</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E5%87%BD%E6%95%B0"><span class="toc-text">日期函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="toc-text">文件包含</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86"><span class="toc-text">文件处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E5%8D%95%E5%A4%84%E7%90%86"><span class="toc-text">表单处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-1"><span class="toc-text">文件包含</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1"><span class="toc-text">类和对象</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0-construct"><span class="toc-text">构造函数__construct</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0-destruct"><span class="toc-text">析构函数__destruct</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E8%B0%83%E7%94%A8%E8%BF%99%E4%B8%AA%E5%87%BD%E6%95%B0"><span class="toc-text">动调用这个函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF"><span class="toc-text">继承</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A6%86%E7%9B%96%E7%BB%A7%E6%89%BF%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">覆盖继承的方法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PHP-OOP%E7%B1%BB%E5%B8%B8%E9%87%8F"><span class="toc-text">PHP-OOP类常量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PHP-OOP-%E6%8A%BD%E8%B1%A1%E7%B1%BB"><span class="toc-text">PHP-OOP-抽象类</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#PHP"
+                           title="PHP">PHP</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.zerochen.top">墨的博客</a></li>
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.sunflowers.vip">sunflowers的博客</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/mar-mot">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; marmot 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/blog.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.marmot.vip/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/marmot.jpg">
+</body>
+
+</html>

